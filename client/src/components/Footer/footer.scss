@@ -1,0 +1,100 @@
+.footer {
+  .top {
+    margin-bottom: 40px;
+    .wrapper {
+      padding: 15px 10px;
+      max-width: var(--max-width);
+      margin-right: auto;
+      margin-left: auto;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      .title {
+        font-size: 24px;
+      }
+    }
+
+    .input_group {
+      display: flex;
+      justify-content: flex-end;
+      .input_form {
+        font-size: 18px;
+        width: 100%;
+        background-color: rgb(233, 233, 233);
+        padding: 12px;
+        max-width: 400px;
+      }
+    }
+  }
+  .bottom {
+    background-color: var(--dark-1);
+    color: var(--text-light);
+    .container {
+      padding: 80px 140px;
+      .item {
+        .title {
+          font-size: 22px;
+          font-weight: 500;
+          margin-bottom: 16px;
+        }
+        .list {
+          display: flex;
+          flex-direction: column;
+          gap: 5px;
+          li {
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+            .icon {
+              font-size: 19px;
+            }
+            .icon_fl {
+              color: #fff;
+              width: 30px;
+              padding-top: 100%;
+              line-height: 0;
+              border: 1px solid var(--dark-1);
+              position: relative;
+              border-radius: 1000px;
+              overflow: hidden;
+              &::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                right: 0;
+                left: 0;
+                bottom: 0;
+                background-color: red;
+                z-index: 0;
+              }
+              .icon {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                z-index: 1;
+                font-size: 20px;
+                color: #fff;
+              }
+              &:hover::before {
+                filter: brightness(80%);
+                border-color: red;
+              }
+            }
+            .content {
+              display: flex;
+              flex-direction: column;
+              gap: 5px;
+            }
+          }
+        }
+        .list.l2 {
+          gap: 20px;
+        }
+        .list.l1 {
+          gap: 10px;
+        }
+      }
+    }
+  }
+}

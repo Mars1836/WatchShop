@@ -1,43 +1,82 @@
 .home {
   color: var(--text-dark);
-  .wapper {
-    .first_intro {
-      padding: 50px 15px;
-      max-width: var(--max-width);
+  .body {
+    width: 100%;
+    margin-bottom: 300px;
+    .trend {
+      padding: 15px 10px;
+      margin-top: 50px;
+      margin-bottom: 50px;
       margin-left: auto;
       margin-right: auto;
+      width: 100%;
+      max-width: var(--max-width);
+      color: var(--text-light);
 
-      gap: 30px;
-      .image {
+      .content {
         width: 100%;
-      }
-      .detail {
         height: 100%;
         display: flex;
+        padding: 0 30px;
         flex-direction: column;
         justify-content: center;
-        .title {
-          font-size: 38px;
-          margin-bottom: 16px;
+        gap: 15px;
+        .line {
+          background-color: var(--orange-1);
+          width: 50px;
+          height: 0.5px;
+        }
+        h4 {
+          font-weight: 400;
+          font-size: 20px;
         }
       }
     }
-  }
-  .features {
-    padding: 50px 15px;
-    max-width: var(--max-width);
-    margin-left: auto;
-    margin-right: auto;
-    .item {
-      margin-bottom: 16px;
-      .icon {
-        transform: translate(0, 4px);
-      }
+    .product_list {
       .title {
-        margin-bottom: 10px;
+        margin-bottom: 20px;
       }
-      display: flex;
-      gap: 12px;
+      padding: 15px 10px;
+      max-width: var(--max-width);
+      margin-right: auto;
+      margin-left: auto;
+      .product_slide {
+        display: flex;
+        gap: 20px;
+      }
     }
+  }
+  .banner {
+    margin: 50px 0;
+    padding: 15px 10px;
+    max-width: var(--max-width);
+    margin-right: auto;
+    margin-left: auto;
+    color: var(--text-light);
+    .content {
+      height: 100%;
+      width: 70%;
+      display: flex;
+      flex-direction: column;
+      padding: 40px;
+      .title {
+        font-size: 40px;
+        margin: 10px 0;
+      }
+      .desc {
+        font-size: 25px;
+        font-weight: 400;
+        line-height: 150%;
+      }
+    }
+    .content.st2 {
+      justify-content: flex-end;
+    }
+  }
+  .wrapper {
+    padding: 15px 10px;
+    max-width: var(--max-width);
+    margin-right: auto;
+    margin-left: auto;
   }
 }

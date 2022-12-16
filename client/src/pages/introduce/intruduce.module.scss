@@ -1,0 +1,177 @@
+.introduce_page {
+  color: var(--text-dark);
+  overflow-x: hidden;
+  background-color: rgb(255, 255, 255);
+  position: relative;
+  .wrapper {
+    padding: 50px 15px;
+    max-width: var(--max-width);
+    margin-left: auto;
+    margin-right: auto;
+    background-color: rgb(255, 255, 255);
+  }
+  .first_intro {
+    .image {
+      width: 100%;
+    }
+    .overview {
+      transition: all 1.5s;
+      opacity: 1;
+      .item {
+        transition: all 1.5s;
+        transform: translate(0, 0);
+      }
+    }
+    .overview.hide {
+      opacity: 0;
+      .item:nth-child(1) {
+        transform: translate(-100px, 0);
+      }
+      .item:nth-child(2) {
+        transform: translate(100px, 0);
+      }
+    }
+    .detail {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      .title {
+        font-size: 38px;
+        margin-bottom: 16px;
+      }
+    }
+  }
+  .features {
+    ._item {
+      transition: 1.5s all;
+    }
+    ._item:nth-child(2) {
+      transition-delay: 0.25s;
+    }
+    ._item:nth-child(3) {
+      transition-delay: 0.5s;
+    }
+    ._item:nth-child(4) {
+      transition-delay: 0.75s;
+    }
+    ._item:nth-child(5) {
+      transition-delay: 1s;
+    }
+    ._item:nth-child(6) {
+      transition-delay: 1.25s;
+    }
+    .item {
+      margin-bottom: 16px;
+      .icon {
+        transform: translate(0, 4px);
+      }
+      .title {
+        margin-bottom: 10px;
+      }
+      display: flex;
+      gap: 12px;
+    }
+  }
+  .features.hide {
+    ._item {
+      opacity: 0;
+      transform: translate(100px, 0);
+    }
+  }
+
+  .banner {
+    width: 100%;
+    height: 300px;
+
+    position: relative;
+    overflow: hidden;
+    .box {
+      background-color: #000;
+      width: 100px;
+      height: 100px;
+      z-index: 10;
+      color: #fff;
+    }
+    .background {
+      position: absolute;
+      bottom: 0;
+      height: 700px;
+      width: 100%;
+      background-image: url("http://mauweb.monamedia.net/donghohaitrieu/wp-content/uploads/2019/07/banner-portfolio.jpg");
+      background-size: cover;
+      background-position: center;
+      z-index: 0;
+    }
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.586);
+      z-index: 0;
+    }
+    .content {
+      color: #fff;
+      position: relative;
+      width: 100%;
+      height: 100%;
+      background-color: transparent;
+      z-index: 1;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      .item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+        .num {
+          font-size: 42px;
+        }
+        .product {
+          font-size: 18px;
+          text-align: center;
+        }
+      }
+    }
+  }
+  .authors {
+    ._item {
+      transition: all 1.5s;
+    }
+    .item {
+      flex: 1;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      padding: 10px;
+      .avatar {
+        width: 100px;
+        height: 100px;
+        background-size: contain;
+      }
+      .detail {
+        text-align: center;
+        font-size: 19px;
+        color: rgb(98, 98, 98);
+        font-style: italic;
+      }
+      .name {
+        text-align: center;
+        font-size: 24px;
+        color: #000;
+        font-weight: 500;
+        font-style: italic;
+      }
+    }
+  }
+  .authors.hide {
+    ._item {
+      transform: rotate3d(0, 1, 0, 90deg);
+    }
+  }
+}

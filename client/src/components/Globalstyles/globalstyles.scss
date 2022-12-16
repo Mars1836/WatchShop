@@ -10,7 +10,7 @@
   --text-gray: rgb(188, 188, 188);
   --text-light: #fff;
   --text-dark: #000;
-  --max-width: 1230px;
+  --max-width: 1300px;
 }
 a {
   display: inline-block;
@@ -27,4 +27,17 @@ input {
   background-color: var(--primary-color);
   color: var(--text-light);
   line-height: 150%;
+}
+h1 {
+  line-height: 100%;
+}
+@media screen and (max-width: 900px) {
+  .pc {
+    display: none !important;
+  }
+}
+@media screen and (min-width: 900px) {
+  .n_pc {
+    display: none !important;
+  }
 }

@@ -1,14 +1,12 @@
 import React from "react";
-import "./thumbnail.scss";
-function Thumbnail({ children, img, position, height }) {
-  console.log(position);
+import styles from "./thumbnail.module.scss";
+import classNames from "classnames/bind";
+function Thumbnail({ children, img, position, style, className }) {
+  const cx = classNames.bind(styles);
   return (
-    <div
-      className="thumbnail"
-      style={{ height: `${height ? height : "300px"}` }}
-    >
+    <div className={cx("thumbnail", `${className}`)} style={{ ...style }}>
       <div
-        className="background"
+        className={cx("background")}
         style={{
           backgroundImage: `url(${img})`,
           backgroundPosition: `${position ? position : "right"}`,

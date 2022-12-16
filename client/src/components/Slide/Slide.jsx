@@ -1,10 +1,12 @@
 import React, { useEffect } from "react";
-import "./slide.scss";
+import styles from "./slide.module.scss";
+import classNames from "classnames/bind";
 import Button from "../Button/Button";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { useState } from "react";
 function Slide() {
+  const cx = classNames.bind(styles);
   const [slideStyle, setSlyleStyle] = useState({
     num: 0,
     isTransition: true,
@@ -70,9 +72,9 @@ function Slide() {
   }
 
   return (
-    <div className="slide">
+    <div className={cx("slide")}>
       <div
-        className="view"
+        className={cx("view")}
         onDragStart={handleDragStart}
         onDragEnd={handleDragEnd}
         style={{
@@ -87,14 +89,14 @@ function Slide() {
         {slides.map((slide, index) => {
           return (
             <div
-              className="item"
+              className={cx("item")}
               key={index}
               style={{
                 backgroundImage: slide.backgroundImageURL,
               }}
             >
               <div
-                className="content"
+                className={cx("content")}
                 style={
                   slide.num === slideStyle.num
                     ? { opacity: 1, transform: "translate(0, 0)" }
@@ -123,7 +125,7 @@ function Slide() {
         })}
       </div>
 
-      <div className="btn_slide right">
+      <div className={cx("btn_slide", "right")}>
         <Button
           type="circle"
           variant="outline"
@@ -136,7 +138,7 @@ function Slide() {
           <ArrowBackIosNewIcon />
         </Button>
       </div>
-      <div className="btn_slide left">
+      <div className={cx("btn_slide", "left")}>
         <Button
           type="circle"
           variant="outline"

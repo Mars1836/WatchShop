@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import Button from "../Button/Button";
-import "./productFeature.scss";
+import styles from "./productFeature.module.scss";
+import classNames from "classnames/bind";
 import ProductList from "../ProductList/ProductList";
 import mt from "../../configs/const/method_filter";
 
 function ProductFeature() {
+  const cx = classNames.bind(styles);
   const [feature, setFeature] = useState();
   const features = [
     {
@@ -41,15 +43,13 @@ function ProductFeature() {
       ],
     },
   ];
-  useEffect(() => {
-    console.log("earea");
-  }, [feature]);
+  useEffect(() => {}, [feature]);
   function handleClick(feature) {
     setFeature(feature);
   }
   return (
-    <div className="product_feature">
-      <div className="tab">
+    <div className={cx("product_feature_cpn")}>
+      <div className={cx("tab")}>
         {features.map((f, index) => {
           return (
             <Button

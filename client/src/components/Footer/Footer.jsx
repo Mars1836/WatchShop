@@ -1,4 +1,4 @@
-import { Grid } from "@mui/material";
+import { Divider, Grid } from "@mui/material";
 import React from "react";
 import Button from "../Button/Button";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
@@ -7,19 +7,31 @@ import EmailIcon from "@mui/icons-material/Email";
 import { GrFacebookOption, GrInstagram, GrTwitter } from "react-icons/gr";
 import { ImLinkedin, ImRss } from "react-icons/im";
 import { AiFillSkype } from "react-icons/ai";
-import "./footer.scss";
+import styles from "./footer.module.scss";
+import classNames from "classnames/bind";
 function Footer() {
+  const cx = classNames.bind(styles);
   return (
-    <div className="footer">
-      <div className="top">
-        <div className="wrapper">
+    <div className={cx("footer")}>
+      <div className={cx("top")}>
+        <div className={cx("wrapper")}>
+          <Divider
+            sx={{
+              backgroundColor: "lightgray",
+            }}
+          ></Divider>
+        </div>
+        <div className={cx("wrapper")}>
           <Grid container alignItems={"center"} justifyContent="center">
-            <Grid item xs={12} sm={8} md={6}>
-              <h3 className="title">ĐĂNG KÝ NHẬN THÔNG TIN</h3>
+            <Grid item xs={12} sm={6} md={6}>
+              <h3 className={cx("title")}>ĐĂNG KÝ NHẬN THÔNG TIN</h3>
             </Grid>
-            <Grid item xs={12} sm={8} md={6}>
-              <div className="input_group">
-                <input className="input_form"></input>
+            <Grid item xs={12} sm={6} md={6}>
+              <div className={cx("input_group")}>
+                <input
+                  className={cx("input_form")}
+                  placeholder="Email..."
+                ></input>
                 <Button
                   style={{
                     borderRadius: "0",
@@ -35,35 +47,37 @@ function Footer() {
           </Grid>
         </div>
       </div>
-      <div className="bottom">
-        <div className="container">
+      <div className={cx("bottom")}>
+        <div className={cx("container", "wrapper")}>
           <Grid
             container
             alignItems={"start"}
             justifyContent="center"
             spacing={4}
           >
-            <Grid item xs={12} sm={3} md={3}>
-              <div className="item">
-                <div className="title">THÔNG TIN LIÊN HỆ</div>
-                <ul className="list">
+            <Grid item xs={12} sm={6} md={3}>
+              <div className={cx("item")}>
+                <div className={cx("title")}>THÔNG TIN LIÊN HỆ</div>
+                <ul className={cx("list")}>
                   <li>
-                    <LocationOnIcon className="icon"></LocationOnIcon>
-                    <div className="val">
+                    <LocationOnIcon className={cx("icon")}></LocationOnIcon>
+                    <div className={cx("val")}>
                       <p>319 C16 Lý Thường Kiệt, Phường 15, Quận 11, Tp.HCM</p>
                     </div>
                   </li>
                   <li>
-                    <PhoneForwardedIcon className="icon"></PhoneForwardedIcon>
-                    <div className="val">
+                    <PhoneForwardedIcon
+                      className={cx("icon")}
+                    ></PhoneForwardedIcon>
+                    <div className={cx("val")}>
                       <Button variant={"text"} style={{ fontSize: "16px" }}>
                         076 922 0162
                       </Button>
                     </div>
                   </li>
                   <li>
-                    <EmailIcon className="icon"></EmailIcon>
-                    <div className="val">
+                    <EmailIcon className={cx("icon")}></EmailIcon>
+                    <div className={cx("val")}>
                       <Button variant={"text"} style={{ fontSize: "16px" }}>
                         demonhunterg@gmail.com
                       </Button>
@@ -73,75 +87,98 @@ function Footer() {
                     </div>
                   </li>
                   <li>
-                    <AiFillSkype className="icon"></AiFillSkype>
-                    <div className="val">
+                    <AiFillSkype className={cx("icon")}></AiFillSkype>
+                    <div className={cx("val")}>
                       <Button variant={"text"} style={{ fontSize: "16px" }}>
                         demonhunterp
                       </Button>
                     </div>
                   </li>
                   <li style={{ margin: "20px 0" }}>
-                    <Grid container justifyContent={"center"} spacing={1}>
-                      <Grid item flexBasis={40}>
-                        <div
-                          className="icon_fl"
-                          style={{
-                            backgroundColor: " rgb(58, 88, 157)",
-                          }}
-                        >
-                          <GrFacebookOption className="icon"></GrFacebookOption>
-                        </div>
-                      </Grid>
+                    <div
+                      className={cx("item")}
+                      style={{
+                        border: "2px solid  rgb(58, 88, 157)",
+                      }}
+                    >
+                      <div
+                        className={cx("background")}
+                        style={{
+                          backgroundColor: " rgb(58, 88, 157)",
+                        }}
+                      ></div>
+                      <GrFacebookOption
+                        className={cx("icon")}
+                      ></GrFacebookOption>
+                    </div>
 
-                      <Grid item xs={3} sm={3} md={2.4}>
-                        <div
-                          className="icon_fl"
-                          style={{
-                            backgroundColor: "rgb(59,105,148)",
-                          }}
-                        >
-                          <GrInstagram className="icon"></GrInstagram>
-                        </div>
-                      </Grid>
-                      <Grid item xs={3} sm={3} md={2.4}>
-                        <div
-                          className="icon_fl"
-                          style={{
-                            backgroundColor: "rgb(36,120,186)",
-                          }}
-                        >
-                          <GrTwitter className="icon"></GrTwitter>
-                        </div>
-                      </Grid>
-                      <Grid item xs={3} sm={3} md={2.4}>
-                        <div
-                          className="icon_fl"
-                          style={{
-                            backgroundColor: "rgb(252,118,0)",
-                          }}
-                        >
-                          <ImRss className="icon"></ImRss>
-                        </div>
-                      </Grid>
-                      <Grid item xs={3} sm={3} md={2.4}>
-                        <div
-                          className="icon_fl"
-                          style={{
-                            backgroundColor: "rgb(0,114,183)",
-                          }}
-                        >
-                          <ImLinkedin className="icon"></ImLinkedin>
-                        </div>
-                      </Grid>
-                    </Grid>
+                    <div
+                      className={cx("item")}
+                      style={{
+                        border: "2px solid  rgb(59,105,148)",
+                      }}
+                    >
+                      <div
+                        className={cx("background")}
+                        style={{
+                          backgroundColor: "rgb(59,105,148)",
+                        }}
+                      ></div>
+                      <GrInstagram className={cx("icon")}></GrInstagram>
+                    </div>
+
+                    <div
+                      className={cx("item")}
+                      style={{
+                        border: "2px solid  rgb(36,120,186)",
+                      }}
+                    >
+                      <div
+                        className={cx("background")}
+                        style={{
+                          backgroundColor: "rgb(36,120,186)",
+                        }}
+                      ></div>
+                      <GrTwitter className={cx("icon")}></GrTwitter>
+                    </div>
+
+                    <div
+                      className={cx("item")}
+                      style={{
+                        border: "2px solid  rgb(252,118,0)",
+                      }}
+                    >
+                      <div
+                        className={cx("background")}
+                        style={{
+                          backgroundColor: "rgb(252,118,0)",
+                        }}
+                      ></div>
+                      <ImRss className={cx("icon")}></ImRss>
+                    </div>
+
+                    <div
+                      className={cx("item")}
+                      style={{
+                        border: "2px solid  rgb(0,114,183)",
+                      }}
+                    >
+                      <div
+                        className={cx("background")}
+                        style={{
+                          backgroundColor: "rgb(0,114,183)",
+                        }}
+                      ></div>
+                      <ImLinkedin className={cx("icon")}></ImLinkedin>
+                    </div>
                   </li>
                 </ul>
               </div>
             </Grid>
-            <Grid item xs={12} sm={8} md={3}>
-              <div className="item">
-                <div className="title">LIÊN KẾT</div>
-                <ul className="list l1">
+            <Grid item xs={6} sm={3} md={3}>
+              <div className={cx("item")}>
+                <div className={cx("title")}>LIÊN KẾT</div>
+                <ul className={cx("list", "l1")}>
                   <li>
                     <Button variant={"text"} style={{ fontSize: "16px" }}>
                       Giới thiệu
@@ -170,10 +207,10 @@ function Footer() {
                 </ul>
               </div>
             </Grid>
-            <Grid item xs={12} sm={8} md={3}>
-              <div className="item">
-                <div className="title">HỖ TRỢ</div>
-                <ul className="list l2">
+            <Grid item xs={6} sm={3} md={3}>
+              <div className={cx("item")}>
+                <div className={cx("title")}>HỖ TRỢ</div>
+                <ul className={cx("list", "l2")}>
                   <li>
                     <Button variant={"text"} style={{ fontSize: "16px" }}>
                       Hướng dẫn mua hàng
@@ -202,10 +239,10 @@ function Footer() {
                 </ul>
               </div>
             </Grid>
-            <Grid item xs={12} sm={8} md={3}>
-              <div className="item">
-                <div className="title">TẢI ỨNG DỤNG TRÊN</div>
-                <ul className="list l1">
+            <Grid item xs={12} sm={12} md={3}>
+              <div className={cx("item")}>
+                <div className={cx("title")}>TẢI ỨNG DỤNG TRÊN</div>
+                <ul className={cx("list", "l1")}>
                   <li>
                     Ứng dụng Mona Watch hiện có sẵn trên Google Play & App
                     Store. Tải nó ngay.
@@ -226,6 +263,36 @@ function Footer() {
               </div>
             </Grid>
           </Grid>
+        </div>
+        <div className={cx("container", "p-0")}>
+          <Divider
+            sx={{
+              backgroundColor: "#fff",
+            }}
+          ></Divider>
+          <div className={cx("wrapper")}>
+            <Grid
+              container
+              alignItems={"center"}
+              justifyContent={"space-between"}
+            >
+              <Grid item xs={12} sm={6} md={6} order={{ xs: 2, sm: 0, md: 0 }}>
+                <div className={cx("detail")}>
+                  <p className={cx("title")}>
+                    © Bản quyền thuộc về . Thiết kế website MonaMedia Mona Media
+                  </p>
+                </div>
+              </Grid>
+              <Grid item xs={12} sm={6} md={6}>
+                <div className={cx("image")}>
+                  <img
+                    src="http://mauweb.monamedia.net/donghohaitrieu/wp-content/uploads/2019/07/img-payment.png"
+                    alt=""
+                  ></img>
+                </div>
+              </Grid>
+            </Grid>
+          </div>
         </div>
       </div>
     </div>

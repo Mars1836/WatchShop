@@ -1,0 +1,58 @@
+.male_watches_page {
+  .contaner {
+    color: var(--text-dark);
+    max-width: var(--max-width);
+    margin-top: 40px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 15px;
+    .top {
+      display: flex;
+      justify-content: space-between;
+      .filter_group {
+        display: flex;
+        gap: 15px;
+        align-items: center;
+        .filter_button {
+          display: flex;
+          margin: 12px 0 5px;
+          font-size: 17px;
+          font-weight: 500;
+          line-height: 17px;
+          cursor: pointer;
+        }
+        .product_filter {
+          outline: none;
+          border: none;
+          font-size: 15px;
+          padding: 8px;
+          box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.3);
+        }
+      }
+    }
+    .product_wrapper {
+      margin-top: 0;
+    }
+
+    .male_watches_page_product_list {
+      margin-top: 20px;
+    }
+  }
+}
+@media screen and (max-width: 900px) {
+  .male_watches_page {
+    .contaner {
+      margin-top: 100px;
+      max-width: var(--max-width);
+      margin-left: auto;
+      margin-right: auto;
+      .top {
+        flex-direction: column;
+        align-items: center;
+        .filter_group {
+          flex-direction: column;
+        }
+      }
+    }
+  }
+}

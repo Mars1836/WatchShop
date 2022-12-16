@@ -4,10 +4,9 @@ import { useState } from "react";
 import products from "../../data/products";
 import ProductCard from "../ProductCard/ProductCard";
 import mt from "../../configs/const/method_filter";
-function ProductList({ filters = [] }) {
+function ProductList({ filters = [], sm, md, className }) {
   const [_products, set_products] = useState([]);
   useEffect(() => {
-    console.log(filters);
     set_products(() => {
       return filters.reduce((productFilter, filter) => {
         return productFilter.filter((prd) => {
@@ -33,11 +32,11 @@ function ProductList({ filters = [] }) {
   }, [filters]);
 
   return (
-    <div className="product_list">
+    <div className={`product_list ${className}`}>
       <Grid container spacing={4}>
         {_products.map((prd, index) => {
           return (
-            <Grid item xs={12} sm={8} md={2.4} key={index}>
+            <Grid item xs={6} sm={sm ? sm : 4} md={md ? md : 2.4} key={index}>
               <ProductCard product={prd}></ProductCard>
             </Grid>
           );

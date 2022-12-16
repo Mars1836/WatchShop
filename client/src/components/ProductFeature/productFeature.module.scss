@@ -1,7 +1,8 @@
-.product_feature {
+.product_feature_cpn {
   .tab {
     display: flex;
     color: var(--text-dark);
+    flex-wrap: wrap;
     gap: 20px;
     .active {
     }

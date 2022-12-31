@@ -1,0 +1,46 @@
+.cart {
+  padding: 20px;
+  .product {
+    display: flex;
+    gap: 15px;
+    .name {
+      font-size: 16px;
+      color: gray;
+      margin: 10px 0;
+      font-weight: 400;
+    }
+    .price {
+      font-size: 16px;
+    }
+    .image {
+      img {
+        max-width: 90px;
+      }
+    }
+    .num {
+      font-size: 14px;
+    }
+    .btn_remove {
+      margin: 10px;
+      align-self: start;
+      background: transparent;
+      cursor: pointer;
+      color: gray;
+      font-weight: lighter;
+    }
+  }
+  .bottom {
+    .head {
+      display: flex;
+      margin-top: 20px;
+      justify-content: space-between;
+      span {
+        font-size: 16px;
+        font-weight: 500;
+      }
+    }
+    .action {
+      margin-top: 20px;
+    }
+  }
+}

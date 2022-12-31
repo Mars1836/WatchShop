@@ -1,22 +1,25 @@
 import "./App.css";
-import Home from "./pages/home/Home";
 import Globalstyles from "./components/Globalstyles/Globalstyles";
 import { Route, Routes, BrowserRouter } from "react-router-dom";
-import Introduce from "./pages/introduce/Intruduce";
-import Blog from "./pages/blog/Blog";
-import MaleWatches from "./pages/malewatches/MaleWatches";
+
+import routes from "./utils/configs/routes";
+import Notfound from "./pages/404/Notfound";
 function App() {
+  const pages = Object.values(routes);
   return (
     <Globalstyles>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Home></Home>}></Route>
-          <Route path="/gioi-thieu" element={<Introduce></Introduce>}></Route>
-          <Route path="/blog" element={<Blog></Blog>}></Route>
-          <Route
-            path="/dong-ho-nam"
-            element={<MaleWatches></MaleWatches>}
-          ></Route>
+          {pages.map((page) => {
+            return (
+              <Route
+                path={page.path}
+                key={page.path}
+                element={page.component}
+              ></Route>
+            );
+          })}
+          <Route path="*" element={<Notfound />} key="123"></Route>
         </Routes>
       </BrowserRouter>
     </Globalstyles>

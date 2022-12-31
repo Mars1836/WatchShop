@@ -11,13 +11,25 @@
   position: relative;
   font-size: 14px;
   user-select: none;
+  // overflow: hidden;
 
   div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
     * {
       line-height: 150%;
     }
   }
   cursor: pointer;
+  &:active {
+    opacity: 0.7;
+    transition: all 0s;
+    &:before {
+      transition: all 0s;
+    }
+  }
 }
 .button[variant="text"] {
   background-color: transparent;
@@ -46,13 +58,14 @@
   background-color: var(--orange-1);
 }
 .button[variant="outline"] {
-  color: var(--text-gray);
-  border: 2px solid var(--text-gray);
+  color: var(--text-dark-1);
+  border: 1px solid var(--text-gray);
   background-color: transparent;
+
   &:hover {
-    background-color: var(--orange-1);
-    color: var(--text-light);
-    border-color: var(--orange-1);
+    background-color: var(--orange-1) !important;
+    color: var(--text-light) !important;
+    border-color: var(--orange-1) !important;
   }
 }
 .button[variant="contained"] {
@@ -65,6 +78,7 @@
     right: 0;
     transition: all 0.3s;
     background-color: black;
+    border-radius: inherit;
     opacity: 0;
     z-index: 0;
   }
@@ -73,6 +87,11 @@
   }
   & > * {
     z-index: 10;
+  }
+}
+.button[variant="contained"][animate="none"] {
+  &:before {
+    transition: all 0s;
   }
 }
 .button[variant="none"] {
@@ -86,4 +105,10 @@
 }
 .button_content {
   z-index: 1;
+}
+.button[animate="none"] {
+  transition: all 0s;
+}
+.button[disabled] {
+  opacity: 0.6 !important;
 }

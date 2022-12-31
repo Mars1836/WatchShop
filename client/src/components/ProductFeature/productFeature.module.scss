@@ -1,9 +1,11 @@
 .product_feature_cpn {
+  max-width: 100%;
   .tab {
     display: flex;
     color: var(--text-dark);
     flex-wrap: wrap;
     gap: 20px;
+    margin-bottom: 20px;
     .active {
     }
   }

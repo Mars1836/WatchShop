@@ -91,9 +91,7 @@ const SlideProduct = forwardRef(({ products }, ref) => {
       transition: `${slideStyle.isTransition ? "all 0.5s linear" : "none"}`,
     });
   }, [slideStyle]);
-  useEffect(() => {
-    console.log(slideStyle);
-  }, [slideStyle]);
+  useEffect(() => {}, [slideStyle]);
   return (
     <div className={cx("slide_product")}>
       <div className={cx("btn_slide", "left")}>
@@ -126,7 +124,6 @@ const SlideProduct = forwardRef(({ products }, ref) => {
           quantity={products.length}
           num={slideStyle.num}
           setNum={(num) => {
-            console.log(num);
             setSlideStyle({
               num: num,
               isTransition: true,

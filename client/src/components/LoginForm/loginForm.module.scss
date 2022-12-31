@@ -1,0 +1,96 @@
+.login_form {
+  position: absolute;
+  top: 60px;
+  left: 50%;
+  transform: translate(-50%, 0);
+  background: #fff;
+  overflow: hidden;
+  border-radius: 5px;
+  animation: appear 0.5s;
+  .top {
+    display: flex;
+    background: lightgray;
+    color: gray;
+    span {
+      text-align: center;
+      flex: 1;
+      padding: 12px;
+      cursor: pointer;
+      font-size: 16px;
+      text-transform: uppercase;
+      font-weight: 500;
+    }
+    span.active {
+      background: #fff;
+      color: var(--text-dark-0);
+    }
+  }
+  .body {
+    padding: 0 50px 50px;
+    transition: all 0.5s;
+  }
+  .input {
+    width: 400px;
+  }
+  .title {
+    font-size: 30px;
+    color: var(--text-dark-0);
+  }
+  .fg_pas {
+    align-self: end;
+    color: gray;
+    font-size: 14px;
+    margin-top: -10px;
+    cursor: pointer;
+  }
+  .form {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    align-items: center;
+  }
+  .btn_submit {
+    width: 100%;
+    padding: 14px;
+    border-radius: 50px;
+    text-transform: uppercase;
+    font-size: 16px;
+    overflow: hidden;
+    cursor: pointer;
+    background: var(--orange-1);
+    color: var(--text-light);
+    &:active {
+      opacity: 0.8;
+    }
+  }
+  .bottom {
+  }
+  .login_ {
+    margin: 20px;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    .lg_w {
+      border-radius: 5px;
+      background-color: red;
+      padding: 8px 24px;
+      color: #fff;
+      cursor: pointer;
+    }
+    .google {
+      background: rgb(223, 73, 48);
+    }
+    .fb {
+      background: rgb(80, 124, 192);
+    }
+  }
+}
+@keyframes appear {
+  from {
+    transform: translate(-50%, 0) scale(1.1);
+    opacity: 0;
+  }
+  to {
+  }
+}

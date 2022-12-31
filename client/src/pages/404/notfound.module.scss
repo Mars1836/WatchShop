@@ -1,0 +1,30 @@
+.notfound_page {
+  .container {
+    color: #000;
+    text-align: center;
+    padding: 100px;
+    h1 {
+      font-size: 100px;
+      color: var(--orange-1);
+      margin-bottom: 30px;
+    }
+    h2 {
+      font-size: 32px;
+      color: rgb(58, 58, 58);
+      margin: 20px;
+    }
+    a {
+      line-height: 20px;
+      display: inline-block;
+      text-transform: uppercase;
+      padding: 16px 20px;
+      background-color: var(--orange-1);
+      color: var(--text-light);
+      border-radius: 40px;
+      margin-top: 30px;
+      font-weight: 500;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  }
+}

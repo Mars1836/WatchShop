@@ -4,33 +4,23 @@ import Thumbnail from "../Thumnail/Thumbnail";
 import styles from "./blogCard.module.scss";
 import classNames from "classnames/bind";
 
-function BlogCard({ height }) {
+function BlogCard({ blog, card = true }) {
   const cx = classNames.bind(styles);
   return (
     <div
-      className={cx("blog_card_cpn")}
+      className={cx("blog_card_cpn", { card: card })}
       //   style={{ height: `${height ? height : "260px"}` }}
     >
-      <Thumbnail
-        img="http://mauweb.monamedia.net/donghohaitrieu/wp-content/uploads/2019/07/new-4.jpg"
-        height="240px"
-      ></Thumbnail>
+      <div className={cx("image")}>
+        <img src={`${blog.image}`}></img>
+      </div>
       <div className={cx("text")}>
-        <Button
-          variant="text"
-          style={{
-            color: "var(--text-dark)",
-            fontSize: "20px",
-            whiteSpace: "normal",
-            textAlign: "start",
-            padding: "0 0px",
-            fontWeight: "500",
-          }}
-        >
-          Chiếc đồng hồ của những CEO quyền lực nhất thế giới
-        </Button>
+        <h3 className={cx("title")}>{blog.title}</h3>
+        <span className={cx("line")}></span>
         <p className={cx("detail")}>
-          Đối với một số doanh nhân, một chiếc đồng hồ đeo tay không chỉ là ...
+          {blog.paragraph[0].type === "main"
+            ? blog.paragraph[0].highlight
+            : blog.paragraph[0].highlight + " - " + blog.paragraph[0].body}
         </p>
       </div>
     </div>

@@ -1,0 +1,69 @@
+.female_watches_page {
+  .contaner {
+    color: var(--text-dark);
+    max-width: var(--max-width);
+    margin-top: 40px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 15px;
+    .top {
+      display: flex;
+      justify-content: space-between;
+      .filter_group {
+        display: flex;
+        gap: 15px;
+        align-items: center;
+        .filter_button {
+          display: flex;
+          margin: 12px 0 5px;
+          font-size: 17px;
+          font-weight: 500;
+          line-height: 17px;
+          cursor: pointer;
+        }
+        .product_filter {
+          outline: none;
+          border: none;
+          font-size: 15px;
+          padding: 8px;
+          box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.3);
+        }
+      }
+    }
+    .product_wrapper {
+      margin-top: 0;
+    }
+  }
+}
+@media screen and (max-width: 900px) {
+  .female_watches_page {
+    .contaner {
+      margin-top: 100px;
+      max-width: var(--max-width);
+      margin-left: auto;
+      margin-right: auto;
+      .top {
+        flex-direction: column;
+        align-items: center;
+        .filter_group {
+          flex-direction: column;
+        }
+      }
+    }
+  }
+}
+.sidebar_mobile_wapper {
+  width: 300px;
+  padding: 15px;
+  background: #fff;
+  overflow-y: scroll;
+  height: 100vh;
+  animation: sidebar_appear 0.5s;
+}
+@keyframes sidebar_appear {
+  from {
+    transform: translate(-100%, 0);
+  }
+  to {
+  }
+}

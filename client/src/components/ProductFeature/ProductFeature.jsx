@@ -3,8 +3,9 @@ import Button from "../Button/Button";
 import styles from "./productFeature.module.scss";
 import classNames from "classnames/bind";
 import ProductList from "../ProductList/ProductList";
-import mt from "../../configs/const/method_filter";
-
+import mt from "../../utils/obj/method_filter";
+import products from "../../data/products";
+import useFilterProducts from "../../utils/hooks/filterProduct";
 function ProductFeature() {
   const cx = classNames.bind(styles);
   const [feature, setFeature] = useState();
@@ -13,9 +14,9 @@ function ProductFeature() {
       text: "Sản phẩm phổ biến",
       filters: [
         {
-          key: "discount",
-          value: 30,
-          method: mt.mt,
+          key: "category",
+          value: ["popular"],
+          method: mt.in,
         },
       ],
       code: 1,
@@ -25,9 +26,9 @@ function ProductFeature() {
       code: 2,
       filters: [
         {
-          key: "discount",
-          value: 30,
-          method: mt.lt,
+          key: "category",
+          value: ["sale"],
+          method: mt.in,
         },
       ],
     },
@@ -36,13 +37,14 @@ function ProductFeature() {
       code: 3,
       filters: [
         {
-          key: "gender",
-          value: "male",
-          method: mt.e,
+          key: "category",
+          value: ["new"],
+          method: mt.in,
         },
       ],
     },
   ];
+  const filterProducts = useFilterProducts(products, feature?.filters);
   useEffect(() => {}, [feature]);
   function handleClick(feature) {
     setFeature(feature);
@@ -72,7 +74,7 @@ function ProductFeature() {
           );
         })}
       </div>
-      <ProductList filters={feature?.filters}></ProductList>
+      <ProductList products={filterProducts}></ProductList>
     </div>
   );
 }

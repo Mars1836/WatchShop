@@ -1,0 +1,54 @@
+.contact_page {
+  .container {
+    color: var(--text-dark);
+    max-width: var(--max-width);
+    margin-top: 50px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 15px;
+    .map {
+      width: 100%;
+      background-color: lightgray;
+      height: 400px;
+      margin-bottom: 40px;
+    }
+    .infor {
+      margin-bottom: 40px;
+      .item {
+        display: flex;
+        gap: 10px;
+        .title {
+          margin-bottom: 6px;
+        }
+        .icon {
+          color: var(--text-light);
+          font-size: 40px;
+          background-color: var(--orange-1);
+          padding: 4px;
+        }
+        p {
+          color: "rgb(97,97,97)";
+        }
+      }
+    }
+    .form_contact {
+      width: 100%;
+      max-width: calc(var(--max-width) / 1.5);
+      margin: 50px auto;
+      .input_form {
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+      }
+      .btn_submit {
+        background-color: var(--orange-1);
+        margin: 0px auto;
+        display: block;
+        padding: 10px 100px;
+        color: var(--text-light);
+        font-weight: 500;
+        font-size: 16px;
+      }
+    }
+  }
+}

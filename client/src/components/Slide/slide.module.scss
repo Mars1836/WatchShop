@@ -35,14 +35,24 @@
     display: flex;
     width: fit-content;
     height: 100%;
+
     .item {
+      position: relative;
       width: 100vw;
       background-repeat: no-repeat;
       background-size: cover;
       background-position-x: right;
       height: 100%;
-      display: flex;
-      align-items: center;
+      .overlay {
+        position: absolute;
+        top: 0px;
+        bottom: 0px;
+        left: 0px;
+        right: 0px;
+        background-color: rgba(0, 0, 0, 0.205);
+        display: flex;
+        align-items: center;
+      }
       .content {
         transition: all 2s;
         margin-left: 10%;

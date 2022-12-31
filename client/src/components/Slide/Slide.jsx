@@ -95,36 +95,37 @@ function Slide() {
                 backgroundImage: slide.backgroundImageURL,
               }}
             >
-              <div
-                className={cx("content")}
-                style={
-                  slide.num === slideStyle.num
-                    ? { opacity: 1, transform: "translate(0, 0)" }
-                    : {}
-                }
-              >
-                <h4>Mona Watch</h4>
-                <h1>Đồng hồ Classico</h1>
-                <p>
-                  Cùng với sự phát triển không ngừng của thời trang thế giới,
-                  rất nhiều thương hiệu cho ra đời những mẫu đồng hồ nam chính
-                  hãng đa dạng về phong cách, kiểu dáng, màu sắc, kích cỡ...
-                </p>
-                <Button
-                  variant={"outline"}
-                  style={{
-                    color: "var(--text-light)",
-                    padding: "10px 38px",
-                  }}
+              <div className={cx("overlay")}>
+                <div
+                  className={cx("content")}
+                  style={
+                    slide.num === slideStyle.num
+                      ? { opacity: 1, transform: "translate(0, 0)" }
+                      : {}
+                  }
                 >
-                  XEM SẢN PHẨM
-                </Button>
+                  <h4>Mona Watch</h4>
+                  <h1>Đồng hồ Classico</h1>
+                  <p>
+                    Cùng với sự phát triển không ngừng của thời trang thế giới,
+                    rất nhiều thương hiệu cho ra đời những mẫu đồng hồ nam chính
+                    hãng đa dạng về phong cách, kiểu dáng, màu sắc, kích cỡ...
+                  </p>
+                  <Button
+                    variant={"outline"}
+                    style={{
+                      color: "var(--text-light)",
+                      padding: "10px 38px",
+                    }}
+                  >
+                    XEM SẢN PHẨM
+                  </Button>
+                </div>
               </div>
             </div>
           );
         })}
       </div>
-
       <div className={cx("btn_slide", "right")}>
         <Button
           type="circle"

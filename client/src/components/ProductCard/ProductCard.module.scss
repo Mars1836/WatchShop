@@ -1,5 +1,6 @@
 .product_card {
   width: 100%;
+  max-width: 300px;
   box-shadow: 0px 0px 2px 0px rgba(233, 0, 0, 0.28);
 
   .product_head {
@@ -8,6 +9,9 @@
     img {
       width: 100%;
       background-size: cover;
+      cursor: pointer;
+
+      object-fit: cover;
     }
     .like_btn {
       width: 36px;

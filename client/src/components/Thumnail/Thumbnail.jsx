@@ -12,7 +12,7 @@ function Thumbnail({ children, img, position, style, className }) {
           backgroundPosition: `${position ? position : "right"}`,
         }}
       ></div>
-      {children}
+      <div className={cx("overlay")}>{children}</div>
     </div>
   );
 }

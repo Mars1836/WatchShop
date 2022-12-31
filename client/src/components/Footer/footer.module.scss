@@ -1,5 +1,8 @@
 .footer {
   background-color: #fff;
+  .active_btn {
+    color: var(--orange-1);
+  }
   .wrapper {
     padding: 15px 10px;
     max-width: var(--max-width);
@@ -45,6 +48,7 @@
       padding-bottom: 80px;
       background-color: var(--dark-1);
       .item {
+        border-radius: 1000px;
         .title {
           font-size: 22px;
           font-weight: 500;

@@ -33,10 +33,6 @@
     .product_wrapper {
       margin-top: 0;
     }
-
-    .male_watches_page_product_list {
-      margin-top: 20px;
-    }
   }
 }
 @media screen and (max-width: 900px) {
@@ -54,5 +50,20 @@
         }
       }
     }
+  }
+}
+.sidebar_mobile_wapper {
+  width: 300px;
+  padding: 15px;
+  background: #fff;
+  overflow-y: scroll;
+  height: 100vh;
+  animation: sidebar_appear 0.5s;
+}
+@keyframes sidebar_appear {
+  from {
+    transform: translate(-100%, 0);
+  }
+  to {
   }
 }

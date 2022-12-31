@@ -1,7 +1,18 @@
 import React from "react";
 import "./button.scss";
 import { Link } from "react-router-dom";
-function Button({ href, to, variant, children, style, type, onClick }) {
+function Button({
+  href,
+  to,
+  variant,
+  children,
+  style,
+  type,
+  onClick,
+  animate,
+  className,
+  disabled,
+}) {
   const props = {
     href,
     to,
@@ -9,6 +20,8 @@ function Button({ href, to, variant, children, style, type, onClick }) {
     style,
     type,
     onClick,
+    animate,
+    disabled,
   };
   let Com = "button";
   if (href) {
@@ -16,8 +29,9 @@ function Button({ href, to, variant, children, style, type, onClick }) {
   } else if (to) {
     Com = Link;
   }
+
   return (
-    <Com className="button" {...props}>
+    <Com className={`button ${className}`} {...props}>
       <div>{children}</div>
     </Com>
   );

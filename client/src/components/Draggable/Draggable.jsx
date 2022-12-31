@@ -57,7 +57,6 @@ function Draggable({
         transform:translate(${(slide / slots) * 100}%,0);
         transition: all 0.5s;
     `;
-    console.log((slide / slots) * dragItem.current.offsetWidth);
     setTslX((slide / slots) * dragItem.current.offsetWidth);
   }
 

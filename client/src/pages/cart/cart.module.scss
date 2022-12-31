@@ -1,0 +1,100 @@
+.cart_page {
+  .container {
+    margin-top: 80px;
+    margin-bottom: 40px;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: var(--max-width);
+
+    .right {
+      font-size: 15px;
+      font-weight: 500;
+
+      .title {
+        padding-bottom: 5px;
+        font-size: 15px;
+
+        font-weight: 500;
+      }
+
+      .list {
+        margin-top: 5px;
+        border-bottom: 2px solid rgb(231, 231, 231);
+        border-top: 2px solid rgb(231, 231, 231);
+        padding-top: 10px;
+
+        .item {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          span:nth-child(1) {
+            color: gray;
+            font-weight: 400;
+          }
+          border-bottom: 1px solid rgb(231, 231, 231);
+          padding: 8px 0;
+        }
+        .item:nth-child(2) {
+          span:nth-child(2) {
+            color: gray;
+            font-size: 13px;
+            text-align: end;
+            font-weight: 400;
+          }
+        }
+        .item:nth-child(3) {
+          border: none;
+          span:nth-child(1) {
+            color: var(--text-dark-1);
+            font-weight: 400;
+          }
+        }
+      }
+      .voucher_form {
+        width: 100%;
+        input {
+          padding: 10px;
+          font-size: 15px;
+          background: #fff;
+          border: 1px solid rgb(231, 231, 231);
+          width: 100%;
+          box-shadow: inset 0 1px 2px rgb(0 0 0 / 10%);
+        }
+        button {
+          background-color: #f9f9f9;
+          text-shadow: 1px 1px 1px #fff;
+          color: #666;
+          border: 1px solid #ddd;
+          text-transform: none;
+          font-weight: normal;
+          width: 100%;
+          margin: 10px 0;
+          padding: 10px;
+          cursor: pointer;
+          font-size: 15px;
+          &:hover {
+            background: rgb(207, 206, 206);
+          }
+        }
+      }
+    }
+    .cart_table {
+      width: 100%;
+      border-collapse: collapse;
+      td,
+      th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+      }
+      .product_cell {
+        display: flex;
+        align-items: center;
+        img {
+          max-width: 100px;
+          width: 80px;
+        }
+      }
+    }
+  }
+}

@@ -9,8 +9,11 @@ import { ImLinkedin, ImRss } from "react-icons/im";
 import { AiFillSkype } from "react-icons/ai";
 import styles from "./footer.module.scss";
 import classNames from "classnames/bind";
+import useCurrentPage from "../../utils/hooks/currentPage";
+import routes from "../../utils/configs/routes";
 function Footer() {
   const cx = classNames.bind(styles);
+  const currentPage = useCurrentPage();
   return (
     <div className={cx("footer")}>
       <div className={cx("top")}>
@@ -180,27 +183,52 @@ function Footer() {
                 <div className={cx("title")}>LIÊN KẾT</div>
                 <ul className={cx("list", "l1")}>
                   <li>
-                    <Button variant={"text"} style={{ fontSize: "16px" }}>
+                    <Button
+                      variant={"text"}
+                      style={{ fontSize: "16px" }}
+                      className={cx({ active_btn: currentPage.introduce })}
+                      to={routes.introduce.path}
+                    >
                       Giới thiệu
                     </Button>
                   </li>
                   <li>
-                    <Button variant={"text"} style={{ fontSize: "16px" }}>
+                    <Button
+                      variant={"text"}
+                      style={{ fontSize: "16px" }}
+                      className={cx({ active_btn: currentPage.maleWatches })}
+                      to={routes.maleWatches.path}
+                    >
                       Đồng hồ nam
                     </Button>
                   </li>
                   <li>
-                    <Button variant={"text"} style={{ fontSize: "16px" }}>
+                    <Button
+                      variant={"text"}
+                      style={{ fontSize: "16px" }}
+                      className={cx({ active_btn: currentPage.femaleWatches })}
+                      to={routes.femaleWatches.path}
+                    >
                       Đồng hồ nữ
                     </Button>
                   </li>
                   <li>
-                    <Button variant={"text"} style={{ fontSize: "16px" }}>
+                    <Button
+                      variant={"text"}
+                      style={{ fontSize: "16px" }}
+                      className={cx({ active_btn: currentPage.blog })}
+                      to={routes.blog.path}
+                    >
                       Blogs
                     </Button>
                   </li>
                   <li>
-                    <Button variant={"text"} style={{ fontSize: "16px" }}>
+                    <Button
+                      variant={"text"}
+                      style={{ fontSize: "16px" }}
+                      className={cx({ active_btn: currentPage.contact })}
+                      to={routes.contact.path}
+                    >
                       Liên hệ
                     </Button>
                   </li>

@@ -1,10 +1,15 @@
 .header_pc {
+  .btn_active {
+    color: var(--orange-1);
+    border-bottom: 1px solid var(--orange-1);
+    transition: 0s all;
+  }
   .bottom.fixed.hide {
     transform: translate(0, -100%);
     opacity: 0;
   }
   .bottom.fixed {
-    transition: 0.6s transform;
+    transition: 0.3s;
     background-color: var(--dark-1);
     position: fixed;
     top: 0px;
@@ -12,6 +17,7 @@
     left: 0px;
     z-index: 100;
     max-width: 2000px;
+    opacity: 1;
   }
 }
 .header_pc {
@@ -88,6 +94,7 @@
       align-items: center;
       gap: 26px;
       .cart_icon {
+        cursor: pointer;
         width: 28px;
         height: 28px;
         position: relative;
@@ -147,6 +154,7 @@
   position: fixed;
   top: 0px;
   left: 0px;
+  right: 0px;
   z-index: 50;
   .top {
     display: none;

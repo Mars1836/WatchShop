@@ -32,12 +32,13 @@ function Introduce() {
   }
   useEffect(() => {
     window.addEventListener("scroll", handleParallax);
+    let i;
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           entry.target.classList.toggle(cx("hide"), !entry.isIntersecting);
           if (entry.target === banner.current && entry.isIntersecting) {
-            animate(0, 100, {
+            i = animate(0, 100, {
               duration: 2,
               onUpdate: (latest) => {
                 product_num.current.innerText = Math.round(
@@ -64,17 +65,22 @@ function Introduce() {
         threshold: 0.4,
       }
     );
+
     observer.observe(overview.current);
     observer.observe(features.current);
     observer.observe(banner.current);
     observer.observe(authors.current);
     return () => {
+      if (i) {
+        i.stop();
+      }
+
       window.removeEventListener("scroll", handleParallax);
     };
   }, []);
   return (
     <div className={cx("introduce_page")} ref={intruduce_element}>
-      <DefaultLayout headerRef={intruduce_element}>
+      <DefaultLayout>
         {
           <>
             <div className={cx("first_intro", "wrapper")}>
@@ -465,9 +471,7 @@ function Introduce() {
             <div
               className={cx("banner", "hide")}
               ref={banner}
-              onScroll={() => {
-                console.log("1232");
-              }}
+              onScroll={() => {}}
             >
               <div className={cx("background")} ref={banner_bgr}></div>
               <div className={cx("overlay")}></div>

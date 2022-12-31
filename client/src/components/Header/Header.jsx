@@ -10,7 +10,7 @@ import Button from "../Button/Button";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import SearchIcon from "@mui/icons-material/Search";
 import { Badge } from "@mui/material";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { useTheme } from "@mui/material/styles";
 import { useMediaQuery } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -18,7 +18,12 @@ import Modal from "../Modal/Modal";
 import { useState } from "react";
 import classNames from "classnames/bind";
 import { Link } from "react-router-dom";
+import routes from "../../utils/configs/routes";
+import useCurrentPage from "../../utils/hooks/currentPage";
+import LoginForm from "../LoginForm/LoginForm";
+import TooltipCart from "../TooltipCart/TooltipCart";
 function Header() {
+  const currentPage = useCurrentPage();
   const cx = classNames.bind(styles);
   const theme = useTheme();
   const sm_matches = useMediaQuery(theme.breakpoints.up("sm"));
@@ -29,6 +34,7 @@ function Header() {
   useEffect(() => {}, [sm_matches, md_matches]);
   const handleClose = () => setOpen(false);
   const handleOpen = () => setOpen(true);
+  const [isShowModalLogin, setIsShowModalLogin] = useState(false);
   const bottom_header_pc = useRef();
   useEffect(() => {
     setHeaderMenuShow(open);
@@ -48,10 +54,17 @@ function Header() {
       observer.observe(bottom_header_pc.current);
     }
   });
-  if (!md_matches) {
-  }
+  const handleModelLoginOpen = () => {
+    setIsShowModalLogin(true);
+  };
+  const handleModelLoginClose = () => {
+    setIsShowModalLogin(false);
+  };
   return (
     <>
+      <Modal open={isShowModalLogin} onClose={handleModelLoginClose}>
+        <LoginForm></LoginForm>
+      </Modal>
       {md_matches ? (
         <div className={cx("header_pc")}>
           <div className={cx("top")}>
@@ -66,14 +79,20 @@ function Header() {
               </div>
             </div>
             <div className={cx("right")}>
-              <Button variant={"text"}>
-                <FacebookIcon className={cx("icon")}></FacebookIcon>
+              <Button
+                variant="text"
+                animate="none"
+                onClick={handleModelLoginOpen}
+              >
+                Đăng nhập
               </Button>
-              <Button variant={"text"}>
-                <InstagramIcon className={cx("icon")}></InstagramIcon>
-              </Button>
-              <Button variant={"text"}>
-                <TwitterIcon className={cx("icon")}></TwitterIcon>
+              /
+              <Button
+                variant="text"
+                animate="none"
+                onClick={handleModelLoginOpen}
+              >
+                Đăng ký
               </Button>
             </div>
           </div>
@@ -110,13 +129,15 @@ function Header() {
               </div>
             </div>
             <div className={cx("right")}>
-              <Button variant={"text"}>
+              <Button variant={"text"} to={routes.wishlist.path}>
                 <FavoriteIcon></FavoriteIcon>
               </Button>
-              <div className={cx("cart_icon")}>
-                <div></div>
-                <div className={cx("body")}>1</div>
-              </div>
+              <TooltipCart>
+                <div className={cx("cart_icon")}>
+                  <div></div>
+                  <div className={cx("body")}>1</div>
+                </div>
+              </TooltipCart>
             </div>
           </div>
           <Divider sx={{ background: "rgb(72,72,72)" }}></Divider>
@@ -124,32 +145,56 @@ function Header() {
           <div className={cx("bottom")} ref={bottom_header_pc}>
             <ul className={cx("navigation")}>
               <li className={cx("item")}>
-                <Button variant={"text-underline"} to="/">
+                <Button
+                  variant={"text-underline"}
+                  to={routes.home.path}
+                  className={cx({ btn_active: currentPage.home })}
+                >
                   TRANG CHỦ
                 </Button>
               </li>
               <li className={cx("item")}>
-                <Button variant={"text-underline"} to="/gioi-thieu">
+                <Button
+                  variant={"text-underline"}
+                  to={routes.introduce.path}
+                  className={cx({ btn_active: currentPage.introduce })}
+                >
                   GIỚI THIỆU
                 </Button>
               </li>
               <li className={cx("item")}>
-                <Button variant={"text-underline"} to="/dong-ho-nam">
+                <Button
+                  variant={"text-underline"}
+                  to={routes.maleWatches.path}
+                  className={cx({ btn_active: currentPage.maleWatches })}
+                >
                   ĐỒNG HỒ NAM
                 </Button>
               </li>
               <li className={cx("item")}>
-                <Button variant={"text-underline"} to="/">
+                <Button
+                  variant={"text-underline"}
+                  to={routes.femaleWatches.path}
+                  className={cx({ btn_active: currentPage.femaleWatches })}
+                >
                   ĐỒNG HỒ NỮ
                 </Button>
               </li>
               <li className={cx("item")}>
-                <Button variant={"text-underline"} to="/blog">
+                <Button
+                  variant={"text-underline"}
+                  to={routes.blog.path}
+                  className={cx({ btn_active: currentPage.blog })}
+                >
                   BLOGS
                 </Button>
               </li>
               <li className={cx("item")}>
-                <Button variant={"text-underline"} to="/">
+                <Button
+                  variant={"text-underline"}
+                  to={routes.contact.path}
+                  className={cx({ btn_active: currentPage.contact })}
+                >
                   LIÊN HỆ
                 </Button>
               </li>
@@ -159,32 +204,56 @@ function Header() {
           <div className={cx("bottom", "fixed", { hide: !isShowBottomHeader })}>
             <ul className={cx("navigation")}>
               <li className={cx("item")}>
-                <Button variant={"text-underline"} to="/">
+                <Button
+                  variant={"text-underline"}
+                  to={routes.home.path}
+                  className={cx({ btn_active: currentPage.home })}
+                >
                   TRANG CHỦ
                 </Button>
               </li>
               <li className={cx("item")}>
-                <Button variant={"text-underline"} to="/gioi-thieu">
+                <Button
+                  variant={"text-underline"}
+                  to={routes.introduce.path}
+                  className={cx({ btn_active: currentPage.introduce })}
+                >
                   GIỚI THIỆU
                 </Button>
               </li>
               <li className={cx("item")}>
-                <Button variant={"text-underline"} to="/dong-ho-nam">
+                <Button
+                  variant={"text-underline"}
+                  to={routes.maleWatches.path}
+                  className={cx({ btn_active: currentPage.maleWatches })}
+                >
                   ĐỒNG HỒ NAM
                 </Button>
               </li>
               <li className={cx("item")}>
-                <Button variant={"text-underline"} to="/">
+                <Button
+                  variant={"text-underline"}
+                  to={routes.femaleWatches.path}
+                  className={cx({ btn_active: currentPage.femaleWatches })}
+                >
                   ĐỒNG HỒ NỮ
                 </Button>
               </li>
               <li className={cx("item")}>
-                <Button variant={"text-underline"} to="/blog">
+                <Button
+                  variant={"text-underline"}
+                  to={routes.blog.path}
+                  className={cx({ btn_active: currentPage.blog })}
+                >
                   BLOGS
                 </Button>
               </li>
               <li className={cx("item")}>
-                <Button variant={"text-underline"} to="/">
+                <Button
+                  variant={"text-underline"}
+                  to={routes.contact.path}
+                  className={cx({ btn_active: currentPage.contact })}
+                >
                   LIÊN HỆ
                 </Button>
               </li>
@@ -236,14 +305,15 @@ function Header() {
               <Button variant={"text"} style={{}}>
                 <FavoriteIcon className={cx("icon")}></FavoriteIcon>
               </Button>
-              <div className={cx("cart_icon")}>
-                <div></div>
-                <div className={cx("body")}>1</div>
-              </div>
+              <TooltipCart>
+                <div className={cx("cart_icon")}>
+                  <div></div>
+                  <div className={cx("body")}>1</div>
+                </div>
+              </TooltipCart>
             </div>
           </div>
           <Modal open={open} onClose={handleClose}>
-            {console.log("render iopen")}
             <div className={cx(`header_menu`, `${headerMenuShow && "show"}`)}>
               <div className={cx("input_group")}>
                 <input placeholder="Tìm kiếm..."></input>
@@ -256,19 +326,23 @@ function Header() {
               </div>
               <ul className={cx("list")}>
                 <li className={cx("item")}>
-                  <Link to="/">TRANG CHỦ</Link>
+                  <Link to={routes.home.path}>TRANG CHỦ</Link>
                 </li>
                 <li className={cx("item")}>
-                  <Link to="/gioi-thieu">GIỚI THIỆU</Link>
+                  <Link to={routes.introduce.path}>GIỚI THIỆU</Link>
                 </li>
                 <li className={cx("item")}>
-                  <Link to="/dong-ho-nam">ĐỒNG HỒ NAM</Link>
+                  <Link to={routes.maleWatches.path}>ĐỒNG HỒ NAM</Link>
                 </li>
                 <li className={cx("item")}>
-                  <Link to="/dong-ho-nu">ĐỒNG HỒ NỮ</Link>
+                  <Link to={routes.femaleWatches.path}>ĐỒNG HỒ NỮ</Link>
                 </li>
-                <li className={cx("item")}>BLOGS</li>
-                <li className={cx("item")}>LIÊN HỆ</li>
+                <li className={cx("item")}>
+                  <Link to={routes.blog.path}>BLOGS</Link>
+                </li>
+                <li className={cx("item")}>
+                  <Link to={routes.contact.path}>LIÊN HỆ</Link>
+                </li>
               </ul>
             </div>
           </Modal>

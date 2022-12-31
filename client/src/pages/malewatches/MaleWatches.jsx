@@ -2,32 +2,50 @@ import React from "react";
 import DefaultLayout from "../../layout/DefaultLayout";
 import { Breadcrumbs, Button, Grid, useTheme } from "@mui/material";
 import { Link } from "react-router-dom";
-import "./maleWatches.scss";
+import styles from "./maleWatches.module.scss";
 import ProductList from "../../components/ProductList/ProductList";
 import { useMediaQuery } from "@mui/material";
 import { useState } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import Modal from "../../components/Modal/Modal";
+import classNames from "classnames/bind";
+import mt from "../../utils/obj/method_filter";
+import useFilterProducts from "../../utils/hooks/filterProduct";
+import products from "../../data/products";
 function MaleWatches() {
+  const cx = classNames.bind(styles);
   const theme = useTheme();
+  const [filterSidebar, setFilterSidebar] = useState();
   const sm_matches = useMediaQuery(theme.breakpoints.up("sm"));
   const md_matches = useMediaQuery(theme.breakpoints.up("md"));
   const [columnProduct, setColumnProduct] = useState({ xs: 0, sm: 0, md: 0 });
   const [open, setOpen] = useState(false);
+  const [filters, setFilters] = useState([
+    {
+      key: "gender",
+      value: "male",
+      method: mt.e,
+    },
+  ]);
+  const menWatchs = useFilterProducts(products, filters);
+  const filterProduct = useFilterProducts(menWatchs, filterSidebar);
   function handleClose() {
     setOpen(false);
   }
-  useState(() => {}, []);
+  function handleFilterSidebarChange(value) {
+    setFilterSidebar(value);
+  }
   return (
-    <div className="male_watches_page">
+    <div className={cx("male_watches_page")}>
       <DefaultLayout>
-        <div className="contaner">
-          <div className="top">
+        <div className={cx("contaner")}>
+          <div className={cx("top")}>
             <Breadcrumbs
               aria-label="breadcrumb"
               sx={{
                 fontSize: "20px",
+                color: "var(--text-dart-1)",
               }}
             >
               <Link underline="hover" color="inherit" to="/">
@@ -41,25 +59,22 @@ function MaleWatches() {
                 ĐỒNG HỒ NAM
               </Link>
             </Breadcrumbs>
-            <div className="filter_group">
+            <div className={cx("filter_group")}>
               <Modal open={open} onClose={handleClose}>
-                <div
-                  style={{
-                    width: "300px",
-                    padding: "15px",
-                    background: "#fff",
-                    overflowY: "scroll",
-                    height: "100vh",
-                  }}
-                >
-                  <Sidebar></Sidebar>
+                <div className={cx("sidebar_mobile_wapper")}>
+                  <Sidebar
+                    search
+                    product
+                    product_tag
+                    product_price
+                    onFilterChange={handleFilterSidebarChange}
+                  ></Sidebar>
                 </div>
               </Modal>
-              <p className="text pc">Hiển thị một kết quả duy nhất</p>
+              <p className={cx("text", "pc")}>Hiển thị một kết quả duy nhất</p>
               <span
-                className="filter_button n_pc"
+                className={cx("filter_button", "n_pc")}
                 onClick={() => {
-                  console.log("asdas");
                   setOpen(true);
                 }}
               >
@@ -68,7 +83,7 @@ function MaleWatches() {
                 ></MenuIcon>
                 LỌC
               </span>
-              <select name="product_filter" className="product_filter">
+              <select name="product_filter" className={cx("product_filter")}>
                 <option>Theo thứ tự mặc định</option>
                 <option>Theo mức độ phổ biến</option>
                 <option>Theo thứ tự điểm đánh giá</option>
@@ -78,17 +93,24 @@ function MaleWatches() {
               </select>
             </div>
           </div>
-          <div className="body">
-            <Grid container spacing={4} className="product_wrapper">
+          <div className={cx("body")}>
+            <Grid container spacing={4} className={cx("product_wrapper")}>
               <Grid item xs={0} sm={0} md={3} className="pc">
-                <Sidebar></Sidebar>
+                <Sidebar
+                  search
+                  product
+                  product_tag
+                  product_price
+                  onFilterChange={handleFilterSidebarChange}
+                ></Sidebar>
               </Grid>
 
               <Grid item xs={12} sm={12} md={9}>
                 <ProductList
+                  products={filterProduct}
                   md={3}
                   sm={4}
-                  className="male_watches_page_product_list"
+                  className={cx("male_watches_page_product_list")}
                 ></ProductList>
               </Grid>
             </Grid>

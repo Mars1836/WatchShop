@@ -1,0 +1,7 @@
+.flickity-button:disabled {
+  pointer-events: all !important;
+}
+.flickity-button {
+  background-color: lightgray !important;
+  color: var(--orange-2) !important;
+}

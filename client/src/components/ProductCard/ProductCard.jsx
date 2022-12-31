@@ -3,12 +3,15 @@ import Button from "../Button/Button";
 import styles from "./ProductCard.module.scss";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import classNames from "classnames/bind";
+import { Link } from "react-router-dom";
 function ProductCard({ product }) {
   const cx = classNames.bind(styles);
   return (
     <div className={cx("product_card")} draggable={false}>
       <div className={cx("product_head")}>
-        <img src={product.img} alt="" draggable={false} />
+        <Link className={cx("name_product")} to={`/san-pham/${product.id}`}>
+          <img src={product.img} alt="" draggable={false} />
+        </Link>
         {!!product.discount && (
           <div className={cx("sale")}>-{product.discount}%</div>
         )}
@@ -17,7 +20,9 @@ function ProductCard({ product }) {
         </button>
       </div>
       <div className={cx("product_infor")}>
-        <p className={cx("name_product")}>{product.name}</p>
+        <Link className={cx("name_product")} to={`/san-pham/${product.id}`}>
+          {product.name}
+        </Link>
         <p className={cx("price_product")}>
           {product.price + " "}
           <span>₫</span>

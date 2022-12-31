@@ -4,28 +4,40 @@
 }
 :root {
   --orange-2: rgb(210, 110, 75);
-  --orange-1: rgb(200, 153, 121);
+  --orange-1: #c89979;
   --dark-1: rgb(51, 51, 51);
   --dark-2: rgb(34, 34, 34);
   --text-gray: rgb(188, 188, 188);
   --text-light: #fff;
   --text-dark: #000;
-  --max-width: 1300px;
+  --text-dark-0: rgb(58, 58, 58);
+  --text-dark-1: rgb(75, 75, 75);
+  --max-width: 1200px;
+  --red-1: rgb(220, 55, 88);
+  --red-0: rgb(244, 165, 181);
 }
 a {
   display: inline-block;
   text-decoration: none;
+  color: inherit;
+}
+
+button {
+  border: none;
+  outline: none;
 }
 ul {
   list-style-type: none;
 }
-input {
+input,
+textarea {
   outline: none;
   border: none;
+  background-color: rgb(241, 241, 241);
 }
 .global_styles {
   background-color: var(--primary-color);
-  color: var(--text-light);
+  color: var(--text-dark-0);
   line-height: 150%;
 }
 h1 {

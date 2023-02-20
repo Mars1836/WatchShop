@@ -2,7 +2,6 @@ import React from "react";
 import Flickity from "react-flickity-component";
 import "./customize.scss";
 import "flickity/css/flickity.css";
-import products from "../../data/products";
 import ProductCard from "../ProductCard/ProductCard";
 import { Grid } from "@mui/material";
 import styles from "./carousel.module.scss";
@@ -11,7 +10,7 @@ import { useTheme } from "@mui/material";
 import { useMediaQuery } from "@mui/material";
 import { useEffect } from "react";
 import { useState } from "react";
-function CarouselProduct() {
+function CarouselProduct({ products = [] }) {
   const [flickityOptions, setFlickityOptions] = useState({
     groupCells: 4,
     pageDots: false,

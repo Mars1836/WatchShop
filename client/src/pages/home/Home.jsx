@@ -3,7 +3,6 @@ import styles from "./home.module.scss";
 import { Grid, useMediaQuery } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import Slide from "../../components/Slide/Slide";
-import products from "../../data/products";
 import SlideProduct from "../../components/SlideProduct/SlideProduct";
 import ProductFeature from "../../components/ProductFeature/ProductFeature";
 import Thumbnail from "../../components/Thumnail/Thumbnail";
@@ -13,12 +12,14 @@ import DefaultLayout from "../../layout/DefaultLayout";
 import blogs from "../../data/blogs";
 import BlogCard from "../../components/BlogCard/BlogCard";
 import CarouselProduct from "../../components/CarouselProduct/CarouselProduct";
+import { useSelector } from "react-redux";
+
 function Home() {
   const cx = classNames.bind(styles);
   const theme = useTheme();
+  const products = useSelector((state) => state.product.data);
   const sm_matches = useMediaQuery(theme.breakpoints.up("sm"));
   const md_matches = useMediaQuery(theme.breakpoints.up("md"));
-  const [productData, setProduceData] = useState(products);
   const trend = useRef();
   const product_list = useRef();
   const banner = useRef();
@@ -76,7 +77,7 @@ function Home() {
           </div>
           <div className={cx("product_list")} ref={product_list}>
             <h2 className={cx("title")}>Tất cả sản phầm</h2>
-            <CarouselProduct></CarouselProduct>
+            <CarouselProduct products={products}></CarouselProduct>
           </div>
           <div className={cx("banner")} ref={banner}>
             <Grid container spacing={2}>
@@ -116,7 +117,7 @@ function Home() {
             className={cx("wrapper", "product_feature")}
             ref={product_feature}
           >
-            <ProductFeature></ProductFeature>
+            <ProductFeature products={products}></ProductFeature>
           </div>
           <div className={cx("wrapper", "blogcard")} ref={blogcard}>
             <Grid container spacing={2}>

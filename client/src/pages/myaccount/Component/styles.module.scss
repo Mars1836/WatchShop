@@ -1,0 +1,60 @@
+.title {
+  border-bottom: 1px solid rgb(227, 227, 227);
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}
+.orders {
+  padding: 1rem;
+}
+.addresses {
+  select {
+    width: 100%;
+    border: none;
+    padding: 6px 12px;
+    font-size: 14px;
+    border: 1px solid black;
+  }
+}
+.account_detail {
+  select {
+    border: none;
+    padding: 6px 12px;
+    font-size: 14px;
+    border: 1px solid black;
+  }
+  .form {
+    width: 100%;
+    font-size: 16px;
+    select {
+      width: 100%;
+    }
+  }
+}
+.input_group {
+  width: 100%;
+  display: flex;
+  margin: 14px 0;
+  position: relative;
+  .error_note {
+    color: crimson;
+    line-height: 0;
+    margin: 14px 0 0 0;
+    font-size: 13px;
+  }
+  .label {
+    margin-right: 20px;
+  }
+  input {
+    padding: 6px 12px;
+    font-size: 16px;
+    width: 100%;
+  }
+  .input_wrap {
+    width: 100%;
+    max-width: 600px;
+    position: relative;
+  }
+}
+button {
+  cursor: pointer;
+}

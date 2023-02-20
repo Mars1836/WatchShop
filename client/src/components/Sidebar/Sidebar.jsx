@@ -1,5 +1,5 @@
 import React, { useDeferredValue, useMemo } from "react";
-import products from "../../data/products";
+import { useSelector } from "react-redux";
 import styles from "./sidebar.module.scss";
 import classNames from "classnames/bind";
 import blogs from "../../data/blogs";
@@ -18,6 +18,8 @@ function Sidebar({
   onFilterChange,
 }) {
   const cx = classNames.bind(styles);
+  const products = useSelector((state) => state.product.data);
+
   const [tags, setTags] = useState([]);
   const [tempPrice, setTempPrice] = useState([0, 500]);
   const [searchValue, setSearchValue] = useState("");
@@ -26,23 +28,7 @@ function Sidebar({
   useEffect(() => {
     console.log(delayValue);
   }, [delayValue]);
-  // const [filter, setFilter] = useState([
-  //   {
-  //     key: "name",
-  //     value: searchValue,
-  //     method: mt.e,
-  //   },
-  //   {
-  //     key: "tags",
-  //     value: tags,
-  //     method: mt.in,
-  //   },
-  //   {
-  //     key: "price",
-  //     value: prices,
-  //     method: mt.btw,
-  //   },
-  // ]);
+
   const handlePriceFilterChange = (event, newValue) => {
     setTempPrice(newValue);
   };
@@ -221,61 +207,17 @@ function Sidebar({
             <div className={cx("group")}>
               <h3 className={cx("title")}>DANH MỤC SẢN PHẨM</h3>
               <div className={cx("items")}>
-                <div className={cx("item")}>
-                  <img
-                    src={products[1].img}
-                    alt=""
-                    className={cx("image")}
-                  ></img>
-                  <div className="item_dt">
-                    <div className="name">{products[1].name}</div>
-                    <div className="price">{products[1].price}₫</div>
-                  </div>
-                </div>
-                <div className={cx("item")}>
-                  <img
-                    src={products[2].img}
-                    alt=""
-                    className={cx("image")}
-                  ></img>
-                  <div className="item_dt">
-                    <div className="name">{products[2].name}</div>
-                    <div className="price">{products[2].price}₫</div>
-                  </div>
-                </div>
-                <div className={cx("item")}>
-                  <img
-                    src={products[3].img}
-                    alt=""
-                    className={cx("image")}
-                  ></img>
-                  <div className="item_dt">
-                    <div className="name">{products[3].name}</div>
-                    <div className="price">{products[3].price}₫</div>
-                  </div>
-                </div>
-                <div className={cx("item")}>
-                  <img
-                    src={products[4].img}
-                    alt=""
-                    className={cx("image")}
-                  ></img>
-                  <div className="item_dt">
-                    <div className="name">{products[4].name}</div>
-                    <div className="price">{products[4].price}₫</div>
-                  </div>
-                </div>
-                <div className={cx("item")}>
-                  <img
-                    src={products[5].img}
-                    alt=""
-                    className={cx("image")}
-                  ></img>
-                  <div className="item_dt">
-                    <div className="name">{products[5].name}</div>
-                    <div className="price">{products[5].price}₫</div>
-                  </div>
-                </div>
+                {products.slice(0, 4).map((pr) => {
+                  return (
+                    <div className={cx("item")} key={pr.id}>
+                      <img src={pr.img} alt="" className={cx("image")}></img>
+                      <div className="item_dt">
+                        <div className="name">{pr.name}</div>
+                        <div className="price">{pr.price}₫</div>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           </>

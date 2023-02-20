@@ -6,6 +6,7 @@ import classNames from "classnames/bind";
 
 function BlogCard({ blog, card = true }) {
   const cx = classNames.bind(styles);
+
   return (
     <div
       className={cx("blog_card_cpn", { card: card })}

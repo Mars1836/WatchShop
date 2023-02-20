@@ -4,9 +4,8 @@ import styles from "./productFeature.module.scss";
 import classNames from "classnames/bind";
 import ProductList from "../ProductList/ProductList";
 import mt from "../../utils/obj/method_filter";
-import products from "../../data/products";
 import useFilterProducts from "../../utils/hooks/filterProduct";
-function ProductFeature() {
+function ProductFeature({ products = [] }) {
   const cx = classNames.bind(styles);
   const [feature, setFeature] = useState();
   const features = [
@@ -14,7 +13,7 @@ function ProductFeature() {
       text: "Sản phẩm phổ biến",
       filters: [
         {
-          key: "category",
+          key: "categories",
           value: ["popular"],
           method: mt.in,
         },
@@ -26,7 +25,7 @@ function ProductFeature() {
       code: 2,
       filters: [
         {
-          key: "category",
+          key: "categories",
           value: ["sale"],
           method: mt.in,
         },
@@ -37,7 +36,7 @@ function ProductFeature() {
       code: 3,
       filters: [
         {
-          key: "category",
+          key: "categories",
           value: ["new"],
           method: mt.in,
         },

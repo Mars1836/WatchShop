@@ -25,26 +25,34 @@ function ProductListVetical({ products, onRemove }) {
   }, [page]);
   return (
     <div className={cx("product_list_vetical_cpn")}>
-      <div className={cx("product_list")} ref={product_list}>
-        {products.slice((page - 1) * num, page * num).map((product) => {
-          return (
-            <ProductItem
-              product={product}
-              key={product.id}
-              onRemove={onRemove}
-            ></ProductItem>
-          );
-        })}
-      </div>
-      <div className={cx("pagination")}>
-        <Pagination
-          count={count}
-          variant="outlined"
-          shape="rounded"
-          page={page}
-          onChange={handleChange}
-        />
-      </div>
+      {products.length <= 0 ? (
+        <h3 className={cx("text_note")}>
+          Chưa có sản phẩm nào trong danh sách
+        </h3>
+      ) : (
+        <>
+          <div className={cx("product_list")} ref={product_list}>
+            {products.slice((page - 1) * num, page * num).map((product) => {
+              return (
+                <ProductItem
+                  product={product}
+                  key={product.id}
+                  onRemove={onRemove}
+                ></ProductItem>
+              );
+            })}
+          </div>
+          <div className={cx("pagination")}>
+            <Pagination
+              count={count}
+              variant="outlined"
+              shape="rounded"
+              page={page}
+              onChange={handleChange}
+            />
+          </div>
+        </>
+      )}
     </div>
   );
 }

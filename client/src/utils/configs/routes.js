@@ -7,6 +7,7 @@ import Blog from "../../pages/blog/Blog";
 import Contact from "../../pages/contact/Contact";
 import Wishlist from "../../pages/wishlist/Wishlist";
 import Cart from "../../pages/cart/Cart";
+import MyAccount from "../../pages/myaccount/MyAccount";
 const routes = {
   home: { path: "/", component: <Home /> },
   introduce: { path: "/gioi-thieu", component: <Introduce /> },
@@ -17,5 +18,6 @@ const routes = {
   product: { path: "/san-pham/:id", component: <Product /> },
   wishlist: { path: "/wishlist", component: <Wishlist></Wishlist> },
   cart: { path: "/gio-hang", component: <Cart></Cart> },
+  myAccount: { path: "/my-account", component: <MyAccount></MyAccount> },
 };
 export default routes;

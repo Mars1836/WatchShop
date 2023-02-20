@@ -17,6 +17,9 @@ import formatDate from "../../utils/function/formatDate";
 import { Rating } from "@mui/material";
 import CarouselProduct from "../../components/CarouselProduct/CarouselProduct";
 import { useRef } from "react";
+import { actionCartApi } from "../../redux/actions/cart";
+import { useSelector, useDispatch } from "react-redux";
+import { toast } from "react-toastify";
 function Product() {
   const [product, setProduct] = useState();
   const [num, setNum] = useState(0);
@@ -29,6 +32,20 @@ function Product() {
     images: [...deliverLogos, ...bankLogos],
     index: 0,
   });
+  const dispatch = useDispatch();
+  const isAuth = useSelector((state) => {
+    return state.user.auth;
+  });
+  const handleRequireAuth = () => {
+    if (isAuth) {
+      return false;
+    }
+    toast.warning("Bạn cần đăng nhập trước!!!");
+    return true;
+  };
+  function handleAddToCart(productId) {
+    dispatch(actionCartApi.addToCart(productId));
+  }
   useEffect(() => {
     const item = products.find((pr) => {
       return pr.id === params.id;
@@ -176,6 +193,11 @@ function Product() {
                           fontWeight: 500,
                         }}
                         variant="contained"
+                        onClick={() => {
+                          if (!handleRequireAuth()) {
+                            handleAddToCart(product.id);
+                          }
+                        }}
                       >
                         THÊM VÀO GIỎ
                       </Button>

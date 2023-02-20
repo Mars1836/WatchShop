@@ -10,18 +10,23 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { Divider } from "@mui/material";
 import FacebookOutlinedIcon from "@mui/icons-material/FacebookOutlined";
 import GoogleIcon from "@mui/icons-material/Google";
+import { useDispatch } from "react-redux";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { actionUserApi } from "../../redux/actions/user";
+import { useCookies } from "react-cookie";
+import { useSelector } from "react-redux";
+import { useEffect } from "react";
 let schemaSignIn = yup.object().shape({
-  email: yup.string().required(),
+  username: yup.string().required(),
   password: yup.string().required(),
 });
 
 function SignInForm() {
   const cx = classNames.bind(styles);
   const [showPassword, setShowPassword] = useState(false);
-
+  const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
@@ -39,20 +44,21 @@ function SignInForm() {
     reset();
   };
   const handleSignInSubmit = (data) => {
-    console.log(data);
+    dispatch(actionUserApi.localLogin(data));
   };
+  const handleClickSubmit = () => {};
 
   return (
     <form className={cx("form")} onSubmit={handleSubmit(handleSignInSubmit)}>
       <h3 className={cx("title")}>Sign in</h3>
       <TextField
         id="outlined-basic"
-        label="Email"
+        label="Username"
         variant="outlined"
         className={cx("input")}
-        {...register("email")}
-        helperText={errors.email?.message}
-        error={Boolean(errors.email?.message)}
+        {...register("username")}
+        helperText={errors.username?.message}
+        error={Boolean(errors.username?.message)}
       />
 
       <TextField
@@ -85,6 +91,7 @@ function SignInForm() {
         className={cx("btn_submit")}
         variant="contained"
         animate="none"
+        onClick={handleClickSubmit}
         value={"Submit"}
       />
     </form>

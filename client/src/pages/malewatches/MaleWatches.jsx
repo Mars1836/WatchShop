@@ -12,10 +12,12 @@ import Modal from "../../components/Modal/Modal";
 import classNames from "classnames/bind";
 import mt from "../../utils/obj/method_filter";
 import useFilterProducts from "../../utils/hooks/filterProduct";
-import products from "../../data/products";
+import { useSelector } from "react-redux";
 function MaleWatches() {
   const cx = classNames.bind(styles);
   const theme = useTheme();
+  const products = useSelector((state) => state.product.data);
+
   const [filterSidebar, setFilterSidebar] = useState();
   const sm_matches = useMediaQuery(theme.breakpoints.up("sm"));
   const md_matches = useMediaQuery(theme.breakpoints.up("md"));

@@ -5,22 +5,29 @@ import { Rating } from "@mui/material";
 import Button from "../Button/Button";
 import DialogConfirm from "../../components/DialogConfirm/DialogConfirm";
 import { useState } from "react";
-function ProductItem({ product, onRemove }) {
+import { useDispatch } from "react-redux";
+import { actionWishListApi } from "../../redux/actions/wishlist";
+import { actionCartApi } from "../../redux/actions/cart";
+function ProductItem({ product }) {
   const cx = classNames.bind(styles);
   const [openDialog, setOpenDialog] = useState(false);
+  const dispatch = useDispatch();
   const handleCloseDialog = () => {
     setOpenDialog(false);
   };
   const handleClickRemove = () => {
     setOpenDialog(true);
   };
+  function handleAddToCart(productId) {
+    dispatch(actionCartApi.addToCart(productId));
+  }
   return (
     <div className={cx("product_item_cpn")}>
       <DialogConfirm
         open={openDialog}
         onClose={handleCloseDialog}
         onYes={() => {
-          onRemove(product.id);
+          dispatch(actionWishListApi.toggleWishList(product.id));
         }}
       ></DialogConfirm>
       <div className={cx("image")}>
@@ -51,6 +58,9 @@ function ProductItem({ product, onRemove }) {
           style={{
             marginTop: "6px",
             padding: "10px 20px",
+          }}
+          onClick={() => {
+            handleAddToCart(product.id);
           }}
         >
           Add to card

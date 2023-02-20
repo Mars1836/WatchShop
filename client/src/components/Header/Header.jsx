@@ -21,16 +21,28 @@ import { Link } from "react-router-dom";
 import routes from "../../utils/configs/routes";
 import useCurrentPage from "../../utils/hooks/currentPage";
 import LoginForm from "../LoginForm/LoginForm";
-import TooltipCart from "../TooltipCart/TooltipCart";
+import TooltipCart from "../Tooltip/TooltipCart";
+import { useSelector } from "react-redux";
+import { Avatar } from "@mui/material";
+import TooltipUser from "../Tooltip/TooltipUser";
+import CustomTooltip from "../Tooltip/CustomTooltip";
+import { Tooltip } from "react-tooltip";
+import { toast } from "react-toastify";
 function Header() {
   const currentPage = useCurrentPage();
   const cx = classNames.bind(styles);
   const theme = useTheme();
+  const isAuth = useSelector((state) => state.user.auth);
+  const user = useSelector((state) => state.user.data);
   const sm_matches = useMediaQuery(theme.breakpoints.up("sm"));
   const md_matches = useMediaQuery(theme.breakpoints.up("md"));
   const [headerMenuShow, setHeaderMenuShow] = useState(false);
   const [open, setOpen] = useState(false);
   const [isShowBottomHeader, setIsShowBottomHeader] = useState(false);
+  const cartNum =
+    useSelector((state) => {
+      return state.cart.data?.cart_items?.length;
+    }) || 0;
   useEffect(() => {}, [sm_matches, md_matches]);
   const handleClose = () => setOpen(false);
   const handleOpen = () => setOpen(true);
@@ -60,6 +72,12 @@ function Header() {
   const handleModelLoginClose = () => {
     setIsShowModalLogin(false);
   };
+  const handleRequireAuth = () => {
+    if (isAuth) {
+      return;
+    }
+    return toast.warning("Bạn cần đăng nhập trước!!!");
+  };
   return (
     <>
       <Modal open={isShowModalLogin} onClose={handleModelLoginClose}>
@@ -79,21 +97,45 @@ function Header() {
               </div>
             </div>
             <div className={cx("right")}>
-              <Button
-                variant="text"
-                animate="none"
-                onClick={handleModelLoginOpen}
-              >
-                Đăng nhập
-              </Button>
-              /
-              <Button
-                variant="text"
-                animate="none"
-                onClick={handleModelLoginOpen}
-              >
-                Đăng ký
-              </Button>
+              {isAuth ? (
+                <>
+                  <p>{user.name}</p>
+                  <Avatar
+                    id="tooltip-anchor-click"
+                    sx={{ width: 30, height: 30, cursor: "pointer" }}
+                  ></Avatar>
+                  <CustomTooltip
+                    events={["click"]}
+                    anchorId="tooltip-anchor-click"
+                    content={<TooltipUser></TooltipUser>}
+                    place="bottom"
+                    style={{
+                      backgroundColor: "#242424",
+                      opacity: 1,
+                      zIndex: 1000,
+                    }}
+                    clickable
+                  ></CustomTooltip>
+                </>
+              ) : (
+                <>
+                  <Button
+                    variant="text"
+                    animate="none"
+                    onClick={handleModelLoginOpen}
+                  >
+                    Đăng nhập
+                  </Button>
+                  /
+                  <Button
+                    variant="text"
+                    animate="none"
+                    onClick={handleModelLoginOpen}
+                  >
+                    Đăng ký
+                  </Button>
+                </>
+              )}
             </div>
           </div>
           <Divider sx={{ background: "rgb(72,72,72)" }}></Divider>
@@ -129,15 +171,40 @@ function Header() {
               </div>
             </div>
             <div className={cx("right")}>
-              <Button variant={"text"} to={routes.wishlist.path}>
+              <Button
+                variant={"text"}
+                to={!isAuth || routes.wishlist.path}
+                onClick={() => {
+                  handleRequireAuth();
+                }}
+              >
                 <FavoriteIcon></FavoriteIcon>
               </Button>
-              <TooltipCart>
-                <div className={cx("cart_icon")}>
+
+              <>
+                <div
+                  className={cx("cart_icon")}
+                  id="tooltip-cart"
+                  onClick={() => {
+                    handleRequireAuth();
+                  }}
+                >
                   <div></div>
-                  <div className={cx("body")}>1</div>
+                  <div className={cx("body")}>{cartNum}</div>
                 </div>
-              </TooltipCart>
+                {!!cartNum && (
+                  <CustomTooltip
+                    anchorId="tooltip-cart"
+                    content={<TooltipCart></TooltipCart>}
+                    style={{
+                      backgroundColor: "#fff",
+                      zIndex: 1000,
+                      boxShadow: "0px 0px 6px 2px rgba(0,0,0,0.37)",
+                    }}
+                    clickable
+                  ></CustomTooltip>
+                )}
+              </>
             </div>
           </div>
           <Divider sx={{ background: "rgb(72,72,72)" }}></Divider>
@@ -302,15 +369,15 @@ function Header() {
               </div>
             </div>
             <div className={cx("right")}>
-              <Button variant={"text"} style={{}}>
-                <FavoriteIcon className={cx("icon")}></FavoriteIcon>
+              <Button
+                variant={"text"}
+                to={!isAuth || routes.wishlist.path}
+                onClick={() => {
+                  handleRequireAuth();
+                }}
+              >
+                <FavoriteIcon></FavoriteIcon>
               </Button>
-              <TooltipCart>
-                <div className={cx("cart_icon")}>
-                  <div></div>
-                  <div className={cx("body")}>1</div>
-                </div>
-              </TooltipCart>
             </div>
           </div>
           <Modal open={open} onClose={handleClose}>

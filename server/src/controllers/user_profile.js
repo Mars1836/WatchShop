@@ -1,5 +1,6 @@
 import db from "../models/index.js";
-import UserProfile, { Address } from "../models/user_profile.js";
+import Address from "../models/address.js";
+import UserProfile from "../models/user_profile.js";
 import Cart from "../models/cart.js";
 import { decodeJWT } from "../utils/helper.js";
 import CartItem from "../models/cart_item.js";
@@ -159,8 +160,7 @@ const userProfileCtrl = {
   removeProductInCart: async (req, res) => {
     try {
       const { cartItemId } = req.body;
-      console.log(req.body);
-      console.log("id", cartItemId);
+
       await CartItem.destroy({
         where: {
           id: cartItemId,
@@ -171,6 +171,23 @@ const userProfileCtrl = {
         cartItemId: cartItemId,
         message: "Remove success",
       });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  },
+  resetCart: async (req, res) => {
+    try {
+      const cart = await Cart.findOne({
+        where: {
+          id: req.userId,
+        },
+      });
+      await CartItem.destroy({
+        where: {
+          cartId: cart.id,
+        },
+      });
+      res.json("success");
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
@@ -187,7 +204,7 @@ const userProfileCtrl = {
         },
         {
           where: {
-            userProfileId: req.userId,
+            id: req.profile.addressId,
           },
         }
       );

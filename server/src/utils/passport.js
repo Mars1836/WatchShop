@@ -4,6 +4,7 @@ import GoogleStrategy from "passport-google-oauth20";
 import User from "../models/user.js";
 import UserProfile from "../models/user_profile.js";
 import * as dotenv from "dotenv";
+import CryptoJS from "crypto-js";
 dotenv.config();
 passport.use(
   new LocalStrategy(async function verify(username, password, cb) {
@@ -15,11 +16,16 @@ passport.use(
         model: UserProfile,
       },
     });
-
     if (!user) {
       return cb({ message: "Incorrect username or password" });
     }
-    if (password === user.password) {
+    const bytes = CryptoJS.AES.decrypt(
+      user.password,
+      process.env.PASSWORD_SECRET_KEY
+    );
+    var passwordDecriped = bytes.toString(CryptoJS.enc.Utf8);
+
+    if (password === passwordDecriped) {
       return cb(null, user);
     } else {
       return cb({ message: "Incorrect username or password" });

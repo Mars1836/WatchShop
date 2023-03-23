@@ -5,9 +5,9 @@ const orderRequest = {
     const order = await instance.get(orderEndpoint.getOrder);
     return order;
   },
-  addOrder: async (order) => {
-    const t = await instance.post(orderEndpoint.addOrder, order);
-    return t;
+
+  placeOrder: async (data) => {
+    const t = await instance.post(orderEndpoint.placeOrder, data);
   },
 };
 export default orderRequest;

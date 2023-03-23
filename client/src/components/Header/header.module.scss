@@ -144,6 +144,7 @@
       gap: 50px;
       height: 100%;
       .item {
+       
       }
     }
   }
@@ -251,16 +252,34 @@
   }
   .list {
     width: 100%;
-
     .item {
       padding: 15px 20px;
       border-bottom: 1px solid lightgray;
+      text-transform: uppercase;
+      font-weight: 500;
       cursor: pointer;
       transition: all 0.2s;
       &:hover {
         background-color: rgb(224, 224, 224);
       }
     }
+    .item.account{
+      border-bottom: none;
+      &:hover {
+        background-color: inherit;
+      }
+      .list_account_option{
+        list-style-type: disc;
+        font-weight: 400;
+        padding: 10px 30px;
+        cursor: pointer;
+        li{
+          padding: 5px;
+        }
+        
+      }
+    }
+
     .item:nth-child(1) {
       border-top: 1px solid lightgray;
     }

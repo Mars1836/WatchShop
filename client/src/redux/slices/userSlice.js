@@ -11,6 +11,9 @@ const userSlice = createSlice({
     error: null,
     token: null,
     auth: false,
+    verifyLoading: true,
+    userLoginLoading: false,
+    userSignupLoading : false
   },
   reducers: {
     finishLoading: (state) => {
@@ -18,29 +21,40 @@ const userSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    builder.addCase(actionUserApi.register.pending, (state) => {});
+    builder.addCase(actionUserApi.register.fulfilled, (state) => {
+      toast.success("Đăng kí thành công");
+    });
+    builder.addCase(actionUserApi.register.rejected, (state, action) => {
+      toast.error(action.payload.error);
+    });
     builder.addCase(actionUserApi.localLogin.pending, (state) => {
       state.loading = true;
+      state.userLoginLoading = true;
     });
     builder.addCase(actionUserApi.localLogin.fulfilled, (state, action) => {
       cookies.set("token", action.payload.token, { secure: true });
+      state.userLoginLoading = false;
       window.location.reload();
     });
     builder.addCase(actionUserApi.localLogin.rejected, (state, action) => {
       state.error = action.error;
       state.loading = false;
       toast.error("Sai username or password.");
+      state.userLoginLoading = false;
     });
     builder.addCase(actionUserApi.verifyToken.pending, (state) => {
-      state.loading = true;
+      state.verifyLoading = true;
     });
     builder.addCase(actionUserApi.verifyToken.fulfilled, (state, action) => {
       state.data = action.payload.user;
       state.token = action.payload.token;
       state.auth = true;
-      state.loading = false;
+      state.verifyLoading = false;
+     
     });
     builder.addCase(actionUserApi.verifyToken.rejected, (state) => {
-      state.loading = false;
+      state.verifyLoading = false;
       state.auth = false;
     });
     builder.addCase(actionUserApi.logout.fulfilled, (state, action) => {
@@ -65,6 +79,14 @@ const userSlice = createSlice({
     });
     builder.addCase(actionUserApi.updateProfile.rejected, (state, action) => {
       state.error = action.error;
+    });
+    builder.addCase(actionUserApi.placeOrder.pending, (state) => {});
+    builder.addCase(actionUserApi.placeOrder.fulfilled, (state, action) => {
+      toast.success("Order success!!")
+      state.user.data.carts = [];
+    });
+    builder.addCase(actionUserApi.placeOrder.rejected, (state, action) => {
+
     });
   },
 });

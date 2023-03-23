@@ -11,6 +11,10 @@ const cartRequest = {
     });
     return cart;
   },
+  resetCart: async () => {
+    const t = await instance.delete(cartEndpoint.resetCart);
+    return t;
+  },
   addToCart: async (productId) => {
     const product = await instance.post(cartEndpoint.addToCart, {
       productId,

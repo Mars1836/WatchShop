@@ -27,16 +27,14 @@ function Globalstyles({ children }) {
       <ThemeProvider theme={theme}>
         <ToastContainer
           position="top-right"
-          autoClose={2000}
+          autoClose={1000}
           hideProgressBar={false}
           newestOnTop={false}
           closeOnClick
           rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="light"
-          limit={1}
+          pauseOnFocusLoss={false}
+          draggable={false}
+          theme="dark"
         />
         <>{children}</>
       </ThemeProvider>

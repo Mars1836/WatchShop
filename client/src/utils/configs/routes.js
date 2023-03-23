@@ -8,6 +8,10 @@ import Contact from "../../pages/contact/Contact";
 import Wishlist from "../../pages/wishlist/Wishlist";
 import Cart from "../../pages/cart/Cart";
 import MyAccount from "../../pages/myaccount/MyAccount";
+import Login from "../../pages/Login/Login";
+import Register from "../../pages/Register/Register";
+import OrderForm from "../../pages/order_form/OrderForm";
+import OrderSuccess from "../../pages/order_success/OrderSuccess";
 const routes = {
   home: { path: "/", component: <Home /> },
   introduce: { path: "/gioi-thieu", component: <Introduce /> },
@@ -19,5 +23,12 @@ const routes = {
   wishlist: { path: "/wishlist", component: <Wishlist></Wishlist> },
   cart: { path: "/gio-hang", component: <Cart></Cart> },
   myAccount: { path: "/my-account", component: <MyAccount></MyAccount> },
+  login: { path: "/login", component: <Login></Login> },
+  register: { path: "/register", component: <Register></Register> },
+  order_form: { path: "/order-form", component: <OrderForm></OrderForm> },
+  order_success: {
+    path: "/order/success",
+    component: <OrderSuccess></OrderSuccess>,
+  },
 };
 export default routes;

@@ -9,7 +9,7 @@ import InputAdornment from "@mui/material/InputAdornment";
 import FormControl from "@mui/material/FormControl";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import Button from "../Button/Button";
+import { Button } from "@mui/material";
 import { Divider } from "@mui/material";
 import FacebookOutlinedIcon from "@mui/icons-material/FacebookOutlined";
 import GoogleIcon from "@mui/icons-material/Google";
@@ -17,18 +17,37 @@ import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect } from "react";
-
+import { actionUserApi } from "../../redux/actions/user";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import routes from "../../utils/configs/routes";
 let schemaSignUp = yup.object().shape({
-  email: yup.string().required(),
-  password: yup.string().required(),
-  re_password: yup.string().required(),
+  name: yup.string().required(),
+  username: yup
+    .string()
+    .required()
+
+    .matches(
+      "^(?=.{4,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$",
+      "Invalid username"
+    ),
+  password: yup
+    .string()
+    .required()
+    .matches("^.{8,}$", "Minimum eight characters."),
+  re_password: yup
+    .string()
+    .required()
+    .oneOf([yup.ref("password")], "Passwords do not match"),
 });
-function SignUpForm() {
+function SignUpForm({ setIsSignIn }) {
   const cx = classNames.bind(styles);
-  const [isSignIn, setIsSignIn] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const [showRePassword, setShowRePassword] = useState(false);
-
+  const dispatch = useDispatch();
+  const signUp = useSelector((state) => state.signUp);
+  const navigate = useNavigate();
+  const [signUpLoading, setSignUpLoading] = useState(false);
   const {
     register,
     handleSubmit,
@@ -44,20 +63,39 @@ function SignUpForm() {
   };
 
   const handleSignUpSubmit = (data) => {
-    console.log(data);
+    setSignUpLoading(true);
+    dispatch(actionUserApi.register(data, setIsSignIn))
+      .then((data) => {
+        if (data.error) return;
+        setSignUpLoading(false);
+        navigate(routes.login.path);
+      })
+      .catch((error) => {
+        setSignUpLoading(false);
+      });
   };
-
   return (
     <form className={cx("form")} onSubmit={handleSubmit(handleSignUpSubmit)}>
       <h3 className={cx("title")}>Sign up</h3>
+
       <TextField
         id="outlined-basic"
-        label="Email"
+        label="Name"
         variant="outlined"
         className={cx("input")}
-        {...register("email")}
-        error={Boolean(errors.email?.message)}
-        helperText={errors.email?.message}
+        {...register("name")}
+        error={Boolean(errors.name?.message)}
+        helperText={errors.name?.message}
+      />
+
+      <TextField
+        id="outlined-basic"
+        label="Username"
+        variant="outlined"
+        className={cx("input")}
+        {...register("username")}
+        error={Boolean(errors.username?.message)}
+        helperText={errors.username?.message}
       />
       <TextField
         id="outlined-adornment-password"
@@ -107,13 +145,30 @@ function SignUpForm() {
         }}
       />
 
-      <span className={cx("fg_pas")}>For got password</span>
-      <input
+      <Button
         type="submit"
         className={cx("btn_submit")}
         variant="contained"
-        value="Sign Up"
-      ></input>
+        style={{
+          color: "white",
+          alignSelf: "start",
+        }}
+        disabled={signUpLoading}
+      >
+        Submit
+      </Button>
+      <p>
+        Chưa có tài khoản ?
+        <Link
+          style={{
+            alignSelf: "start",
+            color: "var(--orange-2)",
+          }}
+          to={routes.login.path}
+        >
+          Đăng nhập
+        </Link>
+      </p>
     </form>
   );
 }

@@ -5,19 +5,7 @@ import Feedback from "./feedback.js";
 import Order from "./order.js";
 import User from "./user.js";
 import WishList from "./wishlist.js";
-export const Address = sequelize.define(
-  "address",
-  {
-    district: { type: Sequelize.STRING },
-    city: { type: Sequelize.STRING },
-    ward: { type: Sequelize.STRING },
-    location: { type: Sequelize.STRING },
-  },
-  {
-    // viết một số option tại đây
-    timestamps: false, // ở đây mình không muốn tạo createdAt và updatedAt
-  }
-);
+import Address from "./address.js";
 const UserProfile = sequelize.define(
   "user_profile",
   {
@@ -31,12 +19,11 @@ const UserProfile = sequelize.define(
     timestamps: true, // ở đây mình không muốn tạo createdAt và updatedAt
   }
 );
-UserProfile.hasOne(Address);
-Address.belongsTo(UserProfile);
+UserProfile.belongsTo(Address);
 UserProfile.hasMany(Feedback);
 UserProfile.hasOne(Cart);
 UserProfile.hasOne(WishList);
-UserProfile.hasOne(Order);
+UserProfile.hasMany(Order);
 UserProfile.belongsTo(User);
 User.hasOne(UserProfile);
 export default UserProfile;

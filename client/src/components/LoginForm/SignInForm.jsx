@@ -7,7 +7,7 @@ import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import { Divider } from "@mui/material";
+import { Button, Divider } from "@mui/material";
 import FacebookOutlinedIcon from "@mui/icons-material/FacebookOutlined";
 import GoogleIcon from "@mui/icons-material/Google";
 import { useDispatch } from "react-redux";
@@ -18,6 +18,8 @@ import { actionUserApi } from "../../redux/actions/user";
 import { useCookies } from "react-cookie";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
+import routes from "../../utils/configs/routes";
 let schemaSignIn = yup.object().shape({
   username: yup.string().required(),
   password: yup.string().required(),
@@ -27,6 +29,7 @@ function SignInForm() {
   const cx = classNames.bind(styles);
   const [showPassword, setShowPassword] = useState(false);
   const dispatch = useDispatch();
+  const userLoginLoading = useSelector((state) => state.user.userLoginLoading);
   const {
     register,
     handleSubmit,
@@ -46,7 +49,6 @@ function SignInForm() {
   const handleSignInSubmit = (data) => {
     dispatch(actionUserApi.localLogin(data));
   };
-  const handleClickSubmit = () => {};
 
   return (
     <form className={cx("form")} onSubmit={handleSubmit(handleSignInSubmit)}>
@@ -86,14 +88,43 @@ function SignInForm() {
       />
 
       <span className={cx("fg_pas")}>For got password</span>
-      <input
+      <Button
         type="submit"
         className={cx("btn_submit")}
         variant="contained"
-        animate="none"
-        onClick={handleClickSubmit}
-        value={"Submit"}
-      />
+        style={{
+          color: "white",
+          alignSelf: "start",
+        }}
+        disabled={userLoginLoading}
+      >
+        Submit
+      </Button>
+      <div className={cx("bottom")}>
+        <Divider sx={{ color: "gray", fontSize: "14px" }}>
+          or sign in with:
+        </Divider>
+        <div className={cx("login_")}>
+          <div className={cx("lg_w", "google")}>
+            <GoogleIcon className={cx("icon")} />
+          </div>
+          <div className={cx("lg_w", "fb")}>
+            <FacebookOutlinedIcon className={cx("icon")} />
+          </div>
+        </div>
+      </div>
+      <p>
+        Chưa có tài khoản ?
+        <Link
+          to={routes.register.path}
+          style={{
+            alignSelf: "start",
+            color: "var(--orange-2)",
+          }}
+        >
+          Đăng ký
+        </Link>
+      </p>
     </form>
   );
 }

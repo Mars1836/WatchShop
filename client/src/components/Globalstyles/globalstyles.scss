@@ -53,3 +53,8 @@ h1 {
     display: none !important;
   }
 }
+.price::after {
+  content: "₫";
+  font-weight: 500;
+  margin-left: 4px;
+}

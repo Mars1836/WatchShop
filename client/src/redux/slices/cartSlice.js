@@ -11,7 +11,11 @@ const CartSlice = createSlice({
     error: null,
     isUpdating: false,
   },
-  reducers: {},
+  reducers: {
+    orderSuccess: (state, action) => {
+      state.data.cart_items = [];
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(actionCartApi.getCart.pending, (state) => {
       state.loading = true;
@@ -63,6 +67,12 @@ const CartSlice = createSlice({
     builder.addCase(
       actionCartApi.updateQuantityInCart.fulfilled,
       (state, action) => {
+        state.data.cart_items = state.data.cart_items.map((item, index) => {
+          return {
+            ...item,
+            ...action.payload[index],
+          };
+        });
         state.isUpdating = false;
         toast.success("Cập nhật giỏ hàng thành công.");
       }
@@ -76,5 +86,5 @@ const CartSlice = createSlice({
   },
 });
 const CartReducer = CartSlice.reducer;
-export const { finishLoading } = CartSlice.actions;
+export const { orderSuccess } = CartSlice.actions;
 export default CartReducer;

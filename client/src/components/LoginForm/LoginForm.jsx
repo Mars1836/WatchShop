@@ -32,7 +32,11 @@ function LoginForm() {
         </span>
       </div>
       <div className={cx("body")}>
-        {isSignIn ? <SignInForm></SignInForm> : <SignUpForm></SignUpForm>}
+        {isSignIn ? (
+          <SignInForm></SignInForm>
+        ) : (
+          <SignUpForm setIsSignIn={setIsSignIn}> </SignUpForm>
+        )}
       </div>
       <div className={cx("bottom")}>
         <Divider sx={{ color: "gray", fontSize: "14px" }}>

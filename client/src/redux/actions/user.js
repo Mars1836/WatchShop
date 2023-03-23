@@ -1,15 +1,25 @@
-import { userEndpoint } from "../../utils/configs/api";
+import { orderEndpoint, userEndpoint } from "../../utils/configs/api";
 import instance from "../../utils/configs/instance";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { useCookies } from "react-cookie";
 
 const actionUser = {
-  localLoginSuccess: (state, action) => {
-    state.data = action.payload.user;
-    state.token = action.payload.token;
+  orderSuccess: () => {
+    return {};
   },
 };
 const actionUserApi = {
+  register: createAsyncThunk(
+    "user/register",
+    async (data, { rejectWithValue }) => {
+      try {
+        const res = await instance.post(userEndpoint.register, data);
+        return res.data;
+      } catch ({ response }) {
+        return rejectWithValue(response.data);
+      }
+    }
+  ),
   localLogin: createAsyncThunk(
     "user/localLogin",
     async ({ username, password }) => {
@@ -36,6 +46,10 @@ const actionUserApi = {
   updateProfile: createAsyncThunk("user/updateProfile", async (data) => {
     const update = await instance.patch(userEndpoint.updateProfile, data);
     return update.data;
+  }),
+  placeOrder: createAsyncThunk("user/placeOrder", async (data) => {
+    const t = await instance.post(orderEndpoint.placeOrder, data);
+    return t.data;
   }),
 };
 export { actionUser, actionUserApi };

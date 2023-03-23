@@ -28,6 +28,7 @@ import TooltipUser from "../Tooltip/TooltipUser";
 import CustomTooltip from "../Tooltip/CustomTooltip";
 import { Tooltip } from "react-tooltip";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 function Header() {
   const currentPage = useCurrentPage();
   const cx = classNames.bind(styles);
@@ -39,6 +40,7 @@ function Header() {
   const [headerMenuShow, setHeaderMenuShow] = useState(false);
   const [open, setOpen] = useState(false);
   const [isShowBottomHeader, setIsShowBottomHeader] = useState(false);
+  const navigate = useNavigate();
   const cartNum =
     useSelector((state) => {
       return state.cart.data?.cart_items?.length;
@@ -46,7 +48,7 @@ function Header() {
   useEffect(() => {}, [sm_matches, md_matches]);
   const handleClose = () => setOpen(false);
   const handleOpen = () => setOpen(true);
-  const [isShowModalLogin, setIsShowModalLogin] = useState(false);
+
   const bottom_header_pc = useRef();
   useEffect(() => {
     setHeaderMenuShow(open);
@@ -66,23 +68,15 @@ function Header() {
       observer.observe(bottom_header_pc.current);
     }
   });
-  const handleModelLoginOpen = () => {
-    setIsShowModalLogin(true);
-  };
-  const handleModelLoginClose = () => {
-    setIsShowModalLogin(false);
-  };
-  const handleRequireAuth = () => {
+
+  const handleRequireAuth = (url) => {
     if (isAuth) {
-      return;
+      return navigate(url);
     }
     return toast.warning("Bạn cần đăng nhập trước!!!");
   };
   return (
     <>
-      <Modal open={isShowModalLogin} onClose={handleModelLoginClose}>
-        <LoginForm></LoginForm>
-      </Modal>
       {md_matches ? (
         <div className={cx("header_pc")}>
           <div className={cx("top")}>
@@ -119,18 +113,14 @@ function Header() {
                 </>
               ) : (
                 <>
-                  <Button
-                    variant="text"
-                    animate="none"
-                    onClick={handleModelLoginOpen}
-                  >
+                  <Button to={routes.login.path} variant="text" animate="none">
                     Đăng nhập
                   </Button>
                   /
                   <Button
+                    to={routes.register.path}
                     variant="text"
                     animate="none"
-                    onClick={handleModelLoginOpen}
                   >
                     Đăng ký
                   </Button>
@@ -173,9 +163,8 @@ function Header() {
             <div className={cx("right")}>
               <Button
                 variant={"text"}
-                to={!isAuth || routes.wishlist.path}
                 onClick={() => {
-                  handleRequireAuth();
+                  handleRequireAuth(routes.wishlist.path);
                 }}
               >
                 <FavoriteIcon></FavoriteIcon>
@@ -186,7 +175,7 @@ function Header() {
                   className={cx("cart_icon")}
                   id="tooltip-cart"
                   onClick={() => {
-                    handleRequireAuth();
+                    handleRequireAuth(routes.cart.path);
                   }}
                 >
                   <div></div>
@@ -410,6 +399,18 @@ function Header() {
                 <li className={cx("item")}>
                   <Link to={routes.contact.path}>LIÊN HỆ</Link>
                 </li>
+                {
+                  !isAuth ? <li className={cx("item")}>
+                  <Link to={routes.login.path}>Đăng nhập</Link>
+                </li>: <li className={cx("item","account")}>My Account
+                  <ul className={cx("list_account_option")}>
+                    <li className={cx("account_option")}><Link to={routes.myAccount.path}>my account</Link></li>
+                    <li className={cx("account_option")}><Link to={routes.cart.path}>Cart</Link></li>
+                    <li className={cx("account_option")}><Link to={routes.wishlist.path}>wishlist</Link></li>
+                  </ul>
+                </li >
+                }
+              
               </ul>
             </div>
           </Modal>

@@ -6,10 +6,9 @@ const OrderItem = sequelize.define(
   {
     price: { type: Sequelize.INTEGER },
     quantity: { type: Sequelize.INTEGER },
-    status: { type: Sequelize.STRING },
   },
   {
-    timestamps: true,
+    timestamps: false,
   }
 );
 OrderItem.belongsTo(Product);

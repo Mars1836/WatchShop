@@ -17,5 +17,5 @@ userProfileRouter.delete(
 userProfileRouter.patch("/update-cart", userProfileCtrl.updateCart);
 userProfileRouter.patch("/update-address", userProfileCtrl.updateAddress);
 userProfileRouter.patch("/update-profile", userProfileCtrl.updateProfile);
-
+userProfileRouter.delete("/reset-cart", userProfileCtrl.resetCart);
 export default userProfileRouter;

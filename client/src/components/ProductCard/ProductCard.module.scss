@@ -92,6 +92,42 @@
       margin: 5px;
     }
   }
+  .ribbon {
+    font-size: 14px;
+    color: #fff;
+  }
+  .ribbon4 {
+    position: absolute;
+    top: 9px;
+    padding: 3px 5px;
+    background: #be640f;
+    box-shadow: -1px 2px 3px rgba(0, 0, 0, 0.3);
+  }
+
+  .ribbon4:before,
+  .ribbon4:after {
+    content: "";
+    position: absolute;
+  }
+
+  .ribbon4:before {
+    width: 7px;
+    height: 100%;
+    top: 0;
+    left: -6.5px;
+    padding: 0 0 7px;
+    background: inherit;
+    border-radius: 5px 0 0 5px;
+  }
+
+  .ribbon4:after {
+    width: 5px;
+    height: 5px;
+    bottom: -5px;
+    left: -4.5px;
+    background: #be9065;
+    border-radius: 5px 0 0 5px;
+  }
 }
 @media screen and (max-width: 600px) {
   .product_card {

@@ -45,7 +45,7 @@ app.use("/api/user-profile", verifyAsUser, userProfileRouter);
 app.use("/api/order-item", verifyAsUser, OrderItemRouter);
 app.use("/api", authRouter);
 db.sequelize
-  .sync({ force: true })
+  .sync()
   .then(() => {
     console.log("successed");
   })

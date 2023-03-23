@@ -1,5 +1,5 @@
 import passport from "passport";
-import { Address } from "../models/user_profile.js";
+import Address from "../models/address.js";
 import UserProfile from "../models/user_profile.js";
 import { generateJWT, decodeJWT } from "../utils/helper.js";
 const authCtrl = {

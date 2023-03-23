@@ -9,10 +9,10 @@ import { Button } from "@mui/material";
 import { actionUserApi } from "../../../redux/actions/user";
 import { Grid } from "@mui/material";
 import { useDispatch } from "react-redux";
+import useArea from "../../../utils/hooks/area";
 const cx = classNames.bind(styles);
 
 function Addresses({ user }) {
-  const [dataAddress, setDataAddress] = useState([]);
   const [cityValue, setCityValue] = useState();
   const [districtValue, setDistrictValue] = useState();
   const [wardValue, setWardValue] = useState();
@@ -20,7 +20,7 @@ function Addresses({ user }) {
   const [is, setIs] = useState(false);
   const dispatch = useDispatch();
   const citySelect = useRef(null);
-
+  const area = useArea();
   function handleCityValueChange(e) {
     setCityValue(e.target.value);
     setDistrictValue("");
@@ -40,10 +40,9 @@ function Addresses({ user }) {
   function handleSubmit(e) {
     e.preventDefault();
     const data = {
-      city: dataAddress[cityValue].Name,
-      district: dataAddress[cityValue].Districts[districtValue].Name,
-      ward: dataAddress[cityValue].Districts[districtValue].Wards[wardValue]
-        .Name,
+      city: area[cityValue].Name,
+      district: area[cityValue].Districts[districtValue].Name,
+      ward: area[cityValue].Districts[districtValue].Wards[wardValue].Name,
       location: particularAddress,
     };
     setCityValue();
@@ -51,25 +50,13 @@ function Addresses({ user }) {
     setParticularAddress("");
     dispatch(actionUserApi.updateAddress(data));
   }
+
   useEffect(() => {
-    var Parameter = {
-      url: "https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json",
-      method: "GET",
-      responseType: "application/json",
-    };
-    var promise = axios(Parameter);
-    promise.then(function (result) {
-      setDataAddress(JSON.parse(result.data));
-    });
-  }, []);
-  useEffect(() => {
-    console.log("ward: ", wardValue);
     if (cityValue && districtValue && wardValue) {
       setIs(true);
       return;
     }
     setIs(false);
-    console.log("city value: ", cityValue);
   }, [cityValue, districtValue, wardValue]);
   return (
     <div className={cx("addresses")}>
@@ -99,8 +86,8 @@ function Addresses({ user }) {
               className={cx("custom-select")}
             >
               <option value="">Chọn tỉnh thành</option>
-              {dataAddress &&
-                dataAddress.map((item, index) => {
+              {area &&
+                area.map((item, index) => {
                   return (
                     <option value={index} key={item.Id}>
                       {item.Name}
@@ -116,9 +103,9 @@ function Addresses({ user }) {
               onChange={handleDistrictValueChange}
             >
               <option value="">Chọn quận huyện</option>
-              {dataAddress &&
+              {area &&
                 cityValue &&
-                dataAddress[cityValue].Districts.map((item, index) => {
+                area[cityValue].Districts.map((item, index) => {
                   return (
                     <option value={index} key={item.Id}>
                       {item.Name}
@@ -134,10 +121,10 @@ function Addresses({ user }) {
               onChange={handleWardValueChange}
             >
               <option value="">Chọn phưỡng xã</option>
-              {dataAddress &&
+              {area &&
                 cityValue &&
                 districtValue &&
-                dataAddress[cityValue].Districts[districtValue].Wards.map(
+                area[cityValue].Districts[districtValue].Wards.map(
                   (item, index) => {
                     return (
                       <option value={index} key={item.Id}>

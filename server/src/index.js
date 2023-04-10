@@ -52,3 +52,8 @@ db.sequelize
   .catch((err) => {
     console.log(err.message);
   });
+
+app.listen(port, () => {
+  console.log(process.env.session_key);
+  console.log(`Example app listening on port ${port}`);
+});

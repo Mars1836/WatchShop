@@ -3,8 +3,11 @@ import Sequelize from "sequelize";
 const User = sequelize.define(
   "user",
   {
-    username: { type: Sequelize.STRING, allowNull: false, unique: true },
+    type: { type: Sequelize.STRING, allowNull: false },
+    username: { type: Sequelize.STRING, unique: true },
     password: { type: Sequelize.STRING },
+    external_type: { type: Sequelize.STRING },
+    external_id: { type: Sequelize.STRING },
   },
   {
     // viết một số option tại đây

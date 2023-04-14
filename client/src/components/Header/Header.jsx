@@ -1,80 +1,80 @@
-import React, { useRef } from "react";
-import styles from "./header.module.scss";
-import LocationOnIcon from "@mui/icons-material/LocationOn";
-import PhoneIcon from "@mui/icons-material/Phone";
-import FacebookIcon from "@mui/icons-material/Facebook";
-import InstagramIcon from "@mui/icons-material/Instagram";
-import TwitterIcon from "@mui/icons-material/Twitter";
-import Divider from "@mui/material/Divider";
-import Button from "../Button/Button";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import SearchIcon from "@mui/icons-material/Search";
-import { Badge } from "@mui/material";
-import { useEffect, useMemo } from "react";
-import { useTheme } from "@mui/material/styles";
-import { useMediaQuery } from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
-import Modal from "../Modal/Modal";
-import { useState } from "react";
-import classNames from "classnames/bind";
-import { Link } from "react-router-dom";
-import routes from "../../utils/configs/routes";
-import useCurrentPage from "../../utils/hooks/currentPage";
-import LoginForm from "../LoginForm/LoginForm";
-import TooltipCart from "../Tooltip/TooltipCart";
-import { useSelector } from "react-redux";
-import { Avatar } from "@mui/material";
-import TooltipUser from "../Tooltip/TooltipUser";
-import CustomTooltip from "../Tooltip/CustomTooltip";
-import { Tooltip } from "react-tooltip";
-import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import React, { useRef } from "react"
+import styles from "./header.module.scss"
+import LocationOnIcon from "@mui/icons-material/LocationOn"
+import PhoneIcon from "@mui/icons-material/Phone"
+import FacebookIcon from "@mui/icons-material/Facebook"
+import InstagramIcon from "@mui/icons-material/Instagram"
+import TwitterIcon from "@mui/icons-material/Twitter"
+import Divider from "@mui/material/Divider"
+import Button from "../Button/Button"
+import FavoriteIcon from "@mui/icons-material/Favorite"
+import SearchIcon from "@mui/icons-material/Search"
+import { Badge } from "@mui/material"
+import { useEffect, useMemo } from "react"
+import { useTheme } from "@mui/material/styles"
+import { useMediaQuery } from "@mui/material"
+import MenuIcon from "@mui/icons-material/Menu"
+import Modal from "../Modal/Modal"
+import { useState } from "react"
+import classNames from "classnames/bind"
+import { Link } from "react-router-dom"
+import routes from "../../utils/configs/routes"
+import useCurrentPage from "../../utils/hooks/currentPage"
+import LoginForm from "../LoginForm/LoginForm"
+import TooltipCart from "../Tooltip/TooltipCart"
+import { useSelector } from "react-redux"
+import { Avatar } from "@mui/material"
+import TooltipUser from "../Tooltip/TooltipUser"
+import CustomTooltip from "../Tooltip/CustomTooltip"
+import { Tooltip } from "react-tooltip"
+import { toast } from "react-toastify"
+import { useNavigate } from "react-router-dom"
 function Header() {
-  const currentPage = useCurrentPage();
-  const cx = classNames.bind(styles);
-  const theme = useTheme();
-  const isAuth = useSelector((state) => state.user.auth);
-  const user = useSelector((state) => state.user.data);
-  const sm_matches = useMediaQuery(theme.breakpoints.up("sm"));
-  const md_matches = useMediaQuery(theme.breakpoints.up("md"));
-  const [headerMenuShow, setHeaderMenuShow] = useState(false);
-  const [open, setOpen] = useState(false);
-  const [isShowBottomHeader, setIsShowBottomHeader] = useState(false);
-  const navigate = useNavigate();
+  const currentPage = useCurrentPage()
+  const cx = classNames.bind(styles)
+  const theme = useTheme()
+  const isAuth = useSelector(state => state.user.auth)
+  const user = useSelector(state => state.user.data)
+  const sm_matches = useMediaQuery(theme.breakpoints.up("sm"))
+  const md_matches = useMediaQuery(theme.breakpoints.up("md"))
+  const [headerMenuShow, setHeaderMenuShow] = useState(false)
+  const [open, setOpen] = useState(false)
+  const [isShowBottomHeader, setIsShowBottomHeader] = useState(false)
+  const navigate = useNavigate()
   const cartNum =
-    useSelector((state) => {
-      return state.cart.data?.cart_items?.length;
-    }) || 0;
-  useEffect(() => {}, [sm_matches, md_matches]);
-  const handleClose = () => setOpen(false);
-  const handleOpen = () => setOpen(true);
+    useSelector(state => {
+      return state.cart.data?.cart_items?.length
+    }) || 0
+  useEffect(() => {}, [sm_matches, md_matches])
+  const handleClose = () => setOpen(false)
+  const handleOpen = () => setOpen(true)
 
-  const bottom_header_pc = useRef();
+  const bottom_header_pc = useRef()
   useEffect(() => {
-    setHeaderMenuShow(open);
-  }, [open]);
+    setHeaderMenuShow(open)
+  }, [open])
   useEffect(() => {
     const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          setIsShowBottomHeader(!entry.isIntersecting);
-        });
+      entries => {
+        entries.forEach(entry => {
+          setIsShowBottomHeader(!entry.isIntersecting)
+        })
       },
       {
         rootMargin: "30px",
-      }
-    );
+      },
+    )
     if (bottom_header_pc.current) {
-      observer.observe(bottom_header_pc.current);
+      observer.observe(bottom_header_pc.current)
     }
-  });
+  })
 
-  const handleRequireAuth = (url) => {
+  const handleRequireAuth = url => {
     if (isAuth) {
-      return navigate(url);
+      return navigate(url)
     }
-    return toast.warning("Bạn cần đăng nhập trước!!!");
-  };
+    return toast.warning("Bạn cần đăng nhập trước!!!")
+  }
   return (
     <>
       {md_matches ? (
@@ -95,14 +95,15 @@ function Header() {
                 <>
                   <p>{user.name}</p>
                   <Avatar
-                    id="tooltip-anchor-click"
+                    src={`${user.avatar}`}
+                    id='tooltip-anchor-click'
                     sx={{ width: 30, height: 30, cursor: "pointer" }}
                   ></Avatar>
                   <CustomTooltip
                     events={["click"]}
-                    anchorId="tooltip-anchor-click"
+                    anchorId='tooltip-anchor-click'
                     content={<TooltipUser></TooltipUser>}
-                    place="bottom"
+                    place='bottom'
                     style={{
                       backgroundColor: "#242424",
                       opacity: 1,
@@ -113,14 +114,14 @@ function Header() {
                 </>
               ) : (
                 <>
-                  <Button to={routes.login.path} variant="text" animate="none">
+                  <Button to={routes.login.path} variant='text' animate='none'>
                     Đăng nhập
                   </Button>
                   /
                   <Button
                     to={routes.register.path}
-                    variant="text"
-                    animate="none"
+                    variant='text'
+                    animate='none'
                   >
                     Đăng ký
                   </Button>
@@ -132,10 +133,10 @@ function Header() {
           <div className={cx("center")}>
             <div className={cx("left")}>
               <div className={cx("logo")}>
-                <Button variant={"none"} href="/">
+                <Button variant={"none"} href='/'>
                   <img
-                    src="http://mauweb.monamedia.net/donghohaitrieu/wp-content/uploads/2019/07/logo-mona-2.png"
-                    alt=""
+                    src='http://mauweb.monamedia.net/donghohaitrieu/wp-content/uploads/2019/07/logo-mona-2.png'
+                    alt=''
                     className={cx("img")}
                   />
                 </Button>
@@ -146,7 +147,7 @@ function Header() {
                 <div className={cx("search_form")}>
                   <input
                     className={cx("search_input")}
-                    placeholder="Tìm kiếm..."
+                    placeholder='Tìm kiếm...'
                   ></input>
                   <Button
                     style={{
@@ -164,7 +165,7 @@ function Header() {
               <Button
                 variant={"text"}
                 onClick={() => {
-                  handleRequireAuth(routes.wishlist.path);
+                  handleRequireAuth(routes.wishlist.path)
                 }}
               >
                 <FavoriteIcon></FavoriteIcon>
@@ -173,9 +174,9 @@ function Header() {
               <>
                 <div
                   className={cx("cart_icon")}
-                  id="tooltip-cart"
+                  id='tooltip-cart'
                   onClick={() => {
-                    handleRequireAuth(routes.cart.path);
+                    handleRequireAuth(routes.cart.path)
                   }}
                 >
                   <div></div>
@@ -183,7 +184,7 @@ function Header() {
                 </div>
                 {!!cartNum && (
                   <CustomTooltip
-                    anchorId="tooltip-cart"
+                    anchorId='tooltip-cart'
                     content={<TooltipCart></TooltipCart>}
                     style={{
                       backgroundColor: "#fff",
@@ -348,10 +349,10 @@ function Header() {
             </div>
             <div className={cx("center")}>
               <div className={cx("logo")}>
-                <Button variant={"none"} href="/">
+                <Button variant={"none"} href='/'>
                   <img
-                    src="http://mauweb.monamedia.net/donghohaitrieu/wp-content/uploads/2019/07/logo-mona-2.png"
-                    alt=""
+                    src='http://mauweb.monamedia.net/donghohaitrieu/wp-content/uploads/2019/07/logo-mona-2.png'
+                    alt=''
                     className={cx("img")}
                   />
                 </Button>
@@ -362,7 +363,7 @@ function Header() {
                 variant={"text"}
                 to={!isAuth || routes.wishlist.path}
                 onClick={() => {
-                  handleRequireAuth();
+                  handleRequireAuth()
                 }}
               >
                 <FavoriteIcon></FavoriteIcon>
@@ -372,7 +373,7 @@ function Header() {
           <Modal open={open} onClose={handleClose}>
             <div className={cx(`header_menu`, `${headerMenuShow && "show"}`)}>
               <div className={cx("input_group")}>
-                <input placeholder="Tìm kiếm..."></input>
+                <input placeholder='Tìm kiếm...'></input>
                 <Button
                   variant={"contained"}
                   style={{ borderRadius: "0", padding: "4px 8px" }}
@@ -399,25 +400,33 @@ function Header() {
                 <li className={cx("item")}>
                   <Link to={routes.contact.path}>LIÊN HỆ</Link>
                 </li>
-                {
-                  !isAuth ? <li className={cx("item")}>
-                  <Link to={routes.login.path}>Đăng nhập</Link>
-                </li>: <li className={cx("item","account")}>My Account
-                  <ul className={cx("list_account_option")}>
-                    <li className={cx("account_option")}><Link to={routes.myAccount.path}>my account</Link></li>
-                    <li className={cx("account_option")}><Link to={routes.cart.path}>Cart</Link></li>
-                    <li className={cx("account_option")}><Link to={routes.wishlist.path}>wishlist</Link></li>
-                  </ul>
-                </li >
-                }
-              
+                {!isAuth ? (
+                  <li className={cx("item")}>
+                    <Link to={routes.login.path}>Đăng nhập</Link>
+                  </li>
+                ) : (
+                  <li className={cx("item", "account")}>
+                    My Account
+                    <ul className={cx("list_account_option")}>
+                      <li className={cx("account_option")}>
+                        <Link to={routes.myAccount.path}>my account</Link>
+                      </li>
+                      <li className={cx("account_option")}>
+                        <Link to={routes.cart.path}>Cart</Link>
+                      </li>
+                      <li className={cx("account_option")}>
+                        <Link to={routes.wishlist.path}>wishlist</Link>
+                      </li>
+                    </ul>
+                  </li>
+                )}
               </ul>
             </div>
           </Modal>
         </div>
       )}
     </>
-  );
+  )
 }
 
-export default Header;
+export default Header

@@ -19,7 +19,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 var corsOptions = {
   origin: "http://localhost:3000",
-  optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+  credentials: true,
 };
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -29,8 +29,10 @@ app.use(
     saveUninitialized: false,
     secret: process.env.session_key,
     maxAge: 24 * 60 * 60 * 1000,
+    name: "token",
   })
 );
+
 app.use(cors(corsOptions));
 app.use(passport.initialize());
 app.use(passport.session());
@@ -44,6 +46,14 @@ app.use("/api/user", userRouter);
 app.use("/api/user-profile", verifyAsUser, userProfileRouter);
 app.use("/api/order-item", verifyAsUser, OrderItemRouter);
 app.use("/api", authRouter);
+app.get("/getSession", (req, res) => {
+  if (req.session.user) {
+    res.send(`Session user: ${req.session.user}`);
+  } else {
+    res.send("No session found");
+  }
+});
+
 db.sequelize
   .sync()
   .then(() => {
@@ -52,8 +62,6 @@ db.sequelize
   .catch((err) => {
     console.log(err.message);
   });
-
 app.listen(port, () => {
-  console.log(process.env.session_key);
   console.log(`Example app listening on port ${port}`);
 });

@@ -4,39 +4,11 @@ import Cart from "../models/cart.js";
 import Order from "../models/order.js";
 import CryptoJS from "crypto-js";
 import Address from "../models/address.js";
+import userService from "../services/user.js";
 const userCtrl = {
-  create: async (req, res) => {
+  localSighUp: async (req, res) => {
     try {
-      const { username, password, ...profile } = req.body;
-      var passwordEncrypted = CryptoJS.AES.encrypt(
-        password,
-        process.env.PASSWORD_SECRET_KEY
-      ).toString();
-      const address = await Address.create({});
-      const newUser = await User.create({
-        username,
-        password: passwordEncrypted,
-      })
-        .then((user) => {
-          return UserProfile.create({
-            addressId: address.id,
-            ...profile,
-            userId: user.id,
-          }).then((userProfile) => {
-            Cart.create({
-              userProfileId: userProfile.id,
-            });
-          });
-        })
-        .catch((error) => {
-          console.log({
-            error,
-            username,
-            password: passwordEncrypted,
-          });
-          throw error;
-        });
-
+      await userService.localCreate(req.body);
       res.status(200).json("successed");
     } catch (error) {
       res.status(500).json({ error: error.message });

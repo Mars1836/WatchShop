@@ -1,15 +1,15 @@
-import React, { useState, useLayoutEffect } from "react";
-import classNames from "classnames/bind";
-import styles from "./loginForm.module.scss";
-import { Divider } from "@mui/material";
-import FacebookOutlinedIcon from "@mui/icons-material/FacebookOutlined";
-import GoogleIcon from "@mui/icons-material/Google";
-import SignInForm from "./SignInForm";
-import SignUpForm from "./SignUpForm";
+import React, { useState, useLayoutEffect } from "react"
+import classNames from "classnames/bind"
+import styles from "./loginForm.module.scss"
+import { Button, Divider } from "@mui/material"
+import FacebookOutlinedIcon from "@mui/icons-material/FacebookOutlined"
+import GoogleIcon from "@mui/icons-material/Google"
+import SignInForm from "./SignInForm"
+import SignUpForm from "./SignUpForm"
 
 function LoginForm() {
-  const cx = classNames.bind(styles);
-  const [isSignIn, setIsSignIn] = useState(true);
+  const cx = classNames.bind(styles)
+  const [isSignIn, setIsSignIn] = useState(true)
 
   return (
     <div className={cx("login_form")}>
@@ -17,7 +17,7 @@ function LoginForm() {
         <span
           className={cx({ active: isSignIn })}
           onClick={() => {
-            setIsSignIn(true);
+            setIsSignIn(true)
           }}
         >
           Sign in
@@ -25,7 +25,7 @@ function LoginForm() {
         <span
           className={cx({ active: !isSignIn })}
           onClick={() => {
-            setIsSignIn(false);
+            setIsSignIn(false)
           }}
         >
           Sign up
@@ -43,16 +43,16 @@ function LoginForm() {
           or sign in with:
         </Divider>
         <div className={cx("login_")}>
-          <div className={cx("lg_w", "google")}>
+          <Button className={cx("lg_w", "google")}>
             <GoogleIcon className={cx("icon")} />
-          </div>
-          <div className={cx("lg_w", "fb")}>
+          </Button>
+          <Button className={cx("lg_w", "fb")}>
             <FacebookOutlinedIcon className={cx("icon")} />
-          </div>
+          </Button>
         </div>
       </div>
     </div>
-  );
+  )
 }
 
-export default LoginForm;
+export default LoginForm

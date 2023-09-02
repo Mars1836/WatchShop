@@ -11,7 +11,6 @@ function VerifyToken({ children }) {
 
   useEffect(() => {
     if (1) {
-      console.log(1)
       dispatch(actionUserApi.verifyToken("1"))
       dispatch(actionCartApi.getCart())
       dispatch(actionWishListApi.getWishList())

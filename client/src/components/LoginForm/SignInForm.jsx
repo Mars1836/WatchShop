@@ -106,18 +106,17 @@ function SignInForm() {
           or sign in with:
         </Divider>
         <div className={cx("login_")}>
-          <a
+          <button
             className={cx("lg_w", "google")}
-            href='#'
             onClick={() => {
               window.open("http://localhost:4000/api/google-login", "_self")
             }}
           >
             <GoogleIcon className={cx("icon")} />
-          </a>
-          <a className={cx("lg_w", "fb")}>
+          </button>
+          <button className={cx("lg_w", "fb")}>
             <FacebookOutlinedIcon className={cx("icon")} />
-          </a>
+          </button>
         </div>
       </div>
       <p>

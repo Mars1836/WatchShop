@@ -1,11 +1,19 @@
-import passport from "passport";
 import Address from "../models/address.js";
 import UserProfile from "../models/user_profile.js";
-import { generateJWT, decodeJWT } from "../utils/helper.js";
+import passport from "passport";
 const authCtrl = {
+  localLogin: passport.authenticate("local", {
+    failureRedirect: "/login",
+    successRedirect: "/api/login-success",
+  }),
+  localLoginSuccess: (req, res) => {
+    res.status(200).json(req.user);
+  },
+  googleLogin: passport.authenticate("google", {
+    scope: ["profile", "email"],
+  }),
   logout: (req, res) => {
     try {
-      console.log("logout");
       req.logout(function (err) {
         if (err) return res.status(500).json({ message: err });
         res.status(200).json({ message: "Log out successed" });

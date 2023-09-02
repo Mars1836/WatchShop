@@ -37,10 +37,10 @@ const actionUserApi = {
     const user = await instance.post(userEndpoint.verifyToken, {
       token: token,
     })
+
     return user.data
   }),
   logout: createAsyncThunk("user/logout", async () => {
-    console.log("logout")
     let res = await instance.post(userEndpoint.logout)
     return res.data
   }),

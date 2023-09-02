@@ -2,12 +2,14 @@ import passport from "passport";
 import { decodeJWT } from "../utils/helper.js";
 import UserProfile from "../models/user_profile.js";
 const verifyAsUser = async (req, res, next) => {
-  const authValue = req.headers.authorization;
-  console.log(req.user);
+  console.log("very 1");
+
   if (req.user) {
     try {
       const user = req.user;
-      const userProfile = await UserProfile.findOne({ where: { id: user.id } });
+      const userProfile = await UserProfile.findOne({
+        where: { userId: user.id },
+      });
       req.userId = user.id;
       req.profile = userProfile;
       if (userProfile) {

@@ -49,13 +49,14 @@ function CarouselProduct({ products = [] }) {
 
   return (
     <Flickity
-      className={"carousel"} // default ''
-      elementType={"div"} // default 'div'
-      options={flickityOptions} // takes flickity options {}
-      disableImagesLoaded={false} // default false
-      reloadOnUpdate // default false
-      static // default false
+      className={"carousel"}
+      elementType={"div"}
+      options={flickityOptions}
+      disableImagesLoaded={false}
+      reloadOnUpdate
+      static
     >
+      {console.log(products)}
       {products.map(product => {
         return (
           <div className={cx("card")} key={product.id}>

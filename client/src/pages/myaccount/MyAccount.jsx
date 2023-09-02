@@ -1,40 +1,43 @@
-import React, { useState } from "react";
-import DefaultLayout from "../../layout/DefaultLayout";
-import RequireAuth from "../../services/RequireAuth/RequireAuth";
-import classNames from "classnames/bind";
-import styles from "./myAccount.module.scss";
-import { Button, Grid } from "@mui/material";
-import { useSelector } from "react-redux";
-import Orders from "./Component/Orders";
-import Dashboard from "./Component/Dashboard";
-import Downloads from "./Component/Downloads";
-import Addresses from "./Component/Addresses";
-import AccountDetail from "./Component/AccountDetail";
-import routes from "../../utils/configs/routes";
-import { Link } from "react-router-dom";
-import { useCookies } from "react-cookie";
-import { actionUserApi } from "../../redux/actions/user";
-import { useDispatch } from "react-redux";
-const cx = classNames.bind(styles);
+import React, { useState } from "react"
+import DefaultLayout from "../../layout/DefaultLayout"
+import RequireAuth from "../../services/RequireAuth/RequireAuth"
+import classNames from "classnames/bind"
+import styles from "./myAccount.module.scss"
+import { Button, Grid } from "@mui/material"
+import { useSelector } from "react-redux"
+import Orders from "./Component/Orders"
+import PurchaseOrder from "./Component/PurchaseOrder"
+import Downloads from "./Component/Downloads"
+import Addresses from "./Component/Addresses"
+import AccountDetail from "./Component/AccountDetail"
+import routes from "../../utils/configs/routes"
+import { Link } from "react-router-dom"
+import { useCookies } from "react-cookie"
+import { actionUserApi } from "../../redux/actions/user"
+import { useDispatch } from "react-redux"
+import instance from "../../utils/configs/instance"
+import { userEndpoint } from "../../utils/configs/api"
+const cx = classNames.bind(styles)
 
 function MyAccount() {
-  const user = useSelector((state) => state.user.data);
-  const [option, setOption] = useState("dashboard");
-  const dispatch = useDispatch();
-  const [cookies, setCookie, removeCookie] = useCookies(["token"]);
-  function logout() {
-    dispatch(actionUserApi.logout);
-    removeCookie("token");
-    window.location.reload();
+  const user = useSelector(state => state.user.data)
+  const [option, setOption] = useState("purchase_order")
+  const dispatch = useDispatch()
+  const [cookies, setCookie, removeCookie] = useCookies(["token"])
+  async function logout() {
+    let res = await instance.post(userEndpoint.logout)
+
+    removeCookie("token")
+    window.location.reload()
   }
   const list = {
-    dashboard: <Dashboard></Dashboard>,
+    purchase_order: <PurchaseOrder></PurchaseOrder>,
     orders: <Orders></Orders>,
     addresses: <Addresses user={user}></Addresses>,
     account_details: <AccountDetail user={user}></AccountDetail>,
-  };
+  }
   function handleSetOption(op) {
-    setOption(op);
+    setOption(op)
   }
   return (
     <div className={cx("my_account_page")}>
@@ -58,7 +61,7 @@ function MyAccount() {
               <div className={cx("item")}>
                 <Link to={routes.cart.path}>
                   <Button
-                    variant="contained"
+                    variant='contained'
                     style={{
                       fontSize: "12px",
                       padding: "4px 8px",
@@ -70,21 +73,21 @@ function MyAccount() {
                 </Link>
               </div>
             </div>
-            <div className={cx("dashboard")}>
+            <div className={cx("purchase_order")}>
               <div className={cx("sidebar")}>
                 <div
                   className={cx("item")}
                   onClick={() => {
-                    handleSetOption("dashboard");
+                    handleSetOption("purchase_order")
                   }}
                 >
-                  Dashboard
+                  Purchase Order
                 </div>
                 <div
                   className={cx("item")}
-                  value="orders"
+                  value='orders'
                   onClick={() => {
-                    handleSetOption("orders");
+                    handleSetOption("orders")
                   }}
                 >
                   Orders
@@ -93,7 +96,7 @@ function MyAccount() {
                 <div
                   className={cx("item")}
                   onClick={() => {
-                    handleSetOption("addresses");
+                    handleSetOption("addresses")
                   }}
                 >
                   Addresses
@@ -101,7 +104,7 @@ function MyAccount() {
                 <div
                   className={cx("item")}
                   onClick={() => {
-                    handleSetOption("account_details");
+                    handleSetOption("account_details")
                   }}
                 >
                   Account Details
@@ -116,7 +119,7 @@ function MyAccount() {
         </RequireAuth>
       </DefaultLayout>
     </div>
-  );
+  )
 }
 
-export default MyAccount;
+export default MyAccount

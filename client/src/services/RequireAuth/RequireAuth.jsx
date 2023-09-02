@@ -10,7 +10,7 @@ const cx = classNames.bind(styles)
 function RequireAuth({ children }) {
   const isAuth = useSelector(state => state.user.auth)
   const verifyLoading = useSelector(state => state.user.verifyLoading)
-  useEffect(() => {}, [verifyLoading])
+  useEffect(() => { }, [verifyLoading])
   return (
     <div>
       <>

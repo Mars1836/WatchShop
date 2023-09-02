@@ -1,119 +1,119 @@
-import React from "react";
-import classNames from "classnames/bind";
-import styles from "./product.module.scss";
-import DefaultLayout from "../../layout/DefaultLayout";
-import { Link, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
-import products from "../../data/products";
-import { Divider, Grid } from "@mui/material";
-import Breadcrumbs from "@mui/material/Breadcrumbs";
-import Button from "../../components/Button/Button";
-import bankLogos from "../../assets/banks";
-import deliverLogos from "../../assets/delivers";
-import Modal from "../../components/Modal/Modal";
-import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
-import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import formatDate from "../../utils/function/formatDate";
-import { Rating } from "@mui/material";
-import CarouselProduct from "../../components/CarouselProduct/CarouselProduct";
-import { useRef } from "react";
-import { actionCartApi } from "../../redux/actions/cart";
-import { useSelector, useDispatch } from "react-redux";
-import { toast } from "react-toastify";
+import React from "react"
+import classNames from "classnames/bind"
+import styles from "./product.module.scss"
+import DefaultLayout from "../../layout/DefaultLayout"
+import { Link, useParams } from "react-router-dom"
+import { useEffect, useState } from "react"
+import { Divider, Grid } from "@mui/material"
+import Breadcrumbs from "@mui/material/Breadcrumbs"
+import Button from "../../components/Button/Button"
+import bankLogos from "../../assets/banks"
+import deliverLogos from "../../assets/delivers"
+import Modal from "../../components/Modal/Modal"
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew"
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos"
+import formatDate from "../../utils/function/formatDate"
+import { Rating } from "@mui/material"
+import CarouselProduct from "../../components/CarouselProduct/CarouselProduct"
+import { useRef } from "react"
+import { actionCartApi } from "../../redux/actions/cart"
+import { useSelector, useDispatch } from "react-redux"
+import { toast } from "react-toastify"
 function Product() {
-  const [product, setProduct] = useState();
-  const [num, setNum] = useState(0);
-  const [logoModalOpen, setLogoModalOpen] = useState(false);
-  const [tabs, setTabs] = useState(0);
-  const [starNumber, setStarNumber] = useState(0);
-  const description = useRef();
-  const params = useParams();
+  const products = useSelector(state => state.product.data)
+  const [product, setProduct] = useState()
+  const [num, setNum] = useState(0)
+  const [logoModalOpen, setLogoModalOpen] = useState(false)
+  const [tabs, setTabs] = useState(0)
+  const [starNumber, setStarNumber] = useState(0)
+  const description = useRef()
+  const params = useParams()
   const [imageModal, setImageModal] = useState({
     images: [...deliverLogos, ...bankLogos],
     index: 0,
-  });
-  const dispatch = useDispatch();
-  const isAuth = useSelector((state) => {
-    return state.user.auth;
-  });
+  })
+  const dispatch = useDispatch()
+  const isAuth = useSelector(state => {
+    return state.user.auth
+  })
   const handleRequireAuth = () => {
     if (isAuth) {
-      return false;
+      return false
     }
-    toast.warning("Bạn cần đăng nhập trước!!!");
-    return true;
-  };
+    toast.warning("Bạn cần đăng nhập trước!!!")
+    return true
+  }
   function handleAddToCart(productId) {
-    dispatch(actionCartApi.addToCart(productId));
+    dispatch(actionCartApi.addToCart(productId))
   }
   useEffect(() => {
-    const item = products.find((pr) => {
-      return pr.id === params.id;
-    });
-    console.log(item);
-    setProduct(item);
-  }, [params.id]);
+    const item = products.find(pr => {
+      return pr.id == params.id
+    })
+
+    setProduct(item)
+  }, [params.id, products])
   useEffect(() => {
-    console.log(starNumber);
-  }, [starNumber]);
-  const cx = classNames.bind(styles);
+    console.log(starNumber)
+  }, [starNumber])
+  const cx = classNames.bind(styles)
 
   function handleIncreaseNum() {
-    setNum(num + 1);
+    setNum(num + 1)
   }
   function handleDecreaseNum() {
     if (num > 0) {
-      setNum(num - 1);
+      setNum(num - 1)
     }
-    return;
+    return
   }
   function handleLogoModelOpen() {
-    setLogoModalOpen(true);
+    setLogoModalOpen(true)
   }
   function handleLogoModelClose() {
-    setLogoModalOpen(false);
+    setLogoModalOpen(false)
   }
   function handleCurrentImageLogo(index) {
-    setImageModal((pre) => {
+    setImageModal(pre => {
       return {
         ...pre,
         index: index,
-      };
-    });
+      }
+    })
   }
   function moveRightLogo() {
     if (imageModal.index >= imageModal.images.length - 1) {
-      setImageModal((pre) => {
+      setImageModal(pre => {
         return {
           ...pre,
           index: 0,
-        };
-      });
-      return;
+        }
+      })
+      return
     }
-    setImageModal((pre) => {
+    setImageModal(pre => {
       return {
         ...pre,
         index: pre.index + 1,
-      };
-    });
+      }
+    })
   }
   function moveLeftLogo() {
     if (imageModal.index <= 0) {
-      setImageModal((pre) => {
+      setImageModal(pre => {
         return {
           ...pre,
           index: pre.images.length,
-        };
-      });
-      return;
+        }
+      })
+      return
     }
-    setImageModal((pre) => {
+    setImageModal(pre => {
       return {
         ...pre,
         index: pre.index - 1,
-      };
-    });
+      }
+    })
   }
   return (
     <div className={cx("product_page")}>
@@ -125,7 +125,7 @@ function Product() {
                 <Grid item xs={12} sm={6} md={6}>
                   <div className={cx("image_list")}>
                     <div className={cx("cur_image")}>
-                      <img src={`${product.img}`} alt=""></img>
+                      <img src={`${product.img}`} alt=''></img>
                     </div>
                   </div>
                 </Grid>
@@ -136,17 +136,17 @@ function Product() {
                         fontSize: "14px",
                       }}
                     >
-                      <Link to="/" className={cx("link")}>
+                      <Link to='/' className={cx("link")}>
                         TRANG CHỦ
                       </Link>
-                      <Link to="/BEST SELLER" className={cx("link")}>
+                      <Link to='/BEST SELLER' className={cx("link")}>
                         BEST SELLER
                       </Link>
                     </Breadcrumbs>
                     <h2 className={cx("name")}>{product.name}</h2>
                     <div className={cx("star_rate")}>
                       <Rating
-                        name="half-rating"
+                        name='half-rating'
                         defaultValue={2.5}
                         precision={0.5}
                         readOnly
@@ -157,8 +157,8 @@ function Product() {
                           window.scrollTo({
                             top: description.current.offsetTop - 60,
                             behavior: "smooth",
-                          });
-                          setTabs(1);
+                          })
+                          setTabs(1)
                         }}
                       >
                         (2 Đánh giá)
@@ -192,10 +192,10 @@ function Product() {
                           padding: "11px 22px",
                           fontWeight: 500,
                         }}
-                        variant="contained"
+                        variant='contained'
                         onClick={() => {
                           if (!handleRequireAuth()) {
-                            handleAddToCart(product.id);
+                            handleAddToCart(product.id)
                           }
                         }}
                       >
@@ -206,7 +206,7 @@ function Product() {
                       <Modal
                         open={logoModalOpen}
                         onClose={handleLogoModelClose}
-                        position="center"
+                        position='center'
                       >
                         <>
                           <div
@@ -215,7 +215,7 @@ function Product() {
                           >
                             <img
                               src={`${imageModal.images[imageModal.index]}`}
-                              alt=""
+                              alt=''
                             ></img>
                             <span className={cx("bottom")}>
                               {`${imageModal.index + 1} of ${
@@ -257,14 +257,14 @@ function Product() {
                                   >
                                     <img
                                       src={url}
-                                      alt=""
+                                      alt=''
                                       onClick={() => {
-                                        handleCurrentImageLogo(index);
-                                        handleLogoModelOpen();
+                                        handleCurrentImageLogo(index)
+                                        handleLogoModelOpen()
                                       }}
                                     ></img>
                                   </div>
-                                );
+                                )
                               })}
                             </div>
                           </div>
@@ -281,15 +281,15 @@ function Product() {
                                   >
                                     <img
                                       src={url}
-                                      alt=""
+                                      alt=''
                                       key={index}
                                       onClick={() => {
-                                        handleCurrentImageLogo(index + 6);
-                                        handleLogoModelOpen();
+                                        handleCurrentImageLogo(index + 6)
+                                        handleLogoModelOpen()
                                       }}
                                     ></img>
                                   </div>
-                                );
+                                )
                               })}
                             </div>
                           </div>
@@ -311,7 +311,7 @@ function Product() {
                 <button
                   className={cx("btn", { active: tabs === 0 })}
                   onClick={() => {
-                    setTabs(0);
+                    setTabs(0)
                   }}
                 >
                   Mô tả
@@ -319,7 +319,7 @@ function Product() {
                 <button
                   className={cx("btn", { active: tabs === 1 })}
                   onClick={() => {
-                    setTabs(1);
+                    setTabs(1)
                   }}
                 >
                   Đánh giá
@@ -347,7 +347,7 @@ function Product() {
                 </div>
                 <div
                   className={cx("feedback")}
-                  id="feedback"
+                  id='feedback'
                   style={tabs === 1 ? {} : { display: "none" }}
                 >
                   <div className={cx("comment_list")}>
@@ -362,7 +362,7 @@ function Product() {
                         <p className={cx("name")}>hauvu</p>
                         <div className={cx("star_rate")}>
                           <Rating
-                            name="half-rating"
+                            name='half-rating'
                             defaultValue={2.5}
                             precision={0.5}
                             readOnly
@@ -387,7 +387,7 @@ function Product() {
                         <p className={cx("name")}>hauvu</p>
                         <div className={cx("star_rate")}>
                           <Rating
-                            name="half-rating"
+                            name='half-rating'
                             defaultValue={2.5}
                             precision={0.5}
                             readOnly
@@ -407,50 +407,50 @@ function Product() {
                       <p className={cx("title")}>Đánh giá của bạn</p>
                       <div className={cx("star_rate")}>
                         <Rating
-                          name="simple-controlled"
+                          name='simple-controlled'
                           value={starNumber}
                           onChange={(event, newValue) => {
-                            setStarNumber(newValue);
+                            setStarNumber(newValue)
                           }}
                         />
                       </div>
 
                       <Grid container spacing={1}>
                         <Grid item xs={12} sm={12} md={12}>
-                          <label className={cx("title")} htmlFor="comment">
+                          <label className={cx("title")} htmlFor='comment'>
                             Nhận xét của bạn
                           </label>
                           <textarea
                             className={cx("input")}
-                            id="comment"
+                            id='comment'
                           ></textarea>
                         </Grid>
                         <Grid item xs={12} sm={6} md={6}>
                           <label
                             className={cx("title")}
-                            htmlFor="name"
-                            name="name"
+                            htmlFor='name'
+                            name='name'
                           >
                             Tên
                           </label>
-                          <input className={cx("input")} id="name"></input>
+                          <input className={cx("input")} id='name'></input>
                         </Grid>
                         <Grid item xs={12} sm={6} md={6}>
                           <label
                             className={cx("title")}
-                            htmlFor="email"
-                            name="email"
+                            htmlFor='email'
+                            name='email'
                           >
                             Email
                           </label>
-                          <input className={cx("input")} id="email"></input>
+                          <input className={cx("input")} id='email'></input>
                         </Grid>
                         <Grid item xs={12} sm={6} md={6}>
                           <Button
                             type={"submit"}
                             className={cx("btn_submit")}
                             variant={"contained"}
-                            animate="none"
+                            animate='none'
                           >
                             Gửi
                           </Button>
@@ -470,7 +470,7 @@ function Product() {
         )}
       </DefaultLayout>
     </div>
-  );
+  )
 }
 
-export default Product;
+export default Product

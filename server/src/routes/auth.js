@@ -7,19 +7,12 @@ const authRouter = express.Router();
 authRouter.post(
   "/login",
   passport.authenticate("local", {
-    failureRedirect: "http://localhost:3000/login",
-  }),
-  function (req, res) {
-    res.redirect("/");
-  }
-);
-
-authRouter.get(
-  "/google-login",
-  passport.authenticate("google", {
-    scope: ["profile", "email"],
+    failureRedirect: "/login-failure",
+    successRedirect: "/api/login/login-success",
   })
 );
+authRouter.get("/login/login-success", authCtrl.localLoginSuccess);
+authRouter.get("/google-login", authCtrl.googleLogin);
 authRouter.get(
   "/auth/google/callback",
   passport.authenticate("google", {
@@ -27,7 +20,6 @@ authRouter.get(
     successRedirect: "http://localhost:3000",
   })
 );
-
 authRouter.post("/logout", verifyAsUser, authCtrl.logout);
 authRouter.post("/verifytoken", verifyAsUser, authCtrl.verifyToken);
 export default authRouter;

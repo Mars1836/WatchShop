@@ -8,10 +8,17 @@ import userService from "../services/user.js";
 const userCtrl = {
   localSighUp: async (req, res) => {
     try {
+      const usernameExist = User.findOne({
+        where: { username: req.body.username },
+      });
+      if (usernameExist) {
+        throw new Error("This username already exists");
+      }
       await userService.localCreate(req.body);
+
       res.status(200).json("successed");
     } catch (error) {
-      res.status(500).json({ error: error.message });
+      res.status(404).json({ error: error.message });
     }
   },
   getAll: async (req, res) => {
@@ -26,7 +33,6 @@ const userCtrl = {
     try {
       const id = req.params.id;
       const user = await User.findOne({ where: { id: id } });
-      console.log(user.email);
       res.status(200).json(user);
     } catch (error) {
       res.status(500).json(error);

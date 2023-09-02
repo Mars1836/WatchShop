@@ -1,13 +1,14 @@
-import { orderEndpoint } from "../utils/configs/api";
-import instance from "../utils/configs/instance";
+import { orderEndpoint } from "../utils/configs/api"
+import instance from "../utils/configs/instance"
 const orderRequest = {
   getOrder: async () => {
-    const order = await instance.get(orderEndpoint.getOrder);
-    return order;
+    const order = await instance.get(orderEndpoint.getOrder)
+    return order
   },
 
-  placeOrder: async (data) => {
-    const t = await instance.post(orderEndpoint.placeOrder, data);
+  placeOrder: async data => {
+    const t = await instance.post(orderEndpoint.placeOrder, data)
+    return t
   },
-};
-export default orderRequest;
+}
+export default orderRequest

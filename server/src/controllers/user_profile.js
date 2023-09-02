@@ -43,7 +43,6 @@ const userProfileCtrl = {
   },
   toggleProductInWishList: async (req, res) => {
     const { productId } = req.body;
-    console.log(req.body);
     try {
       WishList.findOne({
         where: {

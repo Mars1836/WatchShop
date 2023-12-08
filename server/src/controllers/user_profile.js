@@ -6,16 +6,44 @@ import { decodeJWT } from "../utils/helper.js";
 import CartItem from "../models/cart_item.js";
 import Product from "../models/product.js";
 import WishList from "../models/wishlist.js";
-import { Sequelize } from "sequelize";
 const userProfileCtrl = {
   create: async (req, res) => {
     const newItem = await UserProfile.create(req.body);
 
     res.json("success");
   },
+  getById: async (req, res) => {
+    const params = req.params;
+    const isOwnProfile = params.userProfileId === req?.profile?.id;
+    try {
+      const userProfile = await UserProfile.findOne({
+        where: {
+          id: params.userProfileId,
+        },
+        attributes: {
+          exclude: isOwnProfile
+            ? []
+            : [
+                "addressId",
+                "email",
+                "id",
+                "createdAt",
+                "updatedAt",
+                "userId",
+                "phone",
+              ],
+        },
+      });
+      res.status(200).json(userProfile);
+    } catch (error) {
+      res.status(500).json(error.message || error);
+    }
+  },
+
   updateCart: async (req, res) => {
     try {
       const ob = req.body;
+      console.log("update data", ob);
       const a = await CartItem.bulkCreate(ob, {
         updateOnDuplicate: ["quantity"],
       });
@@ -32,7 +60,7 @@ const userProfileCtrl = {
     try {
       const wishlist = await WishList.findAll({
         where: {
-          userProfileId: req.userId,
+          userProfileId: req.profile.id,
         },
         include: [Product],
       });
@@ -47,17 +75,17 @@ const userProfileCtrl = {
       WishList.findOne({
         where: {
           productId: productId,
-          userProfileId: req.userId,
+          userProfileId: req.profile.id,
         },
       })
         .then(async (item) => {
           if (!item) {
             WishList.create({
               productId: productId,
-              userProfileId: req.userId,
+              userProfileId: req.profile.id,
             }).then((wishlist) => {
               return WishList.findOne({
-                where: { id: wishlist.id, userProfileId: req.userId },
+                where: { id: wishlist.id, userProfileId: req.profile.id },
                 include: [Product],
               })
                 .then((data) => {
@@ -91,7 +119,7 @@ const userProfileCtrl = {
     try {
       const cart = await Cart.findOne({
         where: {
-          id: req.userId,
+          userProfileId: req.profile.id,
         },
         include: { model: CartItem, include: [Product] },
       });
@@ -101,14 +129,14 @@ const userProfileCtrl = {
     }
   },
   addProductToCart: async (req, res) => {
-    const { productId } = req.body;
+    const { productId, quantity } = req.body;
+
     try {
       const cart = await Cart.findOne({
         where: {
-          id: req.userId,
+          userProfileId: req.profile.id,
         },
       });
-
       CartItem.findOne({
         where: {
           cartId: cart.id,
@@ -119,7 +147,7 @@ const userProfileCtrl = {
           CartItem.create({
             cartId: cart.id,
             productId: productId,
-            quantity: 1,
+            quantity: quantity || 1,
           }).then((cartItem) => {
             return CartItem.findOne({
               where: { id: cartItem.id },
@@ -134,7 +162,7 @@ const userProfileCtrl = {
         item
           .update(
             {
-              quantity: (item.quantity || 0) + 1,
+              quantity: (item.quantity || 0) + (quantity || 1),
             },
             {
               returning: true,
@@ -178,7 +206,7 @@ const userProfileCtrl = {
     try {
       const cart = await Cart.findOne({
         where: {
-          id: req.userId,
+          userProfileId: req.profile.id,
         },
       });
       await CartItem.destroy({
@@ -220,7 +248,7 @@ const userProfileCtrl = {
       const data = req.body;
       await UserProfile.update(data, {
         where: {
-          id: req.userId,
+          id: req.profile.id,
         },
       });
       res.json({

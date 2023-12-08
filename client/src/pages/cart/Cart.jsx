@@ -16,15 +16,17 @@ import RequireAuth from "../../services/RequireAuth/RequireAuth"
 import { CircularProgress } from "@mui/material"
 import { toast } from "react-toastify"
 import { useNavigate } from "react-router-dom"
+import handlePriceDiscount from "../../utils/function/handlePriceDiscount"
 function Cart() {
   const cx = classNames.bind(styles)
   const cart = useSelector(state => state.cart.data)
+  const cartLoading = useSelector(state => state.cart.loading)
   const dispatch = useDispatch()
   const [num, setNum] = useState(() => {
     return {}
   })
   const navigate = useNavigate()
-  const [isUpdating, setIsUpdating] = useState(false)
+  const [isLoadingUpdate, setIsLoadingUpdate] = useState(false)
   const [totalPrice, setTotalPrice] = useState()
   const [voucherValue, setVoucherValue] = useState("")
   const [voucherLoading, setVoucherLoading] = useState(false)
@@ -33,34 +35,36 @@ function Cart() {
   function removeCartItem(cartItemId) {
     dispatch(actionCartApi.removeFromCart(cartItemId))
   }
-  function updateCart() {}
+  useEffect(() => {
+    console.log(num)
+  }, [num])
   function handleIncrease(id) {
     setNum({
       ...num,
-      ["item" + id]: num["item" + id] + 1,
+      [id]: num[id] + 1,
     })
-    setIsUpdating(true)
+    setIsLoadingUpdate(true)
   }
   function handleDecrease(id) {
-    if (num["item" + id] <= 0) {
+    if (num[id] <= 1) {
       return
     }
     setNum({
       ...num,
-      ["item" + id]: num["item" + id] - 1,
+      [id]: num[id] - 1,
     })
-    setIsUpdating(true)
+    setIsLoadingUpdate(true)
   }
   function handleUpdateCart() {
     const arr = Object.keys(num)
     let carts = []
     for (const [key, value] of Object.entries(num)) {
       carts.push({
-        id: Number(key.slice(4)),
+        id: key,
         quantity: value,
       })
     }
-    setIsUpdating(false)
+    setIsLoadingUpdate(true)
     dispatch(actionCartApi.updateQuantityInCart(carts))
   }
   function handleVoucher(e) {
@@ -89,17 +93,18 @@ function Cart() {
     let a = cart.cart_items.reduce((accumulator, currentValue) => {
       return {
         ...accumulator,
-        ["item" + currentValue.id]: currentValue.quantity,
+        [currentValue.id]: currentValue.quantity,
       }
     }, {})
     if (!a) {
       return
     }
+    console.log(a)
     const price = cart.cart_items.reduce((acc, item) => {
-      return item.product.price * item.quantity + acc
+      return handlePriceDiscount(item.product) * item.quantity + acc
     }, 0)
 
-    setTotalPrice(price)
+    setTotalPrice(Number(price))
     setNum(a)
   }, [cart])
   return (
@@ -186,12 +191,23 @@ function Cart() {
                                   </div>
                                 </td>
 
-                                <td className={cx("price")}>
-                                  {item.product.price}
+                                <td className={cx("a")}>
+                                  {!!item.product.discount &&
+                                    item.product.discount > 0 && (
+                                      <div
+                                        className={cx("price", "origin_price")}
+                                      >
+                                        {item.product.price}
+                                      </div>
+                                    )}
+                                  <div className={cx("price", "sale_price")}>
+                                    {handlePriceDiscount(item.product)}
+                                  </div>
                                 </td>
+
                                 <td>
                                   <div className={cx("quantity_form")}>
-                                    <p> {num["item" + item.id]}</p>
+                                    <p> {num[item.id]}</p>
                                     <div>
                                       <button
                                         onClick={() => {
@@ -203,6 +219,7 @@ function Cart() {
                                         ></ArrowDropUpIcon>
                                       </button>
                                       <button
+                                        disabled={num[item.id] <= 1}
                                         onClick={() => {
                                           handleDecrease(item.id)
                                         }}
@@ -215,7 +232,8 @@ function Cart() {
                                   </div>
                                 </td>
                                 <td className={cx("price")}>
-                                  {item.product.price * item.quantity}
+                                  {handlePriceDiscount(item.product) *
+                                    item.quantity}
                                 </td>
                               </tr>
                             )
@@ -249,7 +267,7 @@ function Cart() {
                         Tiếp tục xem sản phẩm
                       </Button>
                       <Button
-                        disabled={!isUpdating}
+                        loading={cartLoading}
                         style={{
                           borderRadius: "0px",
                           padding: "8px",
@@ -292,7 +310,7 @@ function Cart() {
                       <div className={cx("item")}>
                         <span>Tổng</span>
                         <span className={cx("price")}>
-                          {totalPrice - voucherDiscount + shipPrice}
+                          {String(totalPrice - voucherDiscount + shipPrice)}
                         </span>
                       </div>
                     </div>
@@ -318,17 +336,8 @@ function Cart() {
                         value={voucherValue}
                         onChange={handleChangeVoucher}
                       ></input>
-                      <Button onClick={handleVoucher} disabled={voucherLoading}>
-                        {!voucherLoading ? (
-                          <p>Áp dụng</p>
-                        ) : (
-                          <CircularProgress
-                            size={24}
-                            sx={{
-                              color: "gray",
-                            }}
-                          />
-                        )}
+                      <Button onClick={handleVoucher} loading={voucherLoading}>
+                        Apply
                       </Button>
                     </div>
                   </div>

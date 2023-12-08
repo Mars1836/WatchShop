@@ -3,28 +3,33 @@ import session from "express-session";
 import * as dotenv from "dotenv";
 import db from "./models/index.js";
 import productRouter from "./routes/product.js";
-import User from "./models/user.js";
-import UserProfile from "./models/user_profile.js";
+
 import tagRouter from "./routes/tag.js";
 import userRouter from "./routes/user.js";
 import authRouter from "./routes/auth.js";
 import "./utils/passport.js";
 import passport from "passport";
-import verifyAsUser from "./middlewares/requireAuth.js";
+import verifyAsUser from "./middlewares/require_auth.js";
 import cors from "cors";
 import userProfileRouter from "./routes/user_profile.js";
-import OrderItemRouter from "./routes/order.js";
-import { default as authRouterDashboard } from "./routes/dashboard/auth.js";
+import orderItemRouter from "./routes/order_item.js";
+import db_authRouter from "./routes/dashboard/auth.js";
 import adminRouter from "./routes/dashboard/admin.js";
+import feedbackRouter from "./routes/feedback.js";
+import orderRouter from "./routes/order.js";
+import redisCaching from "./middlewares/redis_caching.js";
+import cloudinaryRouter from "./routes/cloudinary.js";
+import db_userProfileRouter from "./routes/dashboard/user_profile.js";
+import db_orderRouter from "./routes/dashboard/order.js";
+import db_productRouter from "./routes/dashboard/product.js";
 dotenv.config();
 const app = express();
 const port = process.env.PORT || 4000;
 var corsOptions = {
-  origin: "http://localhost:3000",
+  origin: ["http://localhost:3000", "http://localhost:3001"],
   optionsSuccessStatus: 200,
   credentials: true,
 };
-
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(
@@ -44,8 +49,12 @@ app.use(passport.session());
 app.use("/api/product", productRouter);
 app.use("/api/tag", tagRouter);
 app.use("/api/user", userRouter);
-app.use("/api/user-profile", verifyAsUser, userProfileRouter);
-app.use("/api/order-item", verifyAsUser, OrderItemRouter);
+app.use("/api/user-profile", userProfileRouter);
+app.use("/api/order-item", verifyAsUser, orderItemRouter);
+app.use("/api/order", verifyAsUser, orderRouter);
+app.use("/api/feedback", feedbackRouter);
+app.use("/api/cloudinary", cloudinaryRouter);
+
 app.use("/api", authRouter);
 app.get("/getSession", (req, res) => {
   if (req.session.user) {
@@ -54,8 +63,11 @@ app.get("/getSession", (req, res) => {
     res.send("No session found");
   }
 });
+app.use("/api/dashboard/user-profile", db_userProfileRouter);
 app.use("/api/dashboard", adminRouter);
-app.use("/api/dashboard", authRouterDashboard);
+app.use("/api/dashboard", db_authRouter);
+app.use("/api/dashboard", db_orderRouter);
+app.use("/api/dashboard", db_productRouter);
 app.use("/", (req, res) => {
   res.send("page not found");
 });

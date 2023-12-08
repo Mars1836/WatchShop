@@ -29,6 +29,9 @@ import CustomTooltip from "../Tooltip/CustomTooltip"
 import { Tooltip } from "react-tooltip"
 import { toast } from "react-toastify"
 import { useNavigate } from "react-router-dom"
+import SearchedProduct from "../Tooltip/SearchedProductTooltip/SearchedProductTooltip"
+import Test from "../Test"
+// import "./tooltip.css"
 function Header() {
   const currentPage = useCurrentPage()
   const cx = classNames.bind(styles)
@@ -37,9 +40,12 @@ function Header() {
   const user = useSelector(state => state.user.data)
   const sm_matches = useMediaQuery(theme.breakpoints.up("sm"))
   const md_matches = useMediaQuery(theme.breakpoints.up("md"))
+  const isVerifyLoading = useSelector(state => state.user.verifyLoading)
+  const [isSearchedTooltipOpen, setIsSearchedTooltipOpen] = useState(false)
   const [headerMenuShow, setHeaderMenuShow] = useState(false)
   const [open, setOpen] = useState(false)
   const [isShowBottomHeader, setIsShowBottomHeader] = useState(false)
+  const [searchProductValue, setSearchProductValue] = useState("")
   const navigate = useNavigate()
   const cartNum =
     useSelector(state => {
@@ -48,8 +54,23 @@ function Header() {
   useEffect(() => {}, [sm_matches, md_matches])
   const handleClose = () => setOpen(false)
   const handleOpen = () => setOpen(true)
-
+  const handleProductValue = e => {
+    setSearchProductValue(e.target.value)
+  }
+  const handleIsSearchedTooltipOpen = () => {
+    setIsSearchedTooltipOpen(true)
+  }
+  const handleIsSearchedTooltipClose = () => {
+    setIsSearchedTooltipOpen(false)
+  }
+  const search_form = useRef(null)
   const bottom_header_pc = useRef()
+  const getTargetWidth = ref => {
+    if (ref.current) {
+      return ref.current.offsetWidth
+    }
+    return 0
+  }
   useEffect(() => {
     setHeaderMenuShow(open)
   }, [open])
@@ -75,6 +96,7 @@ function Header() {
     }
     return toast.warning("Bạn cần đăng nhập trước!!!")
   }
+
   return (
     <>
       {md_matches ? (
@@ -91,40 +113,48 @@ function Header() {
               </div>
             </div>
             <div className={cx("right")}>
-              {isAuth ? (
+              {!isVerifyLoading && (
                 <>
-                  <p>{user.name}</p>
-                  <Avatar
-                    src={`${user.avatar}`}
-                    id='tooltip-anchor-click'
-                    sx={{ width: 30, height: 30, cursor: "pointer" }}
-                  ></Avatar>
-                  <CustomTooltip
-                    events={["click"]}
-                    anchorId='tooltip-anchor-click'
-                    content={<TooltipUser></TooltipUser>}
-                    place='bottom'
-                    style={{
-                      backgroundColor: "#242424",
-                      opacity: 1,
-                      zIndex: 1000,
-                    }}
-                    clickable
-                  ></CustomTooltip>
-                </>
-              ) : (
-                <>
-                  <Button to={routes.login.path} variant='text' animate='none'>
-                    Đăng nhập
-                  </Button>
-                  /
-                  <Button
-                    to={routes.register.path}
-                    variant='text'
-                    animate='none'
-                  >
-                    Đăng ký
-                  </Button>
+                  {isAuth ? (
+                    <>
+                      <p>{user.name}</p>
+                      <Avatar
+                        src={`${user.avatar}`}
+                        id='tooltip-anchor-click'
+                        sx={{ width: 30, height: 30, cursor: "pointer" }}
+                      ></Avatar>
+                      <CustomTooltip
+                        events={["click"]}
+                        anchorId='tooltip-anchor-click'
+                        content={<TooltipUser></TooltipUser>}
+                        place='bottom'
+                        style={{
+                          backgroundColor: "#242424",
+                          opacity: 1,
+                          zIndex: 1000,
+                        }}
+                        clickable
+                      ></CustomTooltip>
+                    </>
+                  ) : (
+                    <>
+                      <Button
+                        to={routes.login.path}
+                        variant='text'
+                        animate='none'
+                      >
+                        Đăng nhập
+                      </Button>
+                      /
+                      <Button
+                        to={routes.register.path}
+                        variant='text'
+                        animate='none'
+                      >
+                        Đăng ký
+                      </Button>
+                    </>
+                  )}
                 </>
               )}
             </div>
@@ -144,10 +174,18 @@ function Header() {
             </div>
             <div className={cx("center")}>
               <div className={cx("wrap_form")}>
-                <div className={cx("search_form")}>
+                <div
+                  ref={search_form}
+                  className={cx("search_form")}
+                  id='searched-product-tooltip-anchor-click'
+                >
                   <input
                     className={cx("search_input")}
                     placeholder='Tìm kiếm...'
+                    name='searchProductValue'
+                    onChange={handleProductValue}
+                    onFocus={handleIsSearchedTooltipOpen}
+                    onBlur={handleIsSearchedTooltipClose}
                   ></input>
                   <Button
                     style={{
@@ -159,6 +197,28 @@ function Header() {
                     <SearchIcon></SearchIcon>
                   </Button>
                 </div>
+                <CustomTooltip
+                  className='noArrow'
+                  isOpen={isSearchedTooltipOpen && searchProductValue}
+                  anchorId='searched-product-tooltip-anchor-click'
+                  content={
+                    <SearchedProduct
+                      searchValue={searchProductValue}
+                    ></SearchedProduct>
+                  }
+                  place='bottom-end'
+                  classNameArrow={cx("tooltip-arrow-searched-product")}
+                  arrowColor='red'
+                  style={{
+                    backgroundColor: "rgb(72 72 72)",
+                    opacity: 1,
+                    boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
+                    padding: 0,
+                    zIndex: 1000,
+                    width: `${getTargetWidth(search_form)}px`,
+                  }}
+                  clickable
+                ></CustomTooltip>
               </div>
             </div>
             <div className={cx("right")}>

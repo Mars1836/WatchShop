@@ -1,13 +1,17 @@
 import { orderEndpoint } from "../utils/configs/api"
 import instance from "../utils/configs/instance"
 const orderRequest = {
-  getOrder: async () => {
-    const order = await instance.get(orderEndpoint.getOrder)
+  getByQuery: async query => {
+    const order = await instance.get(orderEndpoint.getByQuery, {
+      params: {
+        ...query,
+      },
+    })
     return order
   },
 
-  placeOrder: async data => {
-    const t = await instance.post(orderEndpoint.placeOrder, data)
+  createOrder: async data => {
+    const t = await instance.post(orderEndpoint.createOrder, data)
     return t
   },
 }

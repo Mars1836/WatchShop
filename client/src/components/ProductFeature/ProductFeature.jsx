@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from "react";
-import Button from "../Button/Button";
-import styles from "./productFeature.module.scss";
-import classNames from "classnames/bind";
-import ProductList from "../ProductList/ProductList";
-import mt from "../../utils/obj/method_filter";
-import useFilterProducts from "../../utils/hooks/filterProduct";
+import React, { useEffect, useState } from "react"
+import Button from "../Button/Button"
+import styles from "./productFeature.module.scss"
+import classNames from "classnames/bind"
+import ProductList from "../ProductList/ProductList"
+import mt from "../../utils/obj/method_filter"
+import useFilterProducts from "../../utils/hooks/filterProduct"
 function ProductFeature({ products = [] }) {
-  const cx = classNames.bind(styles);
-  const [feature, setFeature] = useState();
+  const cx = classNames.bind(styles)
+  const [feature, setFeature] = useState()
   const features = [
     {
       text: "Sản phẩm phổ biến",
@@ -42,11 +42,11 @@ function ProductFeature({ products = [] }) {
         },
       ],
     },
-  ];
-  const filterProducts = useFilterProducts(products, feature?.filters);
-  useEffect(() => {}, [feature]);
+  ]
+  const filterProducts = useFilterProducts(products, feature?.filters)
+  useEffect(() => {}, [feature])
   function handleClick(feature) {
-    setFeature(feature);
+    setFeature(feature)
   }
   return (
     <div className={cx("product_feature_cpn")}>
@@ -62,20 +62,20 @@ function ProductFeature({ products = [] }) {
                 paddingLeft: 0,
                 paddingRight: 0,
                 fontSize: "28px",
-                fontWeight: 600,
+                fontWeight: 500,
                 color: `${
-                  feature?.code === f.code ? " var(--orange-1)" : "inherit"
+                  feature?.code === f.code ? " var(--orange-2)" : "inherit"
                 }`,
               }}
             >
               {f.text}
             </Button>
-          );
+          )
         })}
       </div>
       <ProductList products={filterProducts}></ProductList>
     </div>
-  );
+  )
 }
 
-export default ProductFeature;
+export default ProductFeature

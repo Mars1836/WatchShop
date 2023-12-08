@@ -50,8 +50,10 @@ const userSlice = createSlice({
       state.token = action.payload.token
       state.auth = true
       state.verifyLoading = false
+      console.log("success", action.payload)
     })
     builder.addCase(actionUserApi.verifyToken.rejected, state => {
+      console.log("fail")
       state.verifyLoading = false
       state.auth = false
     })
@@ -84,12 +86,12 @@ const userSlice = createSlice({
     builder.addCase(actionUserApi.updateProfile.rejected, (state, action) => {
       state.error = action.error
     })
-    builder.addCase(actionUserApi.placeOrder.pending, state => {})
-    builder.addCase(actionUserApi.placeOrder.fulfilled, (state, action) => {
+    builder.addCase(actionUserApi.createOrder.pending, state => {})
+    builder.addCase(actionUserApi.createOrder.fulfilled, (state, action) => {
       toast.success("Order success!!")
       state.user.data.carts = []
     })
-    builder.addCase(actionUserApi.placeOrder.rejected, (state, action) => {})
+    builder.addCase(actionUserApi.createOrder.rejected, (state, action) => {})
   },
 })
 const userReducer = userSlice.reducer

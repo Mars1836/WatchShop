@@ -1,6 +1,7 @@
-import React from "react";
-import "./button.scss";
-import { Link } from "react-router-dom";
+import React from "react"
+import "./button.scss"
+import { Link } from "react-router-dom"
+import { CircularProgress } from "@mui/material"
 function Button({
   href,
   to,
@@ -12,6 +13,8 @@ function Button({
   animate,
   className,
   disabled,
+  loading,
+  size,
 }) {
   const props = {
     href,
@@ -22,19 +25,33 @@ function Button({
     onClick,
     animate,
     disabled,
-  };
-  let Com = "button";
+    size,
+  }
+  let Com = "button"
   if (href) {
-    Com = "a";
+    Com = "a"
   } else if (to) {
-    Com = Link;
+    Com = Link
   }
 
   return (
-    <Com className={`button ${className}`} {...props}>
-      <div>{children}</div>
+    <Com className={`button ${className}`} {...props} disabled={loading}>
+      {children}
+      {loading && (
+        <CircularProgress
+          size={24}
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            marginTop: "-12px",
+            marginLeft: "-12px",
+            color: "black",
+          }}
+        />
+      )}
     </Com>
-  );
+  )
 }
 
-export default Button;
+export default Button

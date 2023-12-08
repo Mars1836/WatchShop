@@ -1,43 +1,46 @@
-import React from "react";
-import DefaultLayout from "../../layout/DefaultLayout";
-import { Breadcrumbs, Button, Grid, useTheme } from "@mui/material";
-import { Link } from "react-router-dom";
-import styles from "./femalewatches.module.scss";
-import ProductList from "../../components/ProductList/ProductList";
-import { useMediaQuery } from "@mui/material";
-import { useState } from "react";
-import MenuIcon from "@mui/icons-material/Menu";
-import Sidebar from "../../components/Sidebar/Sidebar";
-import Modal from "../../components/Modal/Modal";
-import classNames from "classnames/bind";
-import mt from "../../utils/obj/method_filter";
-import useFilterProducts from "../../utils/hooks/filterProduct";
-import products from "../../data/products";
-import { useSelector } from "react-redux";
+import React from "react"
+import DefaultLayout from "../../layout/DefaultLayout"
+import { Breadcrumbs, Button, Grid, useTheme } from "@mui/material"
+import { Link } from "react-router-dom"
+import styles from "./femalewatches.module.scss"
+import ProductList from "../../components/ProductList/ProductList"
+import { useMediaQuery } from "@mui/material"
+import { useState } from "react"
+import MenuIcon from "@mui/icons-material/Menu"
+import Sidebar from "../../components/Sidebar/Sidebar"
+import Modal from "../../components/Modal/Modal"
+import classNames from "classnames/bind"
+import mt from "../../utils/obj/method_filter"
+import useFilterProducts from "../../utils/hooks/filterProduct"
+import products from "../../data/products"
+import { useSelector } from "react-redux"
+import productRequest from "../../requests/product"
+import useAsyncData from "../../utils/hooks/asyncData"
 function FemaleWatches() {
-  const cx = classNames.bind(styles);
-  const theme = useTheme();
-  const products = useSelector((state) => state.product.data);
-
-  const [filterSidebar, setFilterSidebar] = useState();
-  const sm_matches = useMediaQuery(theme.breakpoints.up("sm"));
-  const md_matches = useMediaQuery(theme.breakpoints.up("md"));
-  const [columnProduct, setColumnProduct] = useState({ xs: 0, sm: 0, md: 0 });
-  const [open, setOpen] = useState(false);
+  const cx = classNames.bind(styles)
+  const theme = useTheme()
+  const [productData, productError, productLoading] = useAsyncData(
+    productRequest.getByQuery({ _findAll: 1 }),
+  )
+  const [filterSidebar, setFilterSidebar] = useState()
+  const sm_matches = useMediaQuery(theme.breakpoints.up("sm"))
+  const md_matches = useMediaQuery(theme.breakpoints.up("md"))
+  const [columnProduct, setColumnProduct] = useState({ xs: 0, sm: 0, md: 0 })
+  const [open, setOpen] = useState(false)
   const [filters, setFilters] = useState([
     {
       key: "gender",
       value: "female",
       method: mt.e,
     },
-  ]);
-  const womenWatchs = useFilterProducts(products, filters);
-  const filterProduct = useFilterProducts(womenWatchs, filterSidebar);
+  ])
+  const womenWatchs = useFilterProducts(productData, filters)
+  const filterProduct = useFilterProducts(womenWatchs, filterSidebar)
   function handleClose() {
-    setOpen(false);
+    setOpen(false)
   }
   function handleFilterSidebarChange(value) {
-    setFilterSidebar(value);
+    setFilterSidebar(value)
   }
   return (
     <div className={cx("female_watches_page")}>
@@ -45,19 +48,19 @@ function FemaleWatches() {
         <div className={cx("contaner")}>
           <div className={cx("top")}>
             <Breadcrumbs
-              aria-label="breadcrumb"
+              aria-label='breadcrumb'
               sx={{
                 fontSize: "20px",
                 color: "var(--text-dart-1)",
               }}
             >
-              <Link underline="hover" color="inherit" to="/">
+              <Link underline='hover' color='inherit' to='/'>
                 TRANG CHỦ
               </Link>
               <Link
-                underline="hover"
-                color="inherit"
-                href="/material-ui/getting-started/installation/"
+                underline='hover'
+                color='inherit'
+                href='/material-ui/getting-started/installation/'
               >
                 ĐỒNG HỒ NỮ
               </Link>
@@ -78,7 +81,7 @@ function FemaleWatches() {
               <span
                 className={cx("filter_button", "n_pc")}
                 onClick={() => {
-                  setOpen(true);
+                  setOpen(true)
                 }}
               >
                 <MenuIcon
@@ -86,7 +89,7 @@ function FemaleWatches() {
                 ></MenuIcon>
                 LỌC
               </span>
-              <select name="product_filter" className={cx("product_filter")}>
+              <select name='product_filter' className={cx("product_filter")}>
                 <option>Theo thứ tự mặc định</option>
                 <option>Theo mức độ phổ biến</option>
                 <option>Theo thứ tự điểm đánh giá</option>
@@ -98,7 +101,7 @@ function FemaleWatches() {
           </div>
           <div className={cx("body")}>
             <Grid container spacing={4} className={cx("product_wrapper")}>
-              <Grid item xs={0} sm={0} md={3} className="pc">
+              <Grid item xs={0} sm={0} md={3} className='pc'>
                 <Sidebar
                   search
                   product
@@ -121,7 +124,7 @@ function FemaleWatches() {
         </div>
       </DefaultLayout>
     </div>
-  );
+  )
 }
 
-export default FemaleWatches;
+export default FemaleWatches

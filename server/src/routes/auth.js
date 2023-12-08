@@ -1,6 +1,6 @@
 import express from "express";
 import authCtrl from "../controllers/auth.js";
-import verifyAsUser from "../middlewares/requireAuth.js";
+import verifyAsUser from "../middlewares/require_auth.js";
 import passport from "passport";
 const authRouter = express.Router();
 

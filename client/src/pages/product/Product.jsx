@@ -19,15 +19,26 @@ import { useRef } from "react"
 import { actionCartApi } from "../../redux/actions/cart"
 import { useSelector, useDispatch } from "react-redux"
 import { toast } from "react-toastify"
+import instance from "../../utils/configs/instance"
+import { feedbackEndpoint } from "../../utils/configs/api"
+import Feedback from "./component/Feedback"
+import handlePriceDiscount from "../../utils/function/handlePriceDiscount"
+import productRequest from "../../requests/product"
+import useAsyncData from "../../utils/hooks/asyncData"
 function Product() {
-  const products = useSelector(state => state.product.data)
-  const [product, setProduct] = useState()
-  const [num, setNum] = useState(0)
+  const [num, setNum] = useState(1)
   const [logoModalOpen, setLogoModalOpen] = useState(false)
   const [tabs, setTabs] = useState(0)
-  const [starNumber, setStarNumber] = useState(0)
+  const [productStar, setProductStar] = useState(0)
+  const [quantityFeedback, setQuantityFeedback] = useState(0)
   const description = useRef()
   const params = useParams()
+  const [productItemData, productItemError, productItemLoading] = useAsyncData(
+    productRequest.getByQuery({ id: params.id, _detail: 1 }),
+  )
+  useEffect(() => {
+    console.log(productItemData?.id)
+  }, [productItemData])
   const [imageModal, setImageModal] = useState({
     images: [...deliverLogos, ...bankLogos],
     index: 0,
@@ -43,26 +54,18 @@ function Product() {
     toast.warning("Bạn cần đăng nhập trước!!!")
     return true
   }
-  function handleAddToCart(productId) {
-    dispatch(actionCartApi.addToCart(productId))
+  function handleAddToCart(productId, quantity) {
+    const payload = { productId, quantity }
+    dispatch(actionCartApi.addToCart(payload))
   }
-  useEffect(() => {
-    const item = products.find(pr => {
-      return pr.id == params.id
-    })
 
-    setProduct(item)
-  }, [params.id, products])
-  useEffect(() => {
-    console.log(starNumber)
-  }, [starNumber])
   const cx = classNames.bind(styles)
 
   function handleIncreaseNum() {
     setNum(num + 1)
   }
   function handleDecreaseNum() {
-    if (num > 0) {
+    if (num > 1) {
       setNum(num - 1)
     }
     return
@@ -81,6 +84,7 @@ function Product() {
       }
     })
   }
+
   function moveRightLogo() {
     if (imageModal.index >= imageModal.images.length - 1) {
       setImageModal(pre => {
@@ -118,14 +122,14 @@ function Product() {
   return (
     <div className={cx("product_page")}>
       <DefaultLayout>
-        {product ? (
+        {productItemData ? (
           <div className={cx("container")}>
             <div className={cx("main")}>
               <Grid container spacing={6}>
                 <Grid item xs={12} sm={6} md={6}>
                   <div className={cx("image_list")}>
                     <div className={cx("cur_image")}>
-                      <img src={`${product.img}`} alt=''></img>
+                      <img src={`${productItemData.img}`} alt=''></img>
                     </div>
                   </div>
                 </Grid>
@@ -139,15 +143,15 @@ function Product() {
                       <Link to='/' className={cx("link")}>
                         TRANG CHỦ
                       </Link>
-                      <Link to='/BEST SELLER' className={cx("link")}>
-                        BEST SELLER
+                      <Link to='/san-pham' className={cx("link")}>
+                        SẢN PHẨM
                       </Link>
                     </Breadcrumbs>
-                    <h2 className={cx("name")}>{product.name}</h2>
+                    <h2 className={cx("name")}>{productItemData.name}</h2>
                     <div className={cx("star_rate")}>
                       <Rating
                         name='half-rating'
-                        defaultValue={2.5}
+                        value={productStar}
                         precision={0.5}
                         readOnly
                       />
@@ -161,11 +165,20 @@ function Product() {
                           setTabs(1)
                         }}
                       >
-                        (2 Đánh giá)
+                        ({quantityFeedback} Đánh giá)
                       </p>
                     </div>
                     <div className={cx("line")}></div>
-                    <h3 className={cx("price")}>{product.price + "₫"} </h3>
+                    <div className={cx("price_wrapper")}>
+                      {!!productItemData.discount && (
+                        <div className={cx("price", "origin_price")}>
+                          {productItemData.price}
+                        </div>
+                      )}
+                      <div className={cx("price", "sale_price")}>
+                        {handlePriceDiscount(productItemData)}
+                      </div>
+                    </div>
                     <p>
                       Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                       Nam fringilla augue nec est tristique auctor. Donec non
@@ -174,13 +187,26 @@ function Product() {
                       adipiscing cursus eu, suscipit id nulla.
                     </p>
                     <ul className={cx("features")}>
-                      <li>Sku: P006</li>
-                      <li>Categories: Butter & Eggs, Cultured Butter</li>
-                      <li>Tag: Man</li>
+                      <li>
+                        Categories:{" "}
+                        {productItemData.categories.map((item, index) => {
+                          if (index !== 0) return ", " + item.value
+                          return item.value
+                        })}
+                      </li>
+                      <li>
+                        Tag:
+                        {productItemData.tags.map((item, index) => {
+                          if (index !== 0) return ", " + item.value
+                          return item.value
+                        })}
+                      </li>
                     </ul>
                     <div className={cx("action")}>
                       <div className={cx("count")}>
-                        <button onClick={handleDecreaseNum}>-</button>
+                        <button onClick={handleDecreaseNum} disabled={num <= 1}>
+                          -
+                        </button>
                         <div className={cx("num")}>{num}</div>
                         <button onClick={handleIncreaseNum}>+</button>
                       </div>
@@ -195,7 +221,7 @@ function Product() {
                         variant='contained'
                         onClick={() => {
                           if (!handleRequireAuth()) {
-                            handleAddToCart(product.id)
+                            handleAddToCart(productItemData.id, num)
                           }
                         }}
                       >
@@ -298,8 +324,12 @@ function Product() {
                     </div>
                     <div className={cx("btm")}>
                       <p className={cx("btn")}>Thêm yêu thích</p>
-                      <p className={cx("text")}>{"Mã: " + product.id}</p>
-                      <p className={cx("text")}>{"Danh mục: " + product.id}</p>
+                      <p className={cx("text")}>
+                        {"Mã: " + productItemData.id}
+                      </p>
+                      <p className={cx("text")}>
+                        {"Danh mục: " + productItemData.id}
+                      </p>
                     </div>
                   </div>
                 </Grid>
@@ -345,124 +375,13 @@ function Product() {
                   luctus a nunc. Etiam gravida vehicula tellus, in imperdiet
                   ligula euismod eget.
                 </div>
-                <div
-                  className={cx("feedback")}
-                  id='feedback'
-                  style={tabs === 1 ? {} : { display: "none" }}
-                >
-                  <div className={cx("comment_list")}>
-                    <div className={cx("comment")}>
-                      <div
-                        style={{
-                          backgroundImage: `url('https://demo.hasthemes.com/ruiz-preview/ruiz/assets/images/other/reviewer-60x60.jpg')`,
-                        }}
-                        className={cx("avatar")}
-                      ></div>
-                      <div className={cx("wrapper")}>
-                        <p className={cx("name")}>hauvu</p>
-                        <div className={cx("star_rate")}>
-                          <Rating
-                            name='half-rating'
-                            defaultValue={2.5}
-                            precision={0.5}
-                            readOnly
-                          />
-                        </div>
-                        <div className={cx("timestamp")}>
-                          {formatDate(new Date())}
-                        </div>
-                        <div className={cx("comment_content")}>
-                          Sản phẩm này siêu pro luôn
-                        </div>
-                      </div>
-                    </div>
-                    <div className={cx("comment")}>
-                      <div
-                        style={{
-                          backgroundImage: `url('https://demo.hasthemes.com/ruiz-preview/ruiz/assets/images/other/reviewer-60x60.jpg')`,
-                        }}
-                        className={cx("avatar")}
-                      ></div>
-                      <div className={cx("wrapper")}>
-                        <p className={cx("name")}>hauvu</p>
-                        <div className={cx("star_rate")}>
-                          <Rating
-                            name='half-rating'
-                            defaultValue={2.5}
-                            precision={0.5}
-                            readOnly
-                          />
-                        </div>
-                        <div className={cx("timestamp")}>
-                          {formatDate(new Date())}
-                        </div>
-                        <div className={cx("comment_content")}>
-                          Sản phẩm này siêu pro luôn
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className={cx("feedback_form")}>
-                    <div className={cx("form_rating")}>
-                      <p className={cx("title")}>Đánh giá của bạn</p>
-                      <div className={cx("star_rate")}>
-                        <Rating
-                          name='simple-controlled'
-                          value={starNumber}
-                          onChange={(event, newValue) => {
-                            setStarNumber(newValue)
-                          }}
-                        />
-                      </div>
-
-                      <Grid container spacing={1}>
-                        <Grid item xs={12} sm={12} md={12}>
-                          <label className={cx("title")} htmlFor='comment'>
-                            Nhận xét của bạn
-                          </label>
-                          <textarea
-                            className={cx("input")}
-                            id='comment'
-                          ></textarea>
-                        </Grid>
-                        <Grid item xs={12} sm={6} md={6}>
-                          <label
-                            className={cx("title")}
-                            htmlFor='name'
-                            name='name'
-                          >
-                            Tên
-                          </label>
-                          <input className={cx("input")} id='name'></input>
-                        </Grid>
-                        <Grid item xs={12} sm={6} md={6}>
-                          <label
-                            className={cx("title")}
-                            htmlFor='email'
-                            name='email'
-                          >
-                            Email
-                          </label>
-                          <input className={cx("input")} id='email'></input>
-                        </Grid>
-                        <Grid item xs={12} sm={6} md={6}>
-                          <Button
-                            type={"submit"}
-                            className={cx("btn_submit")}
-                            variant={"contained"}
-                            animate='none'
-                          >
-                            Gửi
-                          </Button>
-                        </Grid>
-                      </Grid>
-                    </div>
-                  </div>
-                </div>
+                <Feedback
+                  tabs={tabs}
+                  productId={productItemData.id}
+                  handleProductStar={setProductStar}
+                  handleQuantityFeedback={setQuantityFeedback}
+                ></Feedback>
               </div>
-            </div>
-            <div className={cx("other_product")}>
-              <CarouselProduct></CarouselProduct>
             </div>
           </div>
         ) : (

@@ -2,6 +2,15 @@
 * {
   font-family: "Roboto", sans-serif;
 }
+body{
+  overflow: auto;
+  margin: 0;
+
+  max-height: 100vh
+}
+html {
+  overflow: hidden; /* This one is important to avoid the propagation */
+}
 :root {
   --orange-2: rgb(210, 110, 75);
   --orange-1: #c89979;
@@ -56,5 +65,17 @@ h1 {
 .price::after {
   content: "₫";
   font-weight: 500;
-  margin-left: 4px;
+  // margin-left: 4px;
+}
+
+.price_wrapper{
+  display: flex;
+  gap: 5px;
+}
+.sale_price{
+  color: var(--orange-2)
+}
+.origin_price{
+  text-decoration: line-through;
+  color:rgb(188, 188, 188);
 }

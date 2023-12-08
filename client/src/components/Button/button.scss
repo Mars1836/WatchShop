@@ -1,7 +1,7 @@
 .button {
   background-color: var(--orange-1);
   border: none;
-  padding: 2px 5px;
+  padding: 6px 12px;
   border-radius: 4px;
   transition: all 0.3s;
   color: var(--text-light);
@@ -11,6 +11,9 @@
   position: relative;
   font-size: 14px;
   user-select: none;
+  box-shadow: 
+  inset 0px 0px 0px 100px rgba(0, 0, 0,0),
+    rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
   // overflow: hidden;
 
   div {
@@ -37,6 +40,7 @@
   font-weight: 400;
   padding: 0;
   text-align: start;
+  box-shadow: none;
   &:hover {
     color: var(--orange-1) !important;
   }
@@ -69,25 +73,15 @@
   }
 }
 .button[variant="contained"] {
-  &:before {
-    content: "";
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    transition: all 0.3s;
-    background-color: black;
-    border-radius: inherit;
-    opacity: 0;
-    z-index: 0;
+  border-radius:5px;
+  
+    &:hover {
+    box-shadow: 
+    inset 0px 0px 0px 100px rgba(0, 0, 0,0.12),
+    rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+    transition: all 0.3s ease-in-out;
   }
-  &:hover::before {
-    opacity: 0.25;
-  }
-  & > * {
-    z-index: 10;
-  }
+ 
 }
 .button[variant="contained"][animate="none"] {
   &:before {
@@ -112,4 +106,8 @@
 .button[disabled] {
   pointer-events: none;
   opacity: 0.6 !important;
+}
+.button[size="lg"]{
+  padding: 12px 20px !important;
+
 }

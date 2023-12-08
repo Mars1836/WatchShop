@@ -14,6 +14,7 @@ import { Button } from "@mui/material"
 import formatDate from "../../../utils/function/formatDate"
 import { Chip } from "@mui/material"
 import Modal from "../../../components/Modal/Modal"
+
 const cx = classNames.bind(styles)
 
 function Orders() {
@@ -24,16 +25,23 @@ function Orders() {
   function createData(name, calories, fat, carbs, protein) {
     return { name, calories, fat, carbs, protein }
   }
-  const [order, error, loading] = useAsyncData(orderRequest.getOrder())
+  const [order, error, loading] = useAsyncData(
+    orderRequest.getByQuery({ _findAll: 1 }),
+  )
   const statusColor = {
     Pending: "#F1C40F",
+    Confirmed: "#F1C40F",
     Processing: "#76D7C4",
+    Dispatched: "#3498DB",
+    OnDelivery: "#27AE60",
     Completed: "#28B463",
     Rejected: "#E74C3C",
+    Refunded: "#D35400",
   }
+
   const [orderDetail, setOrderDetail] = useState({})
   useEffect(() => {
-    console.log(order, loading)
+    console.log(order)
   }, [order])
   return (
     <div className={cx("orders")}>

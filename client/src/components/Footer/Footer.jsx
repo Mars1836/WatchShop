@@ -1,19 +1,19 @@
-import { Divider, Grid } from "@mui/material";
-import React from "react";
-import Button from "../Button/Button";
-import LocationOnIcon from "@mui/icons-material/LocationOn";
-import PhoneForwardedIcon from "@mui/icons-material/PhoneForwarded";
-import EmailIcon from "@mui/icons-material/Email";
-import { GrFacebookOption, GrInstagram, GrTwitter } from "react-icons/gr";
-import { ImLinkedin, ImRss } from "react-icons/im";
-import { AiFillSkype } from "react-icons/ai";
-import styles from "./footer.module.scss";
-import classNames from "classnames/bind";
-import useCurrentPage from "../../utils/hooks/currentPage";
-import routes from "../../utils/configs/routes";
+import { Divider, Grid } from "@mui/material"
+import React from "react"
+import Button from "../Button/Button"
+import LocationOnIcon from "@mui/icons-material/LocationOn"
+import PhoneForwardedIcon from "@mui/icons-material/PhoneForwarded"
+import EmailIcon from "@mui/icons-material/Email"
+import { GrFacebookOption, GrInstagram, GrTwitter } from "react-icons/gr"
+import { ImLinkedin, ImRss } from "react-icons/im"
+import { AiFillSkype } from "react-icons/ai"
+import styles from "./footer.module.scss"
+import classNames from "classnames/bind"
+import useCurrentPage from "../../utils/hooks/currentPage"
+import routes from "../../utils/configs/routes"
 function Footer() {
-  const cx = classNames.bind(styles);
-  const currentPage = useCurrentPage();
+  const cx = classNames.bind(styles)
+  const currentPage = useCurrentPage()
   return (
     <div className={cx("footer")}>
       <div className={cx("top")}>
@@ -25,7 +25,7 @@ function Footer() {
           ></Divider>
         </div>
         <div className={cx("wrapper")}>
-          <Grid container alignItems={"center"} justifyContent="center">
+          <Grid container alignItems={"center"} justifyContent='center'>
             <Grid item xs={12} sm={6} md={6}>
               <h3 className={cx("title")}>ĐĂNG KÝ NHẬN THÔNG TIN</h3>
             </Grid>
@@ -33,7 +33,7 @@ function Footer() {
               <div className={cx("input_group")}>
                 <input
                   className={cx("input_form")}
-                  placeholder="Email..."
+                  placeholder='Email...'
                 ></input>
                 <Button
                   style={{
@@ -55,7 +55,7 @@ function Footer() {
           <Grid
             container
             alignItems={"start"}
-            justifyContent="center"
+            justifyContent='center'
             spacing={4}
           >
             <Grid item xs={12} sm={6} md={3}>
@@ -277,14 +277,14 @@ function Footer() {
                   </li>
                   <li>
                     <img
-                      src="http://mauweb.monamedia.net/donghohaitrieu/wp-content/uploads/2019/07/img-googleplay.jpg"
-                      alt=""
+                      src='http://mauweb.monamedia.net/donghohaitrieu/wp-content/uploads/2019/07/img-googleplay.jpg'
+                      alt=''
                     />
                   </li>
                   <li>
                     <img
-                      src="http://mauweb.monamedia.net/donghohaitrieu/wp-content/uploads/2019/07/img-appstore.jpg"
-                      alt=""
+                      src='http://mauweb.monamedia.net/donghohaitrieu/wp-content/uploads/2019/07/img-appstore.jpg'
+                      alt=''
                     />
                   </li>
                 </ul>
@@ -292,39 +292,9 @@ function Footer() {
             </Grid>
           </Grid>
         </div>
-        <div className={cx("container", "p-0")}>
-          <Divider
-            sx={{
-              backgroundColor: "#fff",
-            }}
-          ></Divider>
-          <div className={cx("wrapper")}>
-            <Grid
-              container
-              alignItems={"center"}
-              justifyContent={"space-between"}
-            >
-              <Grid item xs={12} sm={6} md={6} order={{ xs: 2, sm: 0, md: 0 }}>
-                <div className={cx("detail")}>
-                  <p className={cx("title")}>
-                    © Bản quyền thuộc về . Thiết kế website MonaMedia Mona Media
-                  </p>
-                </div>
-              </Grid>
-              <Grid item xs={12} sm={6} md={6}>
-                <div className={cx("image")}>
-                  <img
-                    src="http://mauweb.monamedia.net/donghohaitrieu/wp-content/uploads/2019/07/img-payment.png"
-                    alt=""
-                  ></img>
-                </div>
-              </Grid>
-            </Grid>
-          </div>
-        </div>
       </div>
     </div>
-  );
+  )
 }
 
-export default Footer;
+export default Footer

@@ -1,25 +1,27 @@
-import React from "react";
-import styles from "./productItem.module.scss";
-import classNames from "classnames/bind";
-import { Rating } from "@mui/material";
-import Button from "../Button/Button";
-import DialogConfirm from "../../components/DialogConfirm/DialogConfirm";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { actionWishListApi } from "../../redux/actions/wishlist";
-import { actionCartApi } from "../../redux/actions/cart";
+import React from "react"
+import styles from "./productItem.module.scss"
+import classNames from "classnames/bind"
+import { Rating } from "@mui/material"
+import Button from "../Button/Button"
+import DialogConfirm from "../../components/DialogConfirm/DialogConfirm"
+import { useState } from "react"
+import { useDispatch } from "react-redux"
+import { actionWishListApi } from "../../redux/actions/wishlist"
+import { actionCartApi } from "../../redux/actions/cart"
+import handlePriceDiscount from "../../utils/function/handlePriceDiscount"
 function ProductItem({ product }) {
-  const cx = classNames.bind(styles);
-  const [openDialog, setOpenDialog] = useState(false);
-  const dispatch = useDispatch();
+  const cx = classNames.bind(styles)
+  const [openDialog, setOpenDialog] = useState(false)
+  const dispatch = useDispatch()
   const handleCloseDialog = () => {
-    setOpenDialog(false);
-  };
+    setOpenDialog(false)
+  }
   const handleClickRemove = () => {
-    setOpenDialog(true);
-  };
+    setOpenDialog(true)
+  }
   function handleAddToCart(productId) {
-    dispatch(actionCartApi.addToCart(productId));
+    const payload = { productId }
+    dispatch(actionCartApi.addToCart(payload))
   }
   return (
     <div className={cx("product_item_cpn")}>
@@ -27,22 +29,24 @@ function ProductItem({ product }) {
         open={openDialog}
         onClose={handleCloseDialog}
         onYes={() => {
-          dispatch(actionWishListApi.toggleWishList(product.id));
+          dispatch(actionWishListApi.toggleWishList(product.id))
         }}
       ></DialogConfirm>
       <div className={cx("image")}>
-        <img src={product.img} alt=""></img>
+        <img src={product.img} alt=''></img>
       </div>
       <div className={cx("description")}>
         <h2 className={cx("name")}>{product.name}</h2>
-        <h3 className={cx("price")}>{product.price + "₫"}</h3>
+        <div className={cx("price_wrapper")}>
+          {!!product.discount && (
+            <div className={cx("price", "origin_price")}>{product.price}</div>
+          )}
+          <div className={cx("price", "sale_price")}>
+            {handlePriceDiscount(product)}
+          </div>
+        </div>
         <div className={cx("star_rate")}>
-          <Rating
-            name="half-rating"
-            defaultValue={2.5}
-            precision={0.5}
-            readOnly
-          />
+          <Rating name='half-rating' value={1} precision={0.5} readOnly />
         </div>
         <p className={cx("detail")}>
           Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto
@@ -60,7 +64,7 @@ function ProductItem({ product }) {
             padding: "10px 20px",
           }}
           onClick={() => {
-            handleAddToCart(product.id);
+            handleAddToCart(product.id)
           }}
         >
           Add to card
@@ -68,13 +72,13 @@ function ProductItem({ product }) {
         <button
           className={cx("btn_remove")}
           onClick={() => {
-            handleClickRemove();
+            handleClickRemove()
           }}
         >
           Remove
         </button>
       </div>
     </div>
-  );
+  )
 }
-export default ProductItem;
+export default ProductItem

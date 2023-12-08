@@ -1,13 +1,14 @@
-import React from "react";
-import "./globalstyles.scss";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { useEffect } from "react";
-import useAsyncData from "../../utils/hooks/asyncData";
-import productRequest from "../../requests/product";
-import { useSelector, useDispatch } from "react-redux";
-import actionProductApi from "../../redux/actions/product";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import React from "react"
+import "./globalstyles.scss"
+import { createTheme, ThemeProvider } from "@mui/material/styles"
+import { useEffect } from "react"
+import useAsyncData from "../../utils/hooks/asyncData"
+import productRequest from "../../requests/product"
+import { useSelector, useDispatch } from "react-redux"
+import actionProductApi from "../../redux/actions/product"
+import { ToastContainer, toast } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
+
 const theme = createTheme({
   palette: {
     primary: {
@@ -15,18 +16,18 @@ const theme = createTheme({
       main: "rgb(200, 153, 121)",
     },
   },
-});
+})
 function Globalstyles({ children }) {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
   useEffect(() => {
-    dispatch(actionProductApi.getAll());
-  }, []);
-  const isLoading = useSelector((state) => state.user.loading);
+    // dispatch(actionProductApi.getAll());
+  }, [])
+  const isLoading = useSelector(state => state.user.loading)
   return (
-    <div className="global_styles">
+    <div className='global_styles'>
       <ThemeProvider theme={theme}>
         <ToastContainer
-          position="top-right"
+          position='top-right'
           autoClose={1000}
           hideProgressBar={false}
           newestOnTop={false}
@@ -34,11 +35,11 @@ function Globalstyles({ children }) {
           rtl={false}
           pauseOnFocusLoss={false}
           draggable={false}
-          theme="dark"
+          theme='dark'
         />
         <>{children}</>
       </ThemeProvider>
     </div>
-  );
+  )
 }
-export default Globalstyles;
+export default Globalstyles

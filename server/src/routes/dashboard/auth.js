@@ -1,10 +1,10 @@
 import express from "express";
-import authCtrl from "../../controllers/dashboard/auth.js";
+import db_authCtrl from "../../controllers/dashboard/auth.js";
 
-const authRouter = express.Router();
-authRouter.post("/login", authCtrl.login);
-authRouter.get("/login-success", authCtrl.loginSuccess);
+const db_authRouter = express.Router();
+db_authRouter.post("/login", db_authCtrl.login);
+db_authRouter.get("/login/success", db_authCtrl.loginSuccess);
 
-authRouter.post("/verifylogin", authCtrl.verifyLogin);
-authRouter.post("/logout", authCtrl.logout);
-export default authRouter;
+db_authRouter.post("/verifylogin", db_authCtrl.verifyLogin);
+db_authRouter.post("/logout", db_authCtrl.logout);
+export default db_authRouter;

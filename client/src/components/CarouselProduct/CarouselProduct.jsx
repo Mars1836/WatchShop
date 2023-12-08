@@ -56,7 +56,6 @@ function CarouselProduct({ products = [] }) {
       reloadOnUpdate
       static
     >
-      {console.log(products)}
       {products.map(product => {
         return (
           <div className={cx("card")} key={product.id}>

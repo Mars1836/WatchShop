@@ -1,18 +1,20 @@
-import Home from "../../pages/home/Home";
-import Introduce from "../../pages/introduce/Intruduce";
-import FemaleWatches from "../../pages/femalewatches/FemaleWatches";
-import MaleWatches from "../../pages/malewatches/MaleWatches";
-import Product from "../../pages/product/Product";
-import Blog from "../../pages/blog/Blog";
-import Contact from "../../pages/contact/Contact";
-import Wishlist from "../../pages/wishlist/Wishlist";
-import Cart from "../../pages/cart/Cart";
-import MyAccount from "../../pages/myaccount/MyAccount";
-import Login from "../../pages/Login/Login";
-import Register from "../../pages/Register/Register";
-import OrderForm from "../../pages/order_form/OrderForm";
-import OrderSuccess from "../../pages/order_success/OrderSuccess";
+import Home from "../../pages/home/Home"
+import Introduce from "../../pages/introduce/Intruduce"
+import FemaleWatches from "../../pages/femalewatches/FemaleWatches"
+import MaleWatches from "../../pages/malewatches/MaleWatches"
+import Product from "../../pages/product/Product"
+import Blog from "../../pages/blog/Blog"
+import Contact from "../../pages/contact/Contact"
+import Wishlist from "../../pages/wishlist/Wishlist"
+import Cart from "../../pages/cart/Cart"
+import MyAccount from "../../pages/myaccount/MyAccount"
+import Login from "../../pages/login/Login"
+import Register from "../../pages/register/Register"
+import OrderForm from "../../pages/order_form/OrderForm"
+import OrderSuccess from "../../pages/order_success/OrderSuccess"
+import TestPage from "../../pages/test/Test"
 const routes = {
+  test: { path: "/test", component: <TestPage></TestPage> },
   home: { path: "/", component: <Home /> },
   introduce: { path: "/gioi-thieu", component: <Introduce /> },
   maleWatches: { path: "/dong-ho-nam", component: <MaleWatches /> },
@@ -30,5 +32,5 @@ const routes = {
     path: "/order/success",
     component: <OrderSuccess></OrderSuccess>,
   },
-};
-export default routes;
+}
+export default routes

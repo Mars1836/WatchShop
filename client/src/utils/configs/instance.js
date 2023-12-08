@@ -11,7 +11,6 @@ const instance = axios.create({
 instance.interceptors.request.use(config => {
   const cookie = getCookie("token")
 
-  console.log(cookie)
   if (cookie) {
     config.headers["Authorization"] = `Bearer ${cookie}`
   }

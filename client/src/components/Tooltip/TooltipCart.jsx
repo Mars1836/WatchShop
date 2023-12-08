@@ -1,47 +1,50 @@
-import React, { useEffect } from "react";
-import styles from "./tooltipCart.module.scss";
-import classNames from "classnames/bind";
-import products from "../../data/products";
-import HighlightOffIcon from "@mui/icons-material/HighlightOff";
-import { Divider } from "@mui/material";
-import Button from "../Button/Button";
-import routes from "../../utils/configs/routes";
-import { useSelector, useDispatch } from "react-redux";
-import { actionCartApi } from "../../redux/actions/cart";
-const cx = classNames.bind(styles);
+import React, { useEffect } from "react"
+import styles from "./tooltipCart.module.scss"
+import classNames from "classnames/bind"
+import products from "../../data/products"
+import HighlightOffIcon from "@mui/icons-material/HighlightOff"
+import { Divider } from "@mui/material"
+import Button from "../Button/Button"
+import routes from "../../utils/configs/routes"
+import { useSelector, useDispatch } from "react-redux"
+import { actionCartApi } from "../../redux/actions/cart"
+import handlePriceDiscount from "../../utils/function/handlePriceDiscount"
+const cx = classNames.bind(styles)
 function TooltipCart() {
-  const cart = useSelector((state) => state.cart.data);
-  const dispatch = useDispatch();
+  const cart = useSelector(state => state.cart.data)
+  const dispatch = useDispatch()
   function removeCartItem(cartItemId) {
-    dispatch(actionCartApi.removeFromCart(cartItemId));
+    dispatch(actionCartApi.removeFromCart(cartItemId))
   }
   return (
     <div className={cx("cart")}>
       <div className={cx("top")}>
         {cart &&
-          cart.cart_items.slice(-2).map((item) => {
+          cart.cart_items.slice(-2).map(item => {
             return (
               <div className={cx("product")} key={item.id}>
                 <div className={cx("image")}>
-                  <img src={item.product.img} alt=""></img>
+                  <img src={item.product.img} alt=''></img>
                 </div>
                 <div>
                   <p className={cx("name")}>{item.product.name}</p>
                   <div>
                     <span className={cx("num")}>{item.quantity + " x"} </span>
-                    <span className={cx("price")}>{item.product.price}</span>
+                    <span className={cx("price")}>
+                      {handlePriceDiscount(item.product)}
+                    </span>
                   </div>
                 </div>
                 <button
                   className={cx("btn_remove")}
                   onClick={() => {
-                    removeCartItem(item.id);
+                    removeCartItem(item.id)
                   }}
                 >
                   <HighlightOffIcon />
                 </button>
               </div>
-            );
+            )
           })}
         -
       </div>
@@ -53,7 +56,7 @@ function TooltipCart() {
         </div>
         <div className={cx("action")}>
           <Button
-            variant="outline"
+            variant='outline'
             style={{
               width: "100%",
               textTransform: "uppercase",
@@ -69,7 +72,7 @@ function TooltipCart() {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
-export default TooltipCart;
+export default TooltipCart

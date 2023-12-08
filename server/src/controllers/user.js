@@ -8,9 +8,10 @@ import userService from "../services/user.js";
 const userCtrl = {
   localSighUp: async (req, res) => {
     try {
-      const usernameExist = User.findOne({
+      const usernameExist = await User.findOne({
         where: { username: req.body.username },
       });
+      console.log(usernameExist);
       if (usernameExist) {
         throw new Error("This username already exists");
       }

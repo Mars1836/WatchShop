@@ -4,16 +4,16 @@ const options = {
   day: "numeric",
   hour: "numeric",
   minute: "numeric",
-};
-function formatDate(date) {
-  if (date instanceof Date) {
-    try {
-      return new Intl.DateTimeFormat("en-US", options).format(date);
-    } catch (error) {
-      console.log(error);
-    }
-  }
-  console.log("Input must be instanceof date");
-  return false;
 }
-export default formatDate;
+function formatDate(date) {
+  if (!(date instanceof Date)) {
+    date = new Date(date)
+  }
+  try {
+    return new Intl.DateTimeFormat("en-US", options).format(date)
+  } catch (error) {
+    console.log(error)
+  }
+  return false
+}
+export default formatDate

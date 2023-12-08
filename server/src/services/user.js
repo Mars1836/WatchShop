@@ -37,6 +37,7 @@ const userService = {
     }
   },
   googleCreate: async (profile) => {
+    console.log("profile");
     let googleProfile = {
       name: profile.displayName,
       id: profile.id,
@@ -45,27 +46,24 @@ const userService = {
     };
     const address = await Address.create({});
 
-    const newUser = await User.create({
+    const user = await User.create({
       type: "google",
       external_type: "google",
       external_id: googleProfile.id,
-    })
-      .then((user) => {
-        return UserProfile.create({
-          addressId: address.id,
-          name: googleProfile.name,
-          avatar: googleProfile.avatar,
-          userId: user.id,
-          email: googleProfile.email,
-        }).then((userProfile) => {
-          Cart.create({
-            userProfileId: userProfile.id,
-          });
-        });
-      })
-      .catch((error) => {
-        throw error;
-      });
+    });
+
+    const userProfile = await UserProfile.create({
+      addressId: address.id,
+      name: googleProfile.name,
+      avatar: googleProfile.avatar,
+      userId: user.id,
+      email: googleProfile.email,
+    });
+
+    await Cart.create({
+      userProfileId: userProfile.id,
+    });
+    return user;
   },
 };
 export default userService;

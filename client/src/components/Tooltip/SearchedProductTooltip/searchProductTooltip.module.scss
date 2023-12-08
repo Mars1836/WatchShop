@@ -1,0 +1,12 @@
+.searched_product_tooltip{
+    color: rgb(220, 220, 220);
+    .searched_product_tooltip_item{
+        padding :10px 20px;
+        font-size:17px;
+        cursor: pointer;
+    }
+    :hover{
+        background-color: rgb(100, 100, 100);
+    }
+ 
+}

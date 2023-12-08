@@ -50,9 +50,11 @@ passport.use(
           where: { type: "google", external_id: profile.id },
         });
         if (user) {
+          console.log(user);
           return done(null, user);
         }
         let newUser = await userService.googleCreate(profile);
+        console.log(newUser);
         return done(null, newUser);
       } catch (error) {
         return done(error);
@@ -70,24 +72,33 @@ passport.use(
       return cb(error);
     }
     if (admin) {
-      if (admin.password === password) return cb(null, admin);
+      if (admin.password === password) {
+        return cb(null, admin);
+      }
+
       return cb(new Error("Username or password is wrong"));
     }
+    return cb(new Error("Username or password is wrong"));
   })
 );
 passport.serializeUser(function (user, cb) {
   if (user?.id) {
-    return cb(null, user.id);
+    console.log("___________________________");
+    console.log("table: ", user.constructor.name);
+    return cb(null, { id: user.id, model: user.constructor.name });
   }
   return cb("Authenticate user failed");
 });
-passport.deserializeUser(async function (id, cb) {
-  const user = await User.findOne({ where: { id: id } });
-  console.log("this is deserializeUser");
-  console.log(user);
+passport.deserializeUser(async function (payload, cb) {
+  let user;
+  if (payload.model === "user")
+    user = await User.findOne({ where: { id: payload.id } });
+  if (payload.model === "admin")
+    user = await Admin.findOne({ where: { id: payload.id } });
+
   if (user) {
     return cb(null, user);
   }
-  return cb(null, {});
+  return cb(new Error("Authenticate is failed"));
 });
 export default passport;

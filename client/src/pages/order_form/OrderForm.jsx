@@ -2,7 +2,8 @@ import React, { useEffect } from "react"
 import DefaultLayout from "../../layout/DefaultLayout"
 import classNames from "classnames/bind"
 import styles from "./orderform.module.scss"
-import { Button, Grid } from "@mui/material"
+import { Grid } from "@mui/material"
+import Button from "../../components/Button/Button"
 import RequireAuth from "../../services/RequireAuth/RequireAuth"
 import { useForm } from "react-hook-form"
 import { useState } from "react"
@@ -20,6 +21,9 @@ import CircularProgress from "@mui/material/CircularProgress"
 import { orderSuccess } from "../../redux/slices/cartSlice"
 import Modal from "../../components/Modal/Modal"
 import { useLocation } from "react-router-dom"
+import handlePriceDiscount from "../../utils/function/handlePriceDiscount"
+import useAsyncData from "../../utils/hooks/asyncData"
+
 function indexOfCity(name, area) {
   if (!name) return -1
   return area.findIndex(item => {
@@ -68,9 +72,11 @@ function OrderForm() {
   const navigate = useNavigate()
   const user = useSelector(state => state.user.data)
   const [loadingValueForm, setLoadingValueForm] = useState(false)
+  const [isLoadingOrderRequest, setIsLoadingOrderRequest] = useState(false)
   const indexCity = indexOfCity(user?.address.city, area)
   const [init, setInit] = useState(false)
   const dispatch = useDispatch()
+  const [insertOrderLoading, setInsertOrderLoading] = useState(false)
   const indexDistrict = indexOfDistrict(
     user?.address.city,
     user?.address.district,
@@ -104,6 +110,7 @@ function OrderForm() {
     setWards(area[cityIndex]?.Districts[districtIndex]?.Wards)
   }
   function onSubmit(d) {
+    setIsLoadingOrderRequest(true)
     const data = {
       ...d,
       totalPrice: totalPrice + shipPrice - voucherDiscount,
@@ -122,7 +129,7 @@ function OrderForm() {
       }),
     }
     orderRequest
-      .placeOrder(data)
+      .createOrder(data)
       .then(() => {
         cartRequest.resetCart()
         dispatch(orderSuccess())
@@ -131,6 +138,9 @@ function OrderForm() {
       })
       .catch(error => {
         toast.error("error")
+      })
+      .finally(() => {
+        setIsLoadingOrderRequest(false)
       })
   }
   useEffect(() => {
@@ -391,7 +401,8 @@ function OrderForm() {
                                 <strong>x{item.quantity}</strong>
                               </span>
                               <span className={cx("col", "price")}>
-                                {item.quantity * item.product.price}
+                                {item.quantity *
+                                  handlePriceDiscount(item.product)}
                               </span>
                             </li>
                           )
@@ -443,11 +454,9 @@ function OrderForm() {
                     </div>
                     <Button
                       variant='contained'
-                      style={{
-                        color: "white",
-                        border: "0px",
-                      }}
+                      style={{ padding: "8px 16px" }}
                       type='submit'
+                      loading={isLoadingOrderRequest}
                     >
                       Place order
                     </Button>

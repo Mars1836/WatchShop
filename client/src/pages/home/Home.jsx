@@ -13,11 +13,15 @@ import blogs from "../../data/blogs"
 import BlogCard from "../../components/BlogCard/BlogCard"
 import CarouselProduct from "../../components/CarouselProduct/CarouselProduct"
 import { useSelector } from "react-redux"
-
+import handlePriceDiscount from "../../utils/function/handlePriceDiscount"
+import useAsyncData from "../../utils/hooks/asyncData"
+import productRequest from "../../requests/product"
 function Home() {
   const cx = classNames.bind(styles)
   const theme = useTheme()
-  const products = useSelector(state => state.product.data)
+  const [productData, productError, productLoading] = useAsyncData(
+    productRequest.getByQuery({ _findAll: 1 }),
+  )
   const sm_matches = useMediaQuery(theme.breakpoints.up("sm"))
   const md_matches = useMediaQuery(theme.breakpoints.up("md"))
   const trend = useRef()
@@ -25,7 +29,9 @@ function Home() {
   const banner = useRef()
   const product_feature = useRef()
   const blogcard = useRef()
-
+  useEffect(() => {
+    console.log(productData)
+  }, [productData])
   useEffect(() => {
     const observer = new IntersectionObserver(
       entries => {
@@ -78,7 +84,9 @@ function Home() {
           </div>
           <div className={cx("product_list")} ref={product_list}>
             <h2 className={cx("title")}>Tất cả sản phầm</h2>
-            <CarouselProduct products={products}></CarouselProduct>
+            {!productLoading && (
+              <CarouselProduct products={productData}></CarouselProduct>
+            )}
           </div>
           <div className={cx("banner")} ref={banner}>
             <Grid container spacing={2}>
@@ -118,7 +126,9 @@ function Home() {
             className={cx("wrapper", "product_feature")}
             ref={product_feature}
           >
-            <ProductFeature products={products}></ProductFeature>
+            {!productLoading && (
+              <ProductFeature products={productData}></ProductFeature>
+            )}
           </div>
           <div className={cx("wrapper", "blogcard")} ref={blogcard}>
             <Grid container spacing={2}>

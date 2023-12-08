@@ -1,9 +1,13 @@
-import { productEndpoint } from "../utils/configs/api";
-import instance from "../utils/configs/instance";
+import { productEndpoint } from "../utils/configs/api"
+import instance from "../utils/configs/instance"
 const productRequest = {
-  getAll: async () => {
-    const products = await instance.get(productEndpoint.getAll);
-    return products;
+  getByQuery: async query => {
+    const order = await instance.get(productEndpoint.getByQuery, {
+      params: {
+        ...query,
+      },
+    })
+    return order
   },
-};
-export default productRequest;
+}
+export default productRequest

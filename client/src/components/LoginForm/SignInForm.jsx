@@ -45,14 +45,20 @@ function SignInForm() {
   const resetValue = () => {
     reset()
   }
-  const handleSignInSubmit = data => {
+  const handleLoginWithUsernamePassword = data => {
     dispatch(actionUserApi.localLogin(data))
   }
-  const AuthWithGoogleOnSuccess = token => {
-    dispatch(actionUserApi.googleLogin(token))
+  const handleLoginWithGoogle = () => {
+    window.open("http://localhost:4000/api/google-login", "_self")
   }
+  // const AuthWithGoogleOnSuccess = token => {
+  //   dispatch(actionUserApi.googleLogin(token))
+  // }
   return (
-    <form className={cx("form")} onSubmit={handleSubmit(handleSignInSubmit)}>
+    <form
+      className={cx("form")}
+      onSubmit={handleSubmit(handleLoginWithUsernamePassword)}
+    >
       <h3 className={cx("title")}>Sign in</h3>
       <TextField
         id='outlined-basic'
@@ -108,13 +114,12 @@ function SignInForm() {
         <div className={cx("login_")}>
           <button
             className={cx("lg_w", "google")}
-            onClick={() => {
-              window.open("http://localhost:4000/api/google-login", "_self")
-            }}
+            onClick={handleLoginWithGoogle}
+            type='button'
           >
             <GoogleIcon className={cx("icon")} />
           </button>
-          <button className={cx("lg_w", "fb")}>
+          <button className={cx("lg_w", "fb")} type='button'>
             <FacebookOutlinedIcon className={cx("icon")} />
           </button>
         </div>
